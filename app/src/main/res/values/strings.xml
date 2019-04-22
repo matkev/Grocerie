@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Grocerie</string>
+    <string name="view_lists_button">View lists</string>
+    <string name="view_ingredients_button">View ingredients</string>
+    <string name="action_add_list">Add a list</string>
+    <string name="action_add_dummy_data">Add dummy data</string>
+    <string name="ingredient_editor_overview">Overview</string>
+    <string name="hint_ingredient_name">Name</string>
+    <string name="hint_ingredient_amount">Amount</string>
+    <string name="hint_ingredient_unit">Units (g, mL, cups, etc.)</string>
+    <string name="editor_activity_title_new_ingredient">Add ingredient</string>
+    <string name="editor_activity_title_edit_ingredient">Edit ingredient</string>
+    <string name="editor_insert_ingredient_failed">Error with inserting ingredient</string>
+    <string name="editor_insert_ingredient_succesful">Ingredient saved</string>
+    <string name="editor_update_ingredient_failed">Error with updating ingredient</string>
+    <string name="editor_update_ingredient_succesful">Ingredient updated</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_save">Save</string>
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep Editing</string>
+    <string name="delete_dialog_msg">Delete this ingredient?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="editor_delete_ingredient_failed">Error with deleting ingredient</string>
+    <string name="editor_delete_ingredient_successful">Ingredient deleted</string>
+</resources>
