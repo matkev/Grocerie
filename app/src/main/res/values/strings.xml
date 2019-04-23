@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Grocerie</string>
-    <string name="view_lists_button">View lists</string>
+    <string name="view_lists_button">View list</string>
     <string name="view_ingredients_button">View ingredients</string>
-    <string name="action_add_list">Add a list</string>
+    <string name="action_clear_list">Clear list</string>
     <string name="action_add_dummy_data">Add dummy data</string>
     <string name="ingredient_editor_overview">Overview</string>
     <string name="hint_ingredient_name">Name</string>
@@ -24,4 +24,5 @@
     <string name="cancel">Cancel</string>
     <string name="editor_delete_ingredient_failed">Error with deleting ingredient</string>
     <string name="editor_delete_ingredient_successful">Ingredient deleted</string>
+    <string name="activity_home_page">.HomePage</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.example.android.grocerie;
 
-import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
@@ -10,8 +9,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import androidx.core.app.NavUtils;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -20,6 +17,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 import com.example.android.grocerie.data.IngredientDbHelper;
@@ -81,7 +82,7 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
     }
 
 
-    private void savePet()
+    private void saveIngredient()
     {
 
         String nameString = mNameEditText.getText().toString().trim();
@@ -143,18 +144,9 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
                 Toast.makeText(this, R.string.editor_update_ingredient_succesful, Toast.LENGTH_SHORT).show();
             }
         }
-
-
-        //long newRowId = db.insert(PetEntry.TABLE_NAME, null, values);
-
-
-
-
-
-
-
-
     }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_editor.xml file.
@@ -170,7 +162,7 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             // Respond to a click on the "Save" menu option
             case R.id.action_save:
                 //save pet to the database
-                savePet();
+                saveIngredient();
                 //exit activity
                 finish();
 

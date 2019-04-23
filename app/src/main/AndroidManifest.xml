@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.android.grocerie">
+    package="com.example.android.grocerie"
+    >
 
     <application
         android:allowBackup="true"
@@ -10,25 +10,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomePage">
+        <activity
+            android:name="com.example.android.grocerie.HomePage"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".ShoppingLists"
-            android:parentActivityName=".HomePage">
 
         </activity>
         <activity
-            android:name=".IngredientsList"
-            android:parentActivityName=".HomePage">
+            android:name="com.example.android.grocerie.ShoppingList"
+            android:parentActivityName="com.example.android.grocerie.HomePage">
 
         </activity>
-        <activity android:name=".IngredientEditor"
-            android:parentActivityName=".IngredientsList">
+        <activity
+            android:name="com.example.android.grocerie.IngredientsList"
+            android:parentActivityName="com.example.android.grocerie.HomePage">
+
+        </activity>
+        <activity android:name="com.example.android.grocerie.IngredientEditor"
+            android:parentActivityName="com.example.android.grocerie.IngredientsList">
 
         </activity>
         <provider

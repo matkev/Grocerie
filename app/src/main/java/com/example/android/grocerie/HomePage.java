@@ -14,13 +14,11 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
-
-
     }
 
     public void sendToList(View view)
     {
-        Intent intent = new Intent (this, ShoppingLists.class);
+        Intent intent = new Intent (this, ShoppingList.class);
 
         startActivity(intent);
     }

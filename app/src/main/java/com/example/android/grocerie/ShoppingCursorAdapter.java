@@ -6,19 +6,12 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import com.example.android.grocerie.data.IngredientContract;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 
-
-/**
- * Created by matth on 4/14/2019.
- */
-
-public class IngredientCursorAdapter extends CursorAdapter {
+public class ShoppingCursorAdapter extends CursorAdapter {
 
 
     /**
@@ -27,7 +20,7 @@ public class IngredientCursorAdapter extends CursorAdapter {
      * @param context The context
      * @param c       The cursor from which to get the data.
      */
-    public IngredientCursorAdapter(Context context, Cursor c) {
+    public ShoppingCursorAdapter(Context context, Cursor c) {
         super(context, c, 0 /* flags */);
     }
 
@@ -61,26 +54,14 @@ public class IngredientCursorAdapter extends CursorAdapter {
     {
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         TextView amountTextView = (TextView) view.findViewById(R.id.summary);
-        CheckBox checked = (CheckBox) view.findViewById(R.id.ingredient_list_checkBox);
 
         int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
         int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
         int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
-        int checkedColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CHECKED);
 
         String ingredientName = cursor.getString(nameColumnIndex);
         String ingredientAmount = cursor.getString(amountColumnIndex);
         String ingredientUnit = cursor.getString(unitColumnIndex);
-        Integer ingredientChecked = cursor.getInt(checkedColumnIndex);
-
-        if (ingredientChecked == 1)
-        {
-            checked.setChecked(true);
-        }
-        else
-        {
-            checked.setChecked(false);
-        }
 
         if (TextUtils.isEmpty(ingredientAmount)) {
             ingredientAmount = "";

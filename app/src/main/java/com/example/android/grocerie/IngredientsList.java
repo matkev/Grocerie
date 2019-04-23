@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.example.android.grocerie.data.IngredientContract;
@@ -26,7 +27,7 @@ import com.example.android.grocerie.data.IngredientDbHelper;
 public class IngredientsList extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>
 {
 
-    private IngredientDbHelper mDbHelper;
+//    private IngredientDbHelper mDbHelper;
 
 
     private static final int INGREDIENT_LOADER = 0;
@@ -49,7 +50,7 @@ public class IngredientsList extends AppCompatActivity implements LoaderManager.
         });
 
 
-        ListView ingredientListView = (ListView) findViewById(R.id.list);
+        ListView ingredientListView = (ListView) findViewById(R.id.ingredient_list_view);
 
         //TODO: set up empty view
 
@@ -61,6 +62,7 @@ public class IngredientsList extends AppCompatActivity implements LoaderManager.
         ingredientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
                 Intent intent = new Intent(IngredientsList.this, IngredientEditor.class);
 
                 Uri currentPetUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, id);
@@ -86,7 +88,7 @@ public class IngredientsList extends AppCompatActivity implements LoaderManager.
 
         values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Apples");
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "12");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "units");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
@@ -106,6 +108,16 @@ public class IngredientsList extends AppCompatActivity implements LoaderManager.
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "dozen");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+
+        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+
+        values.clear();
+
+        values.clear();
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Naan");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "3");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "packs");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
@@ -147,7 +159,9 @@ public class IngredientsList extends AppCompatActivity implements LoaderManager.
         String [] projection = {
                 IngredientEntry._ID,
                 IngredientEntry.COLUMN_INGREDIENT_NAME,
-                IngredientEntry.COLUMN_INGREDIENT_AMOUNT};
+                IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
+                IngredientEntry.COLUMN_INGREDIENT_UNIT,
+                IngredientEntry.COLUMN_INGREDIENT_CHECKED};
 
 
         return new CursorLoader(this,
