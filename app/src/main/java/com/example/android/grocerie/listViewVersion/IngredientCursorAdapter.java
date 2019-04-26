@@ -1,4 +1,4 @@
-package com.example.android.grocerie;
+package com.example.android.grocerie.listViewVersion;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 //import androidx.cursoradapter.widget.CursorAdapter;
 
+import com.example.android.grocerie.R;
 import com.example.android.grocerie.data.IngredientContract;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 
@@ -70,8 +71,8 @@ public class IngredientCursorAdapter extends CursorAdapter implements CompoundBu
         this.context = context;
 
 
-        TextView nameTextView = (TextView) view.findViewById(R.id.name);
-        TextView summaryTextView = (TextView) view.findViewById(R.id.summary);
+        TextView nameTextView = (TextView) view.findViewById(R.id.textViewName);
+        TextView summaryTextView = (TextView) view.findViewById(R.id.textViewSummary);
         CheckBox checked = (CheckBox) view.findViewById(R.id.ingredient_list_checkBox);
 
         int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);

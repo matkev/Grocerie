@@ -1,13 +1,236 @@
 package com.example.android.grocerie.recyclerViewVersion;
 
+
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+import androidx.loader.content.CursorLoader;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
-public class IngredientsListRecycler extends AppCompatActivity {
+import com.example.android.grocerie.R;
 
-    @Override
+import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
+import com.example.android.grocerie.listViewVersion.IngredientEditor;
+import com.example.android.grocerie.listViewVersion.IngredientsList;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+
+public class IngredientsListRecycler extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+    RecyclerView mRecyclerView;
+    private static final int INGREDIENT_LOADER = 0;
+    private IngredientRecyclerCursorAdapter mCursorAdapter;
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_ingredients_list_recycler);
+
+        setTitle(R.string.ingredients_list_title);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.scrolling_toolbar);
+        setSupportActionBar(toolbar);
+
+
+        // Setup FAB to open EditorActivity
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(IngredientsListRecycler.this, IngredientEditor.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+        //bind view
+        mRecyclerView = findViewById(R.id.ingredients_list_view_recycler);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+        //set layout manager
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        //set default animator
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mCursorAdapter = new IngredientRecyclerCursorAdapter();
+        mRecyclerView.setAdapter(mCursorAdapter);
+        //TODO: set up empty view
+
+
+//          TODO: set onitemclicklistener on reyclerview
+//        shoppingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+//                Intent intent = new Intent(ShoppingList.this, IngredientEditor.class);
+//
+//                Uri currentPetUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, id);
+//
+//                intent.setData(currentPetUri);
+//
+//                startActivity(intent);
+//            }
+//        });
+
+
+
+        LoaderManager.getInstance(IngredientsListRecycler.this).initLoader(INGREDIENT_LOADER, null, IngredientsListRecycler.this);
+
     }
+
+
+    private void insertDummyData()
+    {
+
+
+        ContentValues values = new ContentValues();
+
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Apples");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "12");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+
+        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+
+
+        values.clear();
+
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Feta cheese");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "150");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "grams");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
+
+        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+
+        values.clear();
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Eggs");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "dozen");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+
+        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+
+        values.clear();
+
+        values.clear();
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Naan");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "3");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "packs");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
+
+        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+
+        values.clear();
+
+
+        values.clear();
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Peanut Butter");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "jar");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+
+        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+
+        values.clear();
+
+        values.clear();
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Cholula Hot Sauce");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "2");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "bottle");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+
+        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+
+        values.clear();
+
+        values.clear();
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Orange Juice");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "bottle");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
+
+        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+
+        values.clear();
+
+    }
+
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu options from the res/menu/menu_catalog.xml file.
+        // This adds menu items to the app bar.
+        getMenuInflater().inflate(R.menu.menu_ingredients_list, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // User clicked on a menu option in the app bar overflow menu
+        switch (item.getItemId()) {
+            // Respond to a click on the "Insert dummy data" menu option
+            case R.id.action_add_dummy_data:
+                insertDummyData();
+                return true;
+            // Respond to a click on the "Delete all entries" menu option
+            //TODO: sort by alphabet or most recent
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        if (id == INGREDIENT_LOADER) {
+            return ingredientListLoader();
+        }
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        mCursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+        mCursorAdapter.swapCursor(null);
+    }
+
+    private Loader<Cursor> ingredientListLoader()
+    {
+        String [] projection = {
+                IngredientEntry._ID,
+                IngredientEntry.COLUMN_INGREDIENT_NAME,
+                IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
+                IngredientEntry.COLUMN_INGREDIENT_UNIT,
+                IngredientEntry.COLUMN_INGREDIENT_CHECKED};
+
+
+        return new CursorLoader(this,
+                IngredientEntry.CONTENT_URI,
+                projection,
+                null,
+                null,
+                null);
+    }
+
+
 }
+
+

@@ -1,4 +1,4 @@
-package com.example.android.grocerie;
+package com.example.android.grocerie.listViewVersion;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.android.grocerie.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.app.LoaderManager;
 import android.content.Loader;
@@ -18,8 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ListView;
 import androidx.appcompat.widget.Toolbar;
 

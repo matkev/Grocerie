@@ -1,4 +1,4 @@
-package com.example.android.grocerie;
+package com.example.android.grocerie.listViewVersion;
 
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 
+import com.example.android.grocerie.R;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 import com.example.android.grocerie.data.IngredientDbHelper;
 

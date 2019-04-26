@@ -1,4 +1,4 @@
-package com.example.android.grocerie;
+package com.example.android.grocerie.listViewVersion;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+import com.example.android.grocerie.R;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 
 public class ShoppingCursorAdapter extends CursorAdapter {
@@ -36,7 +37,7 @@ public class ShoppingCursorAdapter extends CursorAdapter {
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
 
-        return LayoutInflater.from(context).inflate(R.layout.ingredient_list_item, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.shopping_list_item, parent, false);
     }
 
     /**
@@ -52,8 +53,8 @@ public class ShoppingCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor)
     {
-        TextView nameTextView = (TextView) view.findViewById(R.id.name);
-        TextView amountTextView = (TextView) view.findViewById(R.id.summary);
+        TextView nameTextView = (TextView) view.findViewById(R.id.textViewName);
+        TextView amountTextView = (TextView) view.findViewById(R.id.textViewSummary);
 
         int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
         int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);

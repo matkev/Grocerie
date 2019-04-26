@@ -25,4 +25,10 @@
     <string name="editor_delete_ingredient_failed">Error with deleting ingredient</string>
     <string name="editor_delete_ingredient_successful">Ingredient deleted</string>
     <string name="activity_home_page">.HomePage</string>
+    <string name="ingredient_editor_add_to_list">Add to shopping list</string>
+    <string name="ingredients_list_title">My Ingredients List</string>
+    <string name="shopping_list_title">My Grocerie List</string>
+    <string name="shopping_list_item_picked_up">Picked up</string>
+    <string name="shopping_list_item_to_get">To get</string>
+    <string name="appbar_scrolling_view_behavior">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
 </resources>

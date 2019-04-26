@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <CheckBox
         android:id="@+id/shopping_list_checkBox"
@@ -39,7 +39,7 @@
 
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/textViewName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
@@ -47,7 +47,7 @@
             android:textColor="#2B3D4D" />
 
         <TextView
-            android:id="@+id/summary"
+            android:id="@+id/textViewSummary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"

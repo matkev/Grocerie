@@ -6,6 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.android.grocerie.listViewVersion.IngredientsList;
+import com.example.android.grocerie.listViewVersion.ShoppingList;
+import com.example.android.grocerie.recyclerViewVersion.IngredientsListRecycler;
+import com.example.android.grocerie.recyclerViewVersion.ShoppingListRecycler;
+
 public class HomePage extends AppCompatActivity {
 
 
@@ -26,6 +31,20 @@ public class HomePage extends AppCompatActivity {
     public void sendToIngredients(View view)
     {
         Intent intent = new Intent(this, IngredientsList.class);
+
+        startActivity(intent);
+    }
+
+    public void sendToRecyclerList(View view)
+    {
+        Intent intent = new Intent(this, ShoppingListRecycler.class);
+
+        startActivity(intent);
+    }
+
+    public void sendToRecyclerIngredients (View view)
+    {
+        Intent intent = new Intent(this, IngredientsListRecycler.class);
 
         startActivity(intent);
     }

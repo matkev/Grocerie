@@ -1,7 +1,6 @@
-package com.example.android.grocerie;
+package com.example.android.grocerie.listViewVersion;
 
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -24,9 +23,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.view.View.MeasureSpec;
 
+import com.example.android.grocerie.R;
 import com.example.android.grocerie.data.IngredientContract;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
-import com.example.android.grocerie.data.IngredientDbHelper;
 
 public class ShoppingList extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -38,14 +37,14 @@ public class ShoppingList extends AppCompatActivity implements LoaderManager.Loa
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shopping_list_v3);
+        setContentView(R.layout.activity_shopping_list);
         setTitle(R.string.shopping_list_title);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ListView shoppingListView = (ListView) findViewById(R.id.shopping_list_view_v3);
+        ListView shoppingListView = (ListView) findViewById(R.id.shopping_list_view);
 //        ListView shoppingListViewGrayZone = (ListView) findViewById(R.id.shopping_list_view_v2_grayzone);
 
         //TODO: set up empty view
@@ -103,6 +102,25 @@ public class ShoppingList extends AppCompatActivity implements LoaderManager.Loa
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        if (id == SHOP_LOADER) {
+            return shoppingListLoader();
+        }
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        mCursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+        mCursorAdapter.swapCursor(null);
+    }
+
+    private Loader<Cursor> shoppingListLoader()
+    {
+
 
         String [] projection = {
                 IngredientEntry._ID,
@@ -115,7 +133,7 @@ public class ShoppingList extends AppCompatActivity implements LoaderManager.Loa
         String[] selectionArgs = new String[]{"1"};
 
 
-        return new CursorLoader(this,
+        return new CursorLoader(getApplicationContext(),
                 IngredientEntry.CONTENT_URI,
                 projection,
                 selection,
@@ -123,42 +141,6 @@ public class ShoppingList extends AppCompatActivity implements LoaderManager.Loa
                 null);
     }
 
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        mCursorAdapter.swapCursor(data);
-
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-
-        mCursorAdapter.swapCursor(null);
-
-    }
-
-    public static class ListUtils {
-        public static void setDynamicHeight(ListView mListView) {
-            ListAdapter mListAdapter = mListView.getAdapter();
-            if (mListAdapter == null) {
-                // when adapter is null
-                Log.e("myTag", "adapter was null");
-                return;
-            }
-            Log.e("myTag", "adapter was not null");
-
-            int height = 0;
-            int desiredWidth = MeasureSpec.makeMeasureSpec(mListView.getWidth(), MeasureSpec.UNSPECIFIED);
-            for (int i = 0; i < mListAdapter.getCount(); i++) {
-                View listItem = mListAdapter.getView(i, null, mListView);
-                listItem.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
-                height += listItem.getMeasuredHeight();
-            }
-            ViewGroup.LayoutParams params = mListView.getLayoutParams();
-            params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount() - 1));
-            mListView.setLayoutParams(params);
-            mListView.requestLayout();
-        }
-    }
 }
 
 

@@ -1,4 +1,4 @@
-package com.example.android.grocerie;
+package com.example.android.grocerie.recyclerViewVersion;
 
 import android.database.Cursor;
 
