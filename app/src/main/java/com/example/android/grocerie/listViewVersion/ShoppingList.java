@@ -13,16 +13,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.view.View.MeasureSpec;
 
+import com.example.android.grocerie.IngredientEditor;
 import com.example.android.grocerie.R;
 import com.example.android.grocerie.data.IngredientContract;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
@@ -90,8 +87,9 @@ public class ShoppingList extends AppCompatActivity implements LoaderManager.Loa
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy data" menu option
-            case R.id.action_clear_list:
+            case R.id.action_uncheck_all_entries:
                 //TODO: implement clear list, uncheck all ingredients
+                //already done in recycler
                 return true;
 
         }

@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
-        tools:context="com.example.android.grocerie.listViewVersion.IngredientEditor">
+        tools:context="com.example.android.grocerie.IngredientEditor">
 
 
         <TextView

@@ -39,4 +39,8 @@
     <string name="editor_uncheck_all_ingredient_failed">Error with unchecking ingredients</string>
     <string name="editor_uncheck_all_ingredient_successful">Unchecked all ingredients</string>
     <string name="action_empty_list">Empty List</string>
+    <string name="empty_ingredient_list_title_text">It\'s a bit lonely here...</string>
+    <string name="empty_ingredient_list_subtitle_text">Get started by adding an ingredient</string>
+    <string name="empty_shopping_list_subtitle_text">Get started by adding ingredients from your ingredient list</string>
+    <string name="empty_shopping_list_title_text">It\'s a bit lonely here...</string>
 </resources>

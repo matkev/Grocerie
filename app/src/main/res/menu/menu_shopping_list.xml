@@ -4,10 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".listViewVersion.ShoppingList">
 
-    <item
-        android:id="@+id/action_clear_list"
-        android:title="@string/action_clear_list"
-        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_uncheck_all_entries"

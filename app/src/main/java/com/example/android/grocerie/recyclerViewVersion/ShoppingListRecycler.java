@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 
@@ -27,7 +28,8 @@ import com.example.android.grocerie.R;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 
 public class ShoppingListRecycler extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    RecyclerView mRecyclerView;
+    EmptyRecyclerView mRecyclerView;
+    RelativeLayout emptyView;
     private static final int SHOP_LOADER = 1;
     private ShoppingRecyclerCursorAdapter mCursorAdapter;
 
@@ -45,7 +47,11 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
 
         //bind view
         mRecyclerView = findViewById(R.id.shopping_list_view_recycler);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+        emptyView = findViewById(R.id.empty_view);
+
+
+        EmptyRecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
 
         //set layout manager
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -54,7 +60,10 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mCursorAdapter = new ShoppingRecyclerCursorAdapter();
         mRecyclerView.setAdapter(mCursorAdapter);
-        //TODO: set up empty view
+
+
+        mRecyclerView.setEmptyView(findViewById(R.id.empty_view));
+
 
 
 //          TODO: set onitemclicklistener on reyclerview

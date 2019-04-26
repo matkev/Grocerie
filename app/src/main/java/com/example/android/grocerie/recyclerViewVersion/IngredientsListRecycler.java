@@ -2,12 +2,11 @@ package com.example.android.grocerie.recyclerViewVersion;
 
 
 import android.app.AlertDialog;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.loader.app.LoaderManager;
@@ -17,24 +16,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.android.grocerie.R;
 
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
-import com.example.android.grocerie.listViewVersion.IngredientEditor;
-import com.example.android.grocerie.listViewVersion.IngredientsList;
+import com.example.android.grocerie.IngredientEditor;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-
 public class IngredientsListRecycler extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    RecyclerView mRecyclerView;
+    EmptyRecyclerView mRecyclerView;
+    RelativeLayout emptyView;
     private static final int INGREDIENT_LOADER = 0;
     private IngredientRecyclerCursorAdapter mCursorAdapter;
 
@@ -63,7 +61,13 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
 
         //bind view
         mRecyclerView = findViewById(R.id.ingredients_list_view_recycler);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        emptyView = findViewById(R.id.empty_view);
+
+
+
+        EmptyRecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+
+
 
         //set layout manager
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -72,7 +76,32 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mCursorAdapter = new IngredientRecyclerCursorAdapter();
         mRecyclerView.setAdapter(mCursorAdapter);
+
+
+        mRecyclerView.setEmptyView(findViewById(R.id.empty_view));
+
+
+
         //TODO: set up empty view
+
+
+
+//        String [] projection = {IngredientEntry._ID};
+//
+//        Cursor dataset = getContentResolver().query(IngredientEntry.CONTENT_URI, projection, null, null, null);
+//
+//        if (dataset.getCount() == 0){
+//            Log.e("myTag", "The database is empty");
+//            mRecyclerView.setVisibility(View.GONE);
+//            emptyView.setVisibility(View.VISIBLE);
+//        } else {
+//            Log.e("myTag", "The database is not empty");
+//            mRecyclerView.setVisibility(View.VISIBLE);
+//            emptyView.setVisibility(View.GONE);
+//        }
+
+
+
 
 
 //          TODO: set onitemclicklistener on reyclerview
@@ -188,9 +217,11 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_add_dummy_data:
                 insertDummyData();
+
                 return true;
             case R.id.action_delete_all_entries:
                 showDeleteConfirmationDialog();
+
                 return true;
             case R.id.action_uncheck_all_entries:
                 uncheckAllIngredients();
@@ -248,7 +279,7 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Delete" button, so delete the pet.
-                deletePets();
+                deleteIngredients();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -269,7 +300,7 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
     /**
      * Perform the deletion of the pet in the database.
      */
-    private void deletePets() {
+    private void deleteIngredients() {
 
         int rowsDeleted = getContentResolver().delete(IngredientEntry.CONTENT_URI, null, null);
 
@@ -280,9 +311,10 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
                     Toast.LENGTH_SHORT).show();
         } else {
             // Otherwise, the delete was successful and we can display a toast.
-            Toast.makeText(this, getString(R.string.editor_delete_all_ingredient_failed),
+            Toast.makeText(this, getString(R.string.editor_delete_all_ingredient_successful),
                     Toast.LENGTH_SHORT).show();
         }
+
     }
 
     private void uncheckAllIngredients()

@@ -8,6 +8,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.android.grocerie.IngredientEditor;
 import com.example.android.grocerie.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.app.LoaderManager;
@@ -15,7 +16,6 @@ import android.content.Loader;
 import android.content.CursorLoader;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
