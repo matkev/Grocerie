@@ -190,9 +190,10 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
                 insertDummyData();
                 return true;
             case R.id.action_delete_all_entries:
-                // Do nothing for now
                 showDeleteConfirmationDialog();
-
+                return true;
+            case R.id.action_uncheck_all_entries:
+                uncheckAllIngredients();
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             //TODO: sort by alphabet or most recent
@@ -279,7 +280,28 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
                     Toast.LENGTH_SHORT).show();
         } else {
             // Otherwise, the delete was successful and we can display a toast.
-            Toast.makeText(this, getString(R.string.editor_delete_all_ingredient_successful),
+            Toast.makeText(this, getString(R.string.editor_delete_all_ingredient_failed),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void uncheckAllIngredients()
+    {
+
+        ContentValues values = new ContentValues();
+
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+
+        int rowsUpdated = getContentResolver().update(IngredientEntry.CONTENT_URI, values, null, null);
+
+        // Show a toast message depending on whether or not the delete was successful.
+        if (rowsUpdated == 0) {
+            // If no rows were deleted, then there was an error with the delete.
+            Toast.makeText(this, getString(R.string.editor_uncheck_all_ingredient_failed),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            // Otherwise, the delete was successful and we can display a toast.
+            Toast.makeText(this, getString(R.string.editor_uncheck_all_ingredient_successful),
                     Toast.LENGTH_SHORT).show();
         }
     }

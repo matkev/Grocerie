@@ -9,4 +9,9 @@
         android:title="@string/action_clear_list"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_uncheck_all_entries"
+        android:title="@string/action_empty_list"
+        app:showAsAction="never" />
+
 </menu>

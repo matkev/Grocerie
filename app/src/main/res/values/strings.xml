@@ -35,4 +35,8 @@
     <string name="editor_delete_all_ingredient_failed">Error with deleting ingredients</string>
     <string name="editor_delete_all_ingredient_successful">Ingredients deleted</string>
     <string name="action_delete_all_entries">Delete All Ingredients</string>
+    <string name="action_uncheck_all_entries">Uncheck All</string>
+    <string name="editor_uncheck_all_ingredient_failed">Error with unchecking ingredients</string>
+    <string name="editor_uncheck_all_ingredient_successful">Unchecked all ingredients</string>
+    <string name="action_empty_list">Empty List</string>
 </resources>

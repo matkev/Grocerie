@@ -2,6 +2,7 @@ package com.example.android.grocerie.recyclerViewVersion;
 
 
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 import com.example.android.grocerie.R;
@@ -88,8 +90,8 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy data" menu option
-            case R.id.action_clear_list:
-                //TODO: implement clear list, uncheck all ingredients
+            case R.id.action_uncheck_all_entries:
+                uncheckAllIngredients();
                 return true;
 
         }
@@ -137,6 +139,27 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
                 selection,
                 selectionArgs,
                 null);
+    }
+
+    private void uncheckAllIngredients()
+    {
+
+        ContentValues values = new ContentValues();
+
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+
+        int rowsUpdated = getContentResolver().update(IngredientEntry.CONTENT_URI, values, null, null);
+
+        // Show a toast message depending on whether or not the delete was successful.
+        if (rowsUpdated == 0) {
+            // If no rows were deleted, then there was an error with the delete.
+            Toast.makeText(this, getString(R.string.editor_uncheck_all_ingredient_failed),
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            // Otherwise, the delete was successful and we can display a toast.
+            Toast.makeText(this, getString(R.string.editor_uncheck_all_ingredient_successful),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
 
