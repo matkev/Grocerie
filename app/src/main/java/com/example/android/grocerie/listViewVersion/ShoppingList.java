@@ -11,12 +11,18 @@ import android.app.LoaderManager;
 import android.content.Loader;
 import android.content.CursorLoader;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.view.View.MeasureSpec;
 
 import com.example.android.grocerie.data.IngredientContract;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
@@ -32,12 +38,15 @@ public class ShoppingList extends AppCompatActivity implements LoaderManager.Loa
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shopping_list);
+        setContentView(R.layout.activity_shopping_list_v3);
+        setTitle(R.string.shopping_list_title);
 
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-
-        ListView shoppingListView = (ListView) findViewById(R.id.shopping_list_view);
+        ListView shoppingListView = (ListView) findViewById(R.id.shopping_list_view_v3);
+//        ListView shoppingListViewGrayZone = (ListView) findViewById(R.id.shopping_list_view_v2_grayzone);
 
         //TODO: set up empty view
 
@@ -45,6 +54,10 @@ public class ShoppingList extends AppCompatActivity implements LoaderManager.Loa
 
 
         shoppingListView.setAdapter(mCursorAdapter);
+//        shoppingListViewGrayZone.setAdapter(mCursorAdapter);
+
+//        ListUtils.setDynamicHeight(shoppingListView);
+//        ListUtils.setDynamicHeight(shoppingListViewGrayZone);
 
         shoppingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -123,4 +136,31 @@ public class ShoppingList extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
+    public static class ListUtils {
+        public static void setDynamicHeight(ListView mListView) {
+            ListAdapter mListAdapter = mListView.getAdapter();
+            if (mListAdapter == null) {
+                // when adapter is null
+                Log.e("myTag", "adapter was null");
+                return;
+            }
+            Log.e("myTag", "adapter was not null");
+
+            int height = 0;
+            int desiredWidth = MeasureSpec.makeMeasureSpec(mListView.getWidth(), MeasureSpec.UNSPECIFIED);
+            for (int i = 0; i < mListAdapter.getCount(); i++) {
+                View listItem = mListAdapter.getView(i, null, mListView);
+                listItem.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+                height += listItem.getMeasuredHeight();
+            }
+            ViewGroup.LayoutParams params = mListView.getLayoutParams();
+            params.height = height + (mListView.getDividerHeight() * (mListAdapter.getCount() - 1));
+            mListView.setLayoutParams(params);
+            mListView.requestLayout();
+        }
+    }
 }
+
+
+
+

@@ -13,19 +13,19 @@ import android.content.Loader;
 import android.content.CursorLoader;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import androidx.appcompat.widget.Toolbar;
 
-import com.example.android.grocerie.data.IngredientContract;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
-import com.example.android.grocerie.data.IngredientDbHelper;
 
-public class IngredientsList extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>
-{
+public class IngredientsList extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
 //    private IngredientDbHelper mDbHelper;
 
@@ -37,6 +37,14 @@ public class IngredientsList extends AppCompatActivity implements LoaderManager.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients_list);
+        setTitle(R.string.ingredients_list_title);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+
+
+
 
 
         // Setup FAB to open EditorActivity
@@ -50,7 +58,7 @@ public class IngredientsList extends AppCompatActivity implements LoaderManager.
         });
 
 
-        ListView ingredientListView = (ListView) findViewById(R.id.ingredient_list_view);
+        final ListView ingredientListView = (ListView) findViewById(R.id.ingredient_list_view);
 
         //TODO: set up empty view
 
@@ -65,13 +73,43 @@ public class IngredientsList extends AppCompatActivity implements LoaderManager.
 
                 Intent intent = new Intent(IngredientsList.this, IngredientEditor.class);
 
-                Uri currentPetUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, id);
+                Uri currentIngredientUri = ContentUris.withAppendedId(IngredientEntry.CONTENT_URI, id);
 
-                intent.setData(currentPetUri);
+                intent.setData(currentIngredientUri);
 
                 startActivity(intent);
             }
         });
+
+//        CheckBox checked = (CheckBox) findViewById(R.id.ingredient_list_checkBox);
+//
+//        checked.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                CheckBox checked_view = (CheckBox) view;
+//                int pos = ingredientListView.getPositionForView(checked_view);
+//                long id = ingredientListView.getItemIdAtPosition(pos);
+//
+//                Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, id);
+//
+//                String checkedString;
+//
+//                if (checked_view.isChecked())
+//                {
+//                    checkedString = "1";
+//                }
+//                else
+//                {
+//                    checkedString = "0";
+//                }
+//                ContentValues values = new ContentValues();
+//
+//                values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checkedString);
+//
+//                getContentResolver().update(currentIngredientUri, values, null, null);
+//            }
+//        });
 
 
 
@@ -183,4 +221,6 @@ public class IngredientsList extends AppCompatActivity implements LoaderManager.
         mCursorAdapter.swapCursor(null);
 
     }
+
+
 }

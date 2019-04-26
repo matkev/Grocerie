@@ -16,10 +16,12 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
@@ -43,6 +45,8 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
     /** EditText field to enter the pet's weight */
     private EditText mUnitEditText;
 
+    private Switch mCheckedSwitch;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,8 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         setContentView(R.layout.activity_ingredient_editor);
 
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
         mCurrentIngredientUri = intent.getData();
@@ -72,11 +78,14 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         mNameEditText = (EditText) findViewById(R.id.edit_ingredient_name);
         mAmountEditText = (EditText) findViewById(R.id.edit_ingredient_amount);
         mUnitEditText = (EditText) findViewById(R.id.edit_ingredient_unit);
+        mCheckedSwitch = (Switch) findViewById(R.id.edit_ingredient_checked);
 
 
         mNameEditText.setOnTouchListener(mTouchListener);
         mAmountEditText.setOnTouchListener(mTouchListener);
         mUnitEditText.setOnTouchListener(mTouchListener);
+        mCheckedSwitch.setOnTouchListener(mTouchListener);
+
 
 
     }
@@ -88,8 +97,6 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         String nameString = mNameEditText.getText().toString().trim();
         String amountString = mAmountEditText.getText().toString().trim();
         String unitString = mUnitEditText.getText().toString().trim();
-
-
 
         if (mCurrentIngredientUri == null && TextUtils.isEmpty(nameString) && TextUtils.isEmpty(amountString) &&
                 TextUtils.isEmpty(unitString))
@@ -104,6 +111,16 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             amount = Integer.parseInt(amountString);
         }
 
+        int checked;
+        if(mCheckedSwitch.isChecked())
+        {
+            checked = 1;
+        }
+        else
+        {
+            checked = 0;
+        }
+
 
         IngredientDbHelper mDbHelper = new IngredientDbHelper(this);
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
@@ -113,6 +130,7 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, nameString);
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, amount);
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, unitString);
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checked);
 
 
 
@@ -207,7 +225,8 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
                 IngredientEntry._ID,
                 IngredientEntry.COLUMN_INGREDIENT_NAME,
                 IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
-                IngredientEntry.COLUMN_INGREDIENT_UNIT};
+                IngredientEntry.COLUMN_INGREDIENT_UNIT,
+                IngredientEntry.COLUMN_INGREDIENT_CHECKED};
 
 
         return new CursorLoader(this,
@@ -231,16 +250,28 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
             int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
             int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
+            int checkedColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CHECKED);
 
             // Extract out the value from the Cursor for the given column index
             String name = cursor.getString(nameColumnIndex);
             int amount = cursor.getInt(amountColumnIndex);
             String unit = cursor.getString(unitColumnIndex);
+            int checked = cursor.getInt(checkedColumnIndex);
+
 
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
             mAmountEditText.setText(Integer.toString(amount));
             mUnitEditText.setText(unit);
+
+            if (checked == 1)
+            {
+                mCheckedSwitch.setChecked(true);
+            }
+            else
+            {
+                mCheckedSwitch.setChecked(false);
+            }
         }
 
     }
@@ -252,6 +283,8 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         mNameEditText.setText("");
         mAmountEditText.setText("");
         mUnitEditText.setText("");
+        mCheckedSwitch.setChecked(false);
+
     }
 
 
