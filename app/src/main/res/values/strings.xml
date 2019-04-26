@@ -31,4 +31,8 @@
     <string name="shopping_list_item_picked_up">Picked up</string>
     <string name="shopping_list_item_to_get">To get</string>
     <string name="appbar_scrolling_view_behavior">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="delete_all_dialog_msg">Delete all ingredients?</string>
+    <string name="editor_delete_all_ingredient_failed">Error with deleting ingredients</string>
+    <string name="editor_delete_all_ingredient_successful">Ingredients deleted</string>
+    <string name="action_delete_all_entries">Delete All Ingredients</string>
 </resources>

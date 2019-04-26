@@ -21,7 +21,9 @@ import com.example.android.grocerie.R;
 import com.example.android.grocerie.data.IngredientContract;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 
-public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<IngredientRecyclerCursorAdapter.IngredientViewHolder> implements CompoundButton.OnCheckedChangeListener {
+public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<IngredientRecyclerCursorAdapter.IngredientViewHolder>
+//        implements CompoundButton.OnCheckedChangeListener
+{
 
     private Context context;
 
@@ -41,6 +43,9 @@ public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<Ingredien
     public void onBindViewHolder(IngredientViewHolder holder, Cursor cursor) {
 
 
+        holder.checkedCheckBox.setOnCheckedChangeListener(null);
+
+
         int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
         int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
         int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
@@ -52,6 +57,9 @@ public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<Ingredien
         Integer ingredientChecked = cursor.getInt(checkedColumnIndex);
 
 
+        int idIndex = cursor.getColumnIndex(IngredientEntry._ID);
+        int idValue = cursor.getInt(idIndex);
+
         if (TextUtils.isEmpty(ingredientAmount)) {
             ingredientAmount = "";
         }
@@ -62,16 +70,43 @@ public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<Ingredien
             holder.checkedCheckBox.setChecked(false);
         }
 
+        Log.e("myTag", "ingredientChecked at row " + idValue + " is equal to " + ingredientChecked);
+
+
 
         holder.nameTextView.setText(ingredientName);
         holder.summaryTextView.setText(ingredientAmount + " " + ingredientUnit);
 
 
         //TODO implement check box listener
-        holder.checkedCheckBox.setOnCheckedChangeListener(this);
-        int idIndex = cursor.getColumnIndex(IngredientEntry._ID);
-        int idValue = cursor.getInt(idIndex);
-        holder.checkedCheckBox.setTag(idValue);
+        holder.checkedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                Log.e("myTag", "The id of the current row is " + idValue);
+
+                Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, idValue);
+
+                Log.e("myTag", "The uri of the current row is " + currentIngredientUri);
+
+                String checkedString;
+
+                if (isChecked) {
+                    checkedString = "1";
+                } else {
+                    checkedString = "0";
+                }
+
+                Log.e("myTag", "The checkbox of the current row is " + checkedString);
+
+                ContentValues values = new ContentValues();
+
+                values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checkedString);
+
+                context.getContentResolver().update(currentIngredientUri, values, null, null);
+            }
+        });
+
+//        holder.checkedCheckBox.setTag(idValue);
 
 
     }
@@ -81,34 +116,34 @@ public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<Ingredien
         super.swapCursor(newCursor);
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        int id = (Integer) compoundButton.getTag();
-
-        Log.e("myTag", "The id of the current row is " + id);
-        Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, id);
-
-
-        Log.e("myTag", "The uri of the current row is " + currentIngredientUri);
-
-        String checkedString;
-
-        if (compoundButton.isChecked()) {
-            checkedString = "1";
-        } else {
-            checkedString = "0";
-        }
-
-        Log.e("myTag", "The checkbox of the current row is " + checkedString);
-
-        ContentValues values = new ContentValues();
-
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checkedString);
-
-        context.getContentResolver().update(currentIngredientUri, values, null, null);
-
-
-    }
+//    @Override
+//    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//        int id = (Integer) compoundButton.getTag();
+//
+//        Log.e("myTag", "The id of the current row is " + id);
+//        Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, id);
+//
+//
+//        Log.e("myTag", "The uri of the current row is " + currentIngredientUri);
+//
+//        String checkedString;
+//
+//        if (compoundButton.isChecked()) {
+//            checkedString = "1";
+//        } else {
+//            checkedString = "0";
+//        }
+//
+//        Log.e("myTag", "The checkbox of the current row is " + checkedString);
+//
+//        ContentValues values = new ContentValues();
+//
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checkedString);
+//
+//        context.getContentResolver().update(currentIngredientUri, values, null, null);
+//
+//
+//    }
 
     class IngredientViewHolder extends RecyclerView.ViewHolder {
 
