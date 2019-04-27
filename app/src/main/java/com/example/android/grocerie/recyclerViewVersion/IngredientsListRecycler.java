@@ -135,6 +135,8 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "12");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
+
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
@@ -145,6 +147,8 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "150");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "grams");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
+
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
@@ -153,6 +157,8 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "dozen");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
+
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
@@ -163,6 +169,8 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "3");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "packs");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
+
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
@@ -174,6 +182,8 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "jar");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
+
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
@@ -184,6 +194,7 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "2");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "bottle");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
@@ -194,6 +205,7 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "bottle");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
@@ -259,7 +271,8 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
                 IngredientEntry.COLUMN_INGREDIENT_NAME,
                 IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
                 IngredientEntry.COLUMN_INGREDIENT_UNIT,
-                IngredientEntry.COLUMN_INGREDIENT_CHECKED};
+                IngredientEntry.COLUMN_INGREDIENT_CHECKED,
+                IngredientEntry.COLUMN_INGREDIENT_CATEGORY};
 
 
         return new CursorLoader(this,

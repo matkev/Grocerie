@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,11 +51,13 @@ public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<Ingredien
         int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
         int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
         int checkedColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CHECKED);
+        int categoryindex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
 
         String ingredientName = cursor.getString(nameColumnIndex);
         String ingredientAmount = cursor.getString(amountColumnIndex);
         String ingredientUnit = cursor.getString(unitColumnIndex);
         Integer ingredientChecked = cursor.getInt(checkedColumnIndex);
+        int category = cursor.getInt(categoryindex);
 
 
         int idIndex = cursor.getColumnIndex(IngredientEntry._ID);
@@ -70,6 +73,37 @@ public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<Ingredien
             holder.checkedCheckBox.setChecked(false);
         }
 
+
+        switch (category) {
+            case IngredientEntry.FRUIT_AND_VEG:
+                holder.categoryTextView.setText(R.string.fruit_and_veggie);;
+                break;
+            case IngredientEntry.MEAT_AND_PROT:
+                holder.categoryTextView.setText(R.string.meat_and_prot);;
+                break;
+            case IngredientEntry.BREAD_AND_GRAIN:
+                holder.categoryTextView.setText(R.string.bread_and_grain);;
+                break;
+            case IngredientEntry.DAIRY:
+                holder.categoryTextView.setText(R.string.dairy);;
+                break;
+            case IngredientEntry.FROZEN:
+                holder.categoryTextView.setText(R.string.frozen);;
+                break;
+            case IngredientEntry.CANNED:
+                holder.categoryTextView.setText(R.string.canned);;
+                break;
+            case IngredientEntry.DRINKS:
+                holder.categoryTextView.setText(R.string.drinks);;
+                break;
+            case IngredientEntry.SNACKS:
+                holder.categoryTextView.setText(R.string.snacks);;
+                break;
+            default:
+                holder.categoryTextView.setText(R.string.misc);;
+                break;
+        }
+
         Log.e("myTag", "ingredientChecked at row " + idValue + " is equal to " + ingredientChecked);
 
 
@@ -78,7 +112,6 @@ public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<Ingredien
         holder.summaryTextView.setText(ingredientAmount + " " + ingredientUnit);
 
 
-        //TODO implement check box listener
         holder.checkedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -106,7 +139,6 @@ public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<Ingredien
             }
         });
 
-//        holder.checkedCheckBox.setTag(idValue);
 
 
     }
@@ -116,47 +148,20 @@ public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<Ingredien
         super.swapCursor(newCursor);
     }
 
-//    @Override
-//    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//        int id = (Integer) compoundButton.getTag();
-//
-//        Log.e("myTag", "The id of the current row is " + id);
-//        Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, id);
-//
-//
-//        Log.e("myTag", "The uri of the current row is " + currentIngredientUri);
-//
-//        String checkedString;
-//
-//        if (compoundButton.isChecked()) {
-//            checkedString = "1";
-//        } else {
-//            checkedString = "0";
-//        }
-//
-//        Log.e("myTag", "The checkbox of the current row is " + checkedString);
-//
-//        ContentValues values = new ContentValues();
-//
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checkedString);
-//
-//        context.getContentResolver().update(currentIngredientUri, values, null, null);
-//
-//
-//    }
 
     class IngredientViewHolder extends RecyclerView.ViewHolder {
 
         TextView nameTextView;
         TextView summaryTextView;
         CheckBox checkedCheckBox;
-
+        TextView categoryTextView;
 
         IngredientViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.textViewName);
             summaryTextView = itemView.findViewById(R.id.textViewSummary);
             checkedCheckBox = itemView.findViewById(R.id.ingredient_list_checkBox);
+            categoryTextView = itemView.findViewById(R.id.textViewCategory);
 
         }
     }

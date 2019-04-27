@@ -29,6 +29,20 @@ public final class IngredientContract {
         public static final String COLUMN_INGREDIENT_AMOUNT = "amount";
         public static final String COLUMN_INGREDIENT_UNIT = "unit";
         public static final String COLUMN_INGREDIENT_CHECKED = "checked";
+        public static final String COLUMN_INGREDIENT_CATEGORY = "category";
+
+        public static final int FRUIT_AND_VEG = 0;
+        public static final int MEAT_AND_PROT = 1;
+        public static final int BREAD_AND_GRAIN = 2;
+        public static final int DAIRY = 3;
+        public static final int FROZEN = 4;
+        public static final int CANNED = 5;
+        public static final int DRINKS = 6;
+        public static final int MISC = 7;
+        public static final int SNACKS = 8;
+
+
+
 
 
         public static final int CHECKED_NO = 0;

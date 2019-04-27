@@ -41,6 +41,16 @@
     <string name="action_empty_list">Empty List</string>
     <string name="empty_ingredient_list_title_text">It\'s a bit lonely here...</string>
     <string name="empty_ingredient_list_subtitle_text">Get started by adding an ingredient</string>
-    <string name="empty_shopping_list_subtitle_text">Get started by adding ingredients from your ingredient list</string>
-    <string name="empty_shopping_list_title_text">It\'s a bit lonely here...</string>
+    <string name="empty_shopping_list_subtitle_text">Get started by adding items from your ingredient list</string>
+    <string name="empty_shopping_list_title_text">Your fridge is either very full or very empty!</string>
+    <string name="fruit_and_veggie">Fruits and Veggies</string>
+    <string name="meat_and_prot">Meat and Proteins</string>
+    <string name="bread_and_grain">Bread and Grains</string>
+    <string name="dairy">Dairy</string>
+    <string name="frozen">Frozen</string>
+    <string name="canned">Canned</string>
+    <string name="drinks">Drinks</string>
+    <string name="misc">Misc</string>
+    <string name="snacks">Snacks</string>
+    <string name="ingredient_editor_category">Category</string>
 </resources>
