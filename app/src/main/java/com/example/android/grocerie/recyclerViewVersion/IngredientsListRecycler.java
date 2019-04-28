@@ -178,6 +178,7 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         return super.onOptionsItemSelected(item);
     }
 
+
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
@@ -204,7 +205,8 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
                 IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
                 IngredientEntry.COLUMN_INGREDIENT_UNIT,
                 IngredientEntry.COLUMN_INGREDIENT_CHECKED,
-                IngredientEntry.COLUMN_INGREDIENT_CATEGORY};
+                IngredientEntry.COLUMN_INGREDIENT_CATEGORY,
+                IngredientEntry.COLUMN_INGREDIENT_PICKED_UP};
 
         return new CursorLoader(this,
                 IngredientEntry.CONTENT_URI,

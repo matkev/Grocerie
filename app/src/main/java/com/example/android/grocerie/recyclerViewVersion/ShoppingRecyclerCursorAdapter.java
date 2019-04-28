@@ -1,6 +1,7 @@
 package com.example.android.grocerie.recyclerViewVersion;
 
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,20 +40,33 @@ public class ShoppingRecyclerCursorAdapter extends BaseCursorAdapter<ShoppingRec
     @Override
     public void onBindViewHolder(IngredientViewHolder holder, Cursor cursor) {
 
+        holder.pickedUpCheckBox.setOnCheckedChangeListener(null);
+
         int idIndex = cursor.getColumnIndex(IngredientEntry._ID);
         int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
         int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
         int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
         int categoryindex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
+        int pickedUpColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP);
+
 
         int idValue = cursor.getInt(idIndex);
         String ingredientName = cursor.getString(nameColumnIndex);
         String ingredientAmount = cursor.getString(amountColumnIndex);
         String ingredientUnit = cursor.getString(unitColumnIndex);
         int category = cursor.getInt(categoryindex);
+        int ingredientPickedUp = cursor.getInt(pickedUpColumnIndex);
+
 
         if (TextUtils.isEmpty(ingredientAmount)) {
             ingredientAmount = "";
+        }
+
+
+        if (ingredientPickedUp == 1) {
+            holder.pickedUpCheckBox.setChecked(true);
+        } else {
+            holder.pickedUpCheckBox.setChecked(false);
         }
 
         switch (category) {
@@ -86,6 +102,33 @@ public class ShoppingRecyclerCursorAdapter extends BaseCursorAdapter<ShoppingRec
         holder.nameTextView.setText(ingredientName);
         holder.summaryTextView.setText(ingredientAmount + " " + ingredientUnit);
 
+        holder.pickedUpCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                Log.e("myTag", "The id of the current row is " + idValue);
+
+                Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, idValue);
+
+                Log.e("myTag", "The uri of the current row is " + currentIngredientUri);
+
+                String pickedUpString;
+
+                if (isChecked) {
+                    pickedUpString = "1";
+                } else {
+                    pickedUpString = "0";
+                }
+
+                Log.e("myTag", "The picked up checkbox of the current row is " + pickedUpString);
+
+                ContentValues values = new ContentValues();
+
+                values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, pickedUpString);
+
+                mContext.getContentResolver().update(currentIngredientUri, values, null, null);
+            }
+        });
+
         holder.ingredientSummary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,18 +139,6 @@ public class ShoppingRecyclerCursorAdapter extends BaseCursorAdapter<ShoppingRec
                 Uri currentIngredientUri = ContentUris.withAppendedId(IngredientEntry.CONTENT_URI, idValue);
 
                 Log.e("myTag", "The uri of the current row is " + currentIngredientUri);
-
-                int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
-                int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
-                int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
-                int checkedColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CHECKED);
-                int categoryColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
-
-                Log.e("myTag", "name column = " + nameColumnIndex);
-                Log.e("myTag", "amount column = " + amountColumnIndex);
-                Log.e("myTag", "unit column = " + unitColumnIndex);
-                Log.e("myTag", "checked column = " + checkedColumnIndex);
-                Log.e("myTag", "category column = " + categoryColumnIndex);
 
                 intent.setData(currentIngredientUri);
 
@@ -126,6 +157,7 @@ public class ShoppingRecyclerCursorAdapter extends BaseCursorAdapter<ShoppingRec
         TextView nameTextView;
         TextView summaryTextView;
         TextView categoryTextView;
+        CheckBox pickedUpCheckBox;
         LinearLayout ingredientSummary;
 
         IngredientViewHolder(View itemView) {
@@ -133,6 +165,7 @@ public class ShoppingRecyclerCursorAdapter extends BaseCursorAdapter<ShoppingRec
             nameTextView = itemView.findViewById(R.id.textViewName);
             summaryTextView = itemView.findViewById(R.id.textViewSummary);
             categoryTextView = itemView.findViewById(R.id.textViewCategory);
+            pickedUpCheckBox = itemView.findViewById(R.id.shopping_list_checkBox);
             ingredientSummary = itemView.findViewById(R.id.ingredient_summary);
         }
     }
