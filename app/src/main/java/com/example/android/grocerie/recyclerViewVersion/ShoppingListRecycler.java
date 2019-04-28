@@ -16,13 +16,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
 
 import com.example.android.grocerie.R;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
@@ -33,7 +31,6 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
     private static final int SHOP_LOADER = 1;
     private ShoppingRecyclerCursorAdapter mCursorAdapter;
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list_recycler);
@@ -42,14 +39,9 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
         Toolbar toolbar = (Toolbar) findViewById(R.id.scrolling_toolbar);
         setSupportActionBar(toolbar);
 
-
-
-
         //bind view
         mRecyclerView = findViewById(R.id.shopping_list_view_recycler);
-
         emptyView = findViewById(R.id.empty_view);
-
 
         EmptyRecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
 
@@ -61,29 +53,9 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
         mCursorAdapter = new ShoppingRecyclerCursorAdapter();
         mRecyclerView.setAdapter(mCursorAdapter);
 
-
         mRecyclerView.setEmptyView(findViewById(R.id.empty_view));
 
-
-
-//          TODO: set onitemclicklistener on reyclerview
-//        shoppingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-//                Intent intent = new Intent(ShoppingList.this, IngredientEditor.class);
-//
-//                Uri currentPetUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, id);
-//
-//                intent.setData(currentPetUri);
-//
-//                startActivity(intent);
-//            }
-//        });
-
-
-
         LoaderManager.getInstance(ShoppingListRecycler.this).initLoader(SHOP_LOADER, null, ShoppingListRecycler.this);
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -93,7 +65,6 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
@@ -102,11 +73,9 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
             case R.id.action_uncheck_all_entries:
                 uncheckAllIngredients();
                 return true;
-
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @NonNull
     @Override
@@ -129,18 +98,16 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
 
     private Loader<Cursor> shoppingListLoader()
     {
-
-
         String [] projection = {
                 IngredientEntry._ID,
                 IngredientEntry.COLUMN_INGREDIENT_NAME,
                 IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
                 IngredientEntry.COLUMN_INGREDIENT_UNIT,
-                IngredientEntry.COLUMN_INGREDIENT_CHECKED};
+                IngredientEntry.COLUMN_INGREDIENT_CHECKED,
+                IngredientEntry.COLUMN_INGREDIENT_CATEGORY};
 
         String selection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=?";
         String[] selectionArgs = new String[]{"1"};
-
 
         return new CursorLoader(this,
                 IngredientEntry.CONTENT_URI,
@@ -152,7 +119,6 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
 
     private void uncheckAllIngredients()
     {
-
         ContentValues values = new ContentValues();
 
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
@@ -170,8 +136,6 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
                     Toast.LENGTH_SHORT).show();
         }
     }
-
-
 }
 
 

@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -72,6 +73,9 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
 
         Intent intent = getIntent();
         mCurrentIngredientUri = intent.getData();
+
+        Log.e("myTag", "The uri of the current row is " + mCurrentIngredientUri);
+
 
 
         if (mCurrentIngredientUri == null) {
@@ -274,7 +278,8 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
                     IngredientEntry.COLUMN_INGREDIENT_NAME,
                     IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
                     IngredientEntry.COLUMN_INGREDIENT_UNIT,
-                    IngredientEntry.COLUMN_INGREDIENT_CHECKED};
+                    IngredientEntry.COLUMN_INGREDIENT_CHECKED,
+                    IngredientEntry.COLUMN_INGREDIENT_CATEGORY};
 
 
             return new CursorLoader(this,
@@ -300,6 +305,14 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
                 int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
                 int checkedColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CHECKED);
                 int categoryColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
+
+
+
+                Log.e("myTag", "name column = " + nameColumnIndex);
+                Log.e("myTag", "amount column = " + amountColumnIndex);
+                Log.e("myTag", "unit column = " + unitColumnIndex);
+                Log.e("myTag", "checked column = " + checkedColumnIndex);
+                Log.e("myTag", "category column = " + categoryColumnIndex);
 
                 // Extract out the value from the Cursor for the given column index
                 String name = cursor.getString(nameColumnIndex);

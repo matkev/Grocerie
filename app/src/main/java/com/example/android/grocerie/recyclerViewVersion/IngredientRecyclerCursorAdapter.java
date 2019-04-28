@@ -3,9 +3,9 @@ package com.example.android.grocerie.recyclerViewVersion;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,55 +13,49 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Spinner;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.android.grocerie.IngredientEditor;
 import com.example.android.grocerie.R;
 import com.example.android.grocerie.data.IngredientContract;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 
-public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<IngredientRecyclerCursorAdapter.IngredientViewHolder>
-//        implements CompoundButton.OnCheckedChangeListener
-{
+public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<IngredientRecyclerCursorAdapter.IngredientViewHolder> {
 
-    private Context context;
-
+    private Context mContext;
 
     public IngredientRecyclerCursorAdapter() {
         super(null);
     }
 
     @Override
-    public IngredientRecyclerCursorAdapter.IngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        this.context = parent.getContext();
+    public IngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        this.mContext = parent.getContext();
 
         View formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingredient_list_item, parent, false);
-        return new IngredientRecyclerCursorAdapter.IngredientViewHolder(formNameView);
+        return new IngredientViewHolder(formNameView);
     }
 
     public void onBindViewHolder(IngredientViewHolder holder, Cursor cursor) {
 
-
         holder.checkedCheckBox.setOnCheckedChangeListener(null);
 
-
+        int idIndex = cursor.getColumnIndex(IngredientEntry._ID);
         int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
         int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
         int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
         int checkedColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CHECKED);
         int categoryindex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
 
+        int idValue = cursor.getInt(idIndex);
         String ingredientName = cursor.getString(nameColumnIndex);
         String ingredientAmount = cursor.getString(amountColumnIndex);
         String ingredientUnit = cursor.getString(unitColumnIndex);
         Integer ingredientChecked = cursor.getInt(checkedColumnIndex);
         int category = cursor.getInt(categoryindex);
-
-
-        int idIndex = cursor.getColumnIndex(IngredientEntry._ID);
-        int idValue = cursor.getInt(idIndex);
 
         if (TextUtils.isEmpty(ingredientAmount)) {
             ingredientAmount = "";
@@ -72,7 +66,6 @@ public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<Ingredien
         } else {
             holder.checkedCheckBox.setChecked(false);
         }
-
 
         switch (category) {
             case IngredientEntry.FRUIT_AND_VEG:
@@ -106,8 +99,6 @@ public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<Ingredien
 
         Log.e("myTag", "ingredientChecked at row " + idValue + " is equal to " + ingredientChecked);
 
-
-
         holder.nameTextView.setText(ingredientName);
         holder.summaryTextView.setText(ingredientAmount + " " + ingredientUnit);
 
@@ -135,12 +126,38 @@ public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<Ingredien
 
                 values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checkedString);
 
-                context.getContentResolver().update(currentIngredientUri, values, null, null);
+                mContext.getContentResolver().update(currentIngredientUri, values, null, null);
             }
         });
 
+        holder.ingredientSummary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("myTag", "The id of the current row is " + idValue);
 
+                Intent intent = new Intent(mContext, IngredientEditor.class);
 
+                Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, idValue);
+
+                Log.e("myTag", "The uri of the current row is " + currentIngredientUri);
+
+                int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
+                int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
+                int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
+                int checkedColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CHECKED);
+                int categoryColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
+
+                Log.e("myTag", "name column = " + nameColumnIndex);
+                Log.e("myTag", "amount column = " + amountColumnIndex);
+                Log.e("myTag", "unit column = " + unitColumnIndex);
+                Log.e("myTag", "checked column = " + checkedColumnIndex);
+                Log.e("myTag", "category column = " + categoryColumnIndex);
+
+                intent.setData(currentIngredientUri);
+
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -155,6 +172,8 @@ public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<Ingredien
         TextView summaryTextView;
         CheckBox checkedCheckBox;
         TextView categoryTextView;
+        LinearLayout ingredientSummary;
+
 
         IngredientViewHolder(View itemView) {
             super(itemView);
@@ -162,6 +181,8 @@ public class IngredientRecyclerCursorAdapter extends BaseCursorAdapter<Ingredien
             summaryTextView = itemView.findViewById(R.id.textViewSummary);
             checkedCheckBox = itemView.findViewById(R.id.ingredient_list_checkBox);
             categoryTextView = itemView.findViewById(R.id.textViewCategory);
+            ingredientSummary = itemView.findViewById(R.id.ingredient_summary);
+
 
         }
     }

@@ -6,7 +6,6 @@ import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.loader.app.LoaderManager;
@@ -16,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,10 +22,9 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.example.android.grocerie.R;
-
-import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 import com.example.android.grocerie.IngredientEditor;
+import com.example.android.grocerie.R;
+import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class IngredientsListRecycler extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -36,7 +33,6 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
     private static final int INGREDIENT_LOADER = 0;
     private IngredientRecyclerCursorAdapter mCursorAdapter;
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients_list_recycler);
@@ -44,7 +40,6 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         setTitle(R.string.ingredients_list_title);
         Toolbar toolbar = (Toolbar) findViewById(R.id.scrolling_toolbar);
         setSupportActionBar(toolbar);
-
 
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -56,18 +51,11 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
             }
         });
 
-
-
-
         //bind view
         mRecyclerView = findViewById(R.id.ingredients_list_view_recycler);
         emptyView = findViewById(R.id.empty_view);
 
-
-
         EmptyRecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-
-
 
         //set layout manager
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -77,58 +65,13 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         mCursorAdapter = new IngredientRecyclerCursorAdapter();
         mRecyclerView.setAdapter(mCursorAdapter);
 
-
         mRecyclerView.setEmptyView(findViewById(R.id.empty_view));
-
-
-
-        //TODO: set up empty view
-
-
-
-//        String [] projection = {IngredientEntry._ID};
-//
-//        Cursor dataset = getContentResolver().query(IngredientEntry.CONTENT_URI, projection, null, null, null);
-//
-//        if (dataset.getCount() == 0){
-//            Log.e("myTag", "The database is empty");
-//            mRecyclerView.setVisibility(View.GONE);
-//            emptyView.setVisibility(View.VISIBLE);
-//        } else {
-//            Log.e("myTag", "The database is not empty");
-//            mRecyclerView.setVisibility(View.VISIBLE);
-//            emptyView.setVisibility(View.GONE);
-//        }
-
-
-
-
-
-//          TODO: set onitemclicklistener on reyclerview
-//        shoppingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-//                Intent intent = new Intent(ShoppingList.this, IngredientEditor.class);
-//
-//                Uri currentPetUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, id);
-//
-//                intent.setData(currentPetUri);
-//
-//                startActivity(intent);
-//            }
-//        });
-
-
 
         LoaderManager.getInstance(IngredientsListRecycler.this).initLoader(INGREDIENT_LOADER, null, IngredientsListRecycler.this);
 
     }
 
-
-    private void insertDummyData()
-    {
-
-
+    private void insertDummyData() {
         ContentValues values = new ContentValues();
 
         values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Apples");
@@ -137,9 +80,7 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
 
-
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-
 
         values.clear();
 
@@ -147,8 +88,7 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "150");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "grams");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
-
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "3");
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
@@ -157,8 +97,7 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "dozen");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
-
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "1");
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
@@ -169,21 +108,18 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "3");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "packs");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
-
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "2");
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
         values.clear();
-
 
         values.clear();
         values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Peanut Butter");
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "jar");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
-
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "1");
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
@@ -194,7 +130,7 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "2");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "bottle");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "8");
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
@@ -205,12 +141,11 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "bottle");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "6");
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
         values.clear();
-
     }
 
 
@@ -220,7 +155,6 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         getMenuInflater().inflate(R.menu.menu_ingredients_list, menu);
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -244,7 +178,6 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         return super.onOptionsItemSelected(item);
     }
 
-
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
@@ -264,16 +197,14 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         mCursorAdapter.swapCursor(null);
     }
 
-    private Loader<Cursor> ingredientListLoader()
-    {
-        String [] projection = {
+    private Loader<Cursor> ingredientListLoader() {
+        String[] projection = {
                 IngredientEntry._ID,
                 IngredientEntry.COLUMN_INGREDIENT_NAME,
                 IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
                 IngredientEntry.COLUMN_INGREDIENT_UNIT,
                 IngredientEntry.COLUMN_INGREDIENT_CHECKED,
                 IngredientEntry.COLUMN_INGREDIENT_CATEGORY};
-
 
         return new CursorLoader(this,
                 IngredientEntry.CONTENT_URI,
@@ -282,7 +213,6 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
                 null,
                 null);
     }
-
 
     private void showDeleteConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners
@@ -327,11 +257,9 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
             Toast.makeText(this, getString(R.string.editor_delete_all_ingredient_successful),
                     Toast.LENGTH_SHORT).show();
         }
-
     }
 
-    private void uncheckAllIngredients()
-    {
+    private void uncheckAllIngredients() {
 
         ContentValues values = new ContentValues();
 
@@ -350,8 +278,6 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
                     Toast.LENGTH_SHORT).show();
         }
     }
-
-
 }
 
 
