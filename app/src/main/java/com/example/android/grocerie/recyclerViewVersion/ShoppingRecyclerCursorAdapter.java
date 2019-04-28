@@ -49,7 +49,6 @@ public class ShoppingRecyclerCursorAdapter extends BaseCursorAdapter<ShoppingRec
         int categoryindex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
         int pickedUpColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP);
 
-
         int idValue = cursor.getInt(idIndex);
         String ingredientName = cursor.getString(nameColumnIndex);
         String ingredientAmount = cursor.getString(amountColumnIndex);
@@ -57,11 +56,9 @@ public class ShoppingRecyclerCursorAdapter extends BaseCursorAdapter<ShoppingRec
         int category = cursor.getInt(categoryindex);
         int ingredientPickedUp = cursor.getInt(pickedUpColumnIndex);
 
-
         if (TextUtils.isEmpty(ingredientAmount)) {
             ingredientAmount = "";
         }
-
 
         if (ingredientPickedUp == 1) {
             holder.pickedUpCheckBox.setChecked(true);
@@ -71,31 +68,31 @@ public class ShoppingRecyclerCursorAdapter extends BaseCursorAdapter<ShoppingRec
 
         switch (category) {
             case IngredientEntry.FRUIT_AND_VEG:
-                holder.categoryTextView.setText(R.string.fruit_and_veggie);;
+                holder.categoryTextView.setText(R.string.fruit_and_veggie);
                 break;
             case IngredientEntry.MEAT_AND_PROT:
-                holder.categoryTextView.setText(R.string.meat_and_prot);;
+                holder.categoryTextView.setText(R.string.meat_and_prot);
                 break;
             case IngredientEntry.BREAD_AND_GRAIN:
-                holder.categoryTextView.setText(R.string.bread_and_grain);;
+                holder.categoryTextView.setText(R.string.bread_and_grain);
                 break;
             case IngredientEntry.DAIRY:
-                holder.categoryTextView.setText(R.string.dairy);;
+                holder.categoryTextView.setText(R.string.dairy);
                 break;
             case IngredientEntry.FROZEN:
-                holder.categoryTextView.setText(R.string.frozen);;
+                holder.categoryTextView.setText(R.string.frozen);
                 break;
             case IngredientEntry.CANNED:
-                holder.categoryTextView.setText(R.string.canned);;
+                holder.categoryTextView.setText(R.string.canned);
                 break;
             case IngredientEntry.DRINKS:
-                holder.categoryTextView.setText(R.string.drinks);;
+                holder.categoryTextView.setText(R.string.drinks);
                 break;
             case IngredientEntry.SNACKS:
-                holder.categoryTextView.setText(R.string.snacks);;
+                holder.categoryTextView.setText(R.string.snacks);
                 break;
             default:
-                holder.categoryTextView.setText(R.string.misc);;
+                holder.categoryTextView.setText(R.string.misc);
                 break;
         }
 
@@ -165,7 +162,7 @@ public class ShoppingRecyclerCursorAdapter extends BaseCursorAdapter<ShoppingRec
             nameTextView = itemView.findViewById(R.id.textViewName);
             summaryTextView = itemView.findViewById(R.id.textViewSummary);
             categoryTextView = itemView.findViewById(R.id.textViewCategory);
-            pickedUpCheckBox = itemView.findViewById(R.id.shopping_list_checkBox);
+            pickedUpCheckBox = itemView.findViewById(R.id.checkBoxView);
             ingredientSummary = itemView.findViewById(R.id.ingredient_summary);
         }
     }

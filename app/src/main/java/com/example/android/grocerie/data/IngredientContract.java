@@ -4,7 +4,6 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-
 /**
  * Created by matth on 4/21/2019.
  */
@@ -18,7 +17,6 @@ public final class IngredientContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_INGREDIENTS = "ingredients";
-
 
     public static abstract class IngredientEntry implements BaseColumns {
 
@@ -57,5 +55,7 @@ public final class IngredientContract {
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_INGREDIENTS;
 
+        public static final int INGREDIENT_LIST_TYPE = 0;
+        public static final int SHOPPING_LIST_TYPE = 1;
     }
 }

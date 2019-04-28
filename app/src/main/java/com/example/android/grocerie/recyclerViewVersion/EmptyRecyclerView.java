@@ -31,8 +31,7 @@ public class EmptyRecyclerView extends RecyclerView {
                 mEmptyView.setVisibility(GONE);
                 Log.e("myTag", "empty view is gone");
             }
-//            mEmptyView.setVisibility(
-//                    getAdapter() == null || getAdapter().getItemCount() == 0 ? VISIBLE : GONE);
+
             if (getAdapter() == null || getAdapter().getItemCount() == 0)
             {
                 EmptyRecyclerView.this.setVisibility(GONE);
@@ -43,9 +42,6 @@ public class EmptyRecyclerView extends RecyclerView {
                 EmptyRecyclerView.this.setVisibility(VISIBLE);
                 Log.e("myTag", "recycler view is visible");
             }
-//            EmptyRecyclerView.this.setVisibility(
-//                    getAdapter() == null || getAdapter().getItemCount() == 0 ? GONE : VISIBLE);
-
         }
     }
     final AdapterDataObserver observer = new AdapterDataObserver() {
@@ -78,14 +74,9 @@ public class EmptyRecyclerView extends RecyclerView {
         if (adapter != null) {
             adapter.registerAdapterDataObserver(observer);
         }
-
-//        Log.e("myTag", "/////////////Calling from setAdapter");
-
-
     }
 
     public void setEmptyView(View view) {
         this.mEmptyView = view;
-//        Log.e("myTag", "/////////////Calling from setEmptyView");
     }
 }

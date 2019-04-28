@@ -15,7 +15,6 @@ import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CHECKED_YES;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CHECKED_NO;
 
-
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.PICKED_UP_YES;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.PICKED_UP_NO;
 
@@ -23,18 +22,13 @@ import static com.example.android.grocerie.data.IngredientContract.IngredientEnt
  * Created by matth on 4/5/2019.
  */
 
-/*
- * {@link ContentProvider} for Pets app.
- */
+
 public class IngredientProvider extends ContentProvider {
 
     /** Tag for the log messages */
     public static final String LOG_TAG = IngredientProvider.class.getSimpleName();
 
-
     IngredientDbHelper mDbHelper;
-
-
 
     /** URI matcher code for the content URI for the pets table */
     private static final int INGREDIENTS = 100;
@@ -57,7 +51,6 @@ public class IngredientProvider extends ContentProvider {
 
         sUriMatcher.addURI(IngredientContract.CONTENT_AUTHORITY, IngredientContract.PATH_INGREDIENTS, INGREDIENTS);
         sUriMatcher.addURI(IngredientContract.CONTENT_AUTHORITY, IngredientContract.PATH_INGREDIENTS + "/#", INGREDIENT_ID);
-
     }
 
     /**
@@ -80,7 +73,6 @@ public class IngredientProvider extends ContentProvider {
 
         Cursor cursor;
 
-
         int match = sUriMatcher.match(uri);
         switch (match)
         {
@@ -101,8 +93,6 @@ public class IngredientProvider extends ContentProvider {
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
         return cursor;
-
-
     }
 
     /**
@@ -124,8 +114,6 @@ public class IngredientProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
-
-
     }
 
     private Uri insertIngredient (Uri uri, ContentValues values)
@@ -180,8 +168,6 @@ public class IngredientProvider extends ContentProvider {
         return false;
     }
 
-
-
     /**
      * Updates the data at the given selection and selection arguments, with the new ContentValues.
      */
@@ -201,11 +187,7 @@ public class IngredientProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
-
-
-
     }
-
 
     private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs)
     {
@@ -244,14 +226,10 @@ public class IngredientProvider extends ContentProvider {
 //            }
 //        }
 
-
         if (values.size() == 0)
         {
             return 0;
         }
-
-
-
 
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
 
@@ -261,10 +239,7 @@ public class IngredientProvider extends ContentProvider {
         {
             getContext().getContentResolver().notifyChange(uri, null);
         }
-
         return rowsUpdated;
-
-
     }
 
     /**
@@ -292,16 +267,12 @@ public class IngredientProvider extends ContentProvider {
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
 
-
         if (rowsDeleted != 0)
         {
             getContext().getContentResolver().notifyChange(uri, null);
         }
 
         return rowsDeleted;
-
-
-
     }
 
     /**

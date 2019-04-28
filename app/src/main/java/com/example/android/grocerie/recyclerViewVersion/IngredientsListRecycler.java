@@ -31,7 +31,7 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
     EmptyRecyclerView mRecyclerView;
     RelativeLayout emptyView;
     private static final int INGREDIENT_LOADER = 0;
-    private IngredientRecyclerCursorAdapter mCursorAdapter;
+    private RecyclerCursorAdapter mCursorAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,13 +62,12 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
 
         //set default animator
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mCursorAdapter = new IngredientRecyclerCursorAdapter();
+        mCursorAdapter = new RecyclerCursorAdapter(IngredientEntry.INGREDIENT_LIST_TYPE);
         mRecyclerView.setAdapter(mCursorAdapter);
 
         mRecyclerView.setEmptyView(findViewById(R.id.empty_view));
 
         LoaderManager.getInstance(IngredientsListRecycler.this).initLoader(INGREDIENT_LOADER, null, IngredientsListRecycler.this);
-
     }
 
     private void insertDummyData() {
@@ -148,7 +147,6 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         values.clear();
     }
 
-
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
         // This adds menu items to the app bar.
@@ -177,7 +175,6 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     @NonNull
     @Override

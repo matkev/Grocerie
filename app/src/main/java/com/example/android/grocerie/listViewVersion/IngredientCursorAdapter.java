@@ -73,7 +73,7 @@ public class IngredientCursorAdapter extends CursorAdapter implements CompoundBu
 
         TextView nameTextView = (TextView) view.findViewById(R.id.textViewName);
         TextView summaryTextView = (TextView) view.findViewById(R.id.textViewSummary);
-        CheckBox checked = (CheckBox) view.findViewById(R.id.ingredient_list_checkBox);
+        CheckBox checked = (CheckBox) view.findViewById(R.id.checkBoxView);
 
         int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
         int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);

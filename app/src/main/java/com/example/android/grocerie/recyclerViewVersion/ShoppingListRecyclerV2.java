@@ -1,11 +1,9 @@
 package com.example.android.grocerie.recyclerViewVersion;
 
 
-import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.loader.app.LoaderManager;
@@ -31,8 +29,8 @@ public class ShoppingListRecyclerV2 extends AppCompatActivity {
     private static final int SHOP_LOADER = 1;
     private static final int PICKED_UP_LOADER = 2;
 
-    private ShoppingRecyclerCursorAdapter mCursorAdapter;
-    private ShoppingRecyclerCursorAdapter mPickedUpAdapter;
+    private RecyclerCursorAdapter mCursorAdapter;
+    private RecyclerCursorAdapter mPickedUpAdapter;
 
     private LoaderManager.LoaderCallbacks<Cursor> shoppingListLoader = new LoaderManager.LoaderCallbacks<Cursor>() {
         @NonNull
@@ -93,7 +91,6 @@ public class ShoppingListRecyclerV2 extends AppCompatActivity {
         EmptyRecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         EmptyRecyclerView.LayoutManager mPickedUpLayoutManager = new LinearLayoutManager(getApplicationContext());
 
-
         //set layout manager
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -101,18 +98,17 @@ public class ShoppingListRecyclerV2 extends AppCompatActivity {
 
         //set default animator
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mCursorAdapter = new ShoppingRecyclerCursorAdapter();
+        mCursorAdapter = new RecyclerCursorAdapter(IngredientEntry.SHOPPING_LIST_TYPE);
         mRecyclerView.setAdapter(mCursorAdapter);
 
         mPickedUpRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mPickedUpAdapter = new ShoppingRecyclerCursorAdapter();
+        mPickedUpAdapter = new RecyclerCursorAdapter(IngredientEntry.SHOPPING_LIST_TYPE);
         mPickedUpRecyclerView.setAdapter(mPickedUpAdapter);
 
         mRecyclerView.setEmptyView(findViewById(R.id.empty_view));
 
         LoaderManager.getInstance(ShoppingListRecyclerV2.this).initLoader(SHOP_LOADER, null, shoppingListLoader);
         LoaderManager.getInstance(ShoppingListRecyclerV2.this).initLoader(PICKED_UP_LOADER, null, pickedUpListLoader);
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

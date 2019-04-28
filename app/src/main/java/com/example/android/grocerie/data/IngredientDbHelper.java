@@ -17,12 +17,10 @@ public class IngredientDbHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
 
-
     public IngredientDbHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -37,7 +35,6 @@ public class IngredientDbHelper extends SQLiteOpenHelper {
                 + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + " INTEGER NOT NULL DEFAULT 0);";
 
         db.execSQL(SQL_CREATE_INGREDIENTS_TABLE);
-
     }
 
     @Override

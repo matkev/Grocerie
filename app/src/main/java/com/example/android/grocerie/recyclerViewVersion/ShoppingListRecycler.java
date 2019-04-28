@@ -1,11 +1,9 @@
 package com.example.android.grocerie.recyclerViewVersion;
 
 
-import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.loader.app.LoaderManager;
@@ -15,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +27,7 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
     EmptyRecyclerView mRecyclerView;
     RelativeLayout emptyView;
     private static final int SHOP_LOADER = 1;
-    private ShoppingRecyclerCursorAdapter mCursorAdapter;
+    private RecyclerCursorAdapter mCursorAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +48,7 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
 
         //set default animator
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mCursorAdapter = new ShoppingRecyclerCursorAdapter();
+        mCursorAdapter = new RecyclerCursorAdapter(IngredientEntry.SHOPPING_LIST_TYPE);
         mRecyclerView.setAdapter(mCursorAdapter);
 
         mRecyclerView.setEmptyView(findViewById(R.id.empty_view));
