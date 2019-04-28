@@ -15,6 +15,10 @@ import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CHECKED_YES;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CHECKED_NO;
 
+
+import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.PICKED_UP_YES;
+import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.PICKED_UP_NO;
+
 /**
  * Created by matth on 4/5/2019.
  */

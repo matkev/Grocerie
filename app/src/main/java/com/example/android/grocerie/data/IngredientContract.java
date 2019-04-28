@@ -30,6 +30,7 @@ public final class IngredientContract {
         public static final String COLUMN_INGREDIENT_UNIT = "unit";
         public static final String COLUMN_INGREDIENT_CHECKED = "checked";
         public static final String COLUMN_INGREDIENT_CATEGORY = "category";
+        public static final String COLUMN_INGREDIENT_PICKED_UP = "picked_up";
 
         public static final int FRUIT_AND_VEG = 0;
         public static final int MEAT_AND_PROT = 1;
@@ -41,26 +42,20 @@ public final class IngredientContract {
         public static final int MISC = 7;
         public static final int SNACKS = 8;
 
-
-
-
+        public static final int PICKED_UP_NO = 0;
+        public static final int PICKED_UP_YES = 1;
 
         public static final int CHECKED_NO = 0;
         public static final int CHECKED_YES = 1;
 
-
-
         //URI
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_INGREDIENTS);
-
 
         public static final String CONTENT_LIST_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_INGREDIENTS;
 
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_INGREDIENTS;
-
-
 
     }
 }
