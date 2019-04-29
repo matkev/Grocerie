@@ -42,8 +42,10 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
 
         View formNameView;
         if (mType == IngredientEntry.INGREDIENT_LIST_TYPE) {
+            Log.e("myTag", "ingredient list item inflated");
             formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingredient_list_item, parent, false);
         } else {
+            Log.e("myTag", "shopping list item inflated");
             formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.shopping_list_item, parent, false);
         }
         return new IngredientViewHolder(formNameView);
@@ -86,7 +88,7 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
             holder.CheckBox.setChecked(false);
         }
 
-        if (mType == SHOPPING_LIST_TYPE || mType == INGREDIENT_LIST_TYPE)
+        if (mType == SHOPPING_LIST_TYPE) // || mType == INGREDIENT_LIST_TYPE)
         {
             switch (category) {
                 case IngredientEntry.FRUIT_AND_VEG:
@@ -194,7 +196,7 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
             CheckBox = itemView.findViewById(R.id.checkBoxView);
             ingredientSummary = itemView.findViewById(R.id.ingredient_summary);
 
-            if (mType == SHOPPING_LIST_TYPE || mType == INGREDIENT_LIST_TYPE)
+            if (mType == SHOPPING_LIST_TYPE) //|| mType == INGREDIENT_LIST_TYPE)
             {
                 categoryTextView = itemView.findViewById(R.id.textViewCategory);
             }
