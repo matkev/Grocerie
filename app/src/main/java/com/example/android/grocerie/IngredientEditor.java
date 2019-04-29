@@ -34,6 +34,7 @@ import com.example.android.grocerie.data.IngredientDbHelper;
 public class IngredientEditor extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
 
+    private int mIngredientCategory;
     private boolean mIngredientHasChanged = false;
 
     private static final int EXISTING_INGREDIENT_LOADER = 0;
@@ -77,16 +78,6 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         Log.e("myTag", "The uri of the current row is " + mCurrentIngredientUri);
 
 
-
-        if (mCurrentIngredientUri == null) {
-            setTitle(R.string.editor_activity_title_new_ingredient);
-            invalidateOptionsMenu();
-        } else {
-            setTitle(R.string.editor_activity_title_edit_ingredient);
-            getLoaderManager().initLoader(EXISTING_INGREDIENT_LOADER, null, this);
-
-        }
-
         // Find all relevant views that we will need to read user input from
         mNameEditText = (EditText) findViewById(R.id.edit_ingredient_name);
         mAmountEditText = (EditText) findViewById(R.id.edit_ingredient_amount);
@@ -97,6 +88,48 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
 
 
         setupSpinner();
+
+
+        if (mCurrentIngredientUri == null) {
+            setTitle(R.string.editor_activity_title_new_ingredient);
+            mIngredientCategory = intent.getIntExtra("IngredientCategory", 0);
+            switch (mIngredientCategory) {
+                case IngredientEntry.FRUIT_AND_VEG:
+                    mCategorySpinner.setSelection(0);
+                    break;
+                case IngredientEntry.MEAT_AND_PROT:
+                    mCategorySpinner.setSelection(1);
+                    break;
+                case IngredientEntry.BREAD_AND_GRAIN:
+                    mCategorySpinner.setSelection(2);
+                    break;
+                case IngredientEntry.DAIRY:
+                    mCategorySpinner.setSelection(3);
+                    break;
+                case IngredientEntry.FROZEN:
+                    mCategorySpinner.setSelection(4);
+                    break;
+                case IngredientEntry.CANNED:
+                    mCategorySpinner.setSelection(5);
+                    break;
+                case IngredientEntry.DRINKS:
+                    mCategorySpinner.setSelection(6);
+                    break;
+                case IngredientEntry.SNACKS:
+                    mCategorySpinner.setSelection(7);
+                    break;
+                default:
+                    mCategorySpinner.setSelection(8);
+                    break;
+            }
+            invalidateOptionsMenu();
+        } else {
+            setTitle(R.string.editor_activity_title_edit_ingredient);
+            getLoaderManager().initLoader(EXISTING_INGREDIENT_LOADER, null, this);
+
+        }
+
+
 
 
         mNameEditText.setOnTouchListener(mTouchListener);

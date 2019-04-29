@@ -37,8 +37,8 @@ public final class IngredientContract {
         public static final int FROZEN = 4;
         public static final int CANNED = 5;
         public static final int DRINKS = 6;
-        public static final int MISC = 7;
-        public static final int SNACKS = 8;
+        public static final int SNACKS = 7;
+        public static final int MISC = 8;
 
         public static final int PICKED_UP_NO = 0;
         public static final int PICKED_UP_YES = 1;

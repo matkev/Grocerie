@@ -48,7 +48,7 @@ public class EmptyRecyclerView extends RecyclerView {
         @Override
         public void onChanged() {
             super.onChanged();
-            Log.e("myTag", "/////////////Calling from onChanged");
+//            Log.e("myTag", "/////////////Calling from onChanged");
             initEmptyView();
         }
         @Override

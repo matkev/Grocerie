@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".recyclerViewVersion.ShoppingListRecyclerV2"></activity>
+        <activity android:name=".fragmentVersion.MainShoppingListActivity"></activity>
+        <activity android:name=".fragmentVersion.MainIngredientListActivity" />
+        <activity android:name=".recyclerViewVersion.ShoppingListRecyclerV2" />
         <activity
             android:name=".recyclerViewVersion.IngredientsListRecycler"
             android:parentActivityName=".HomePage" />

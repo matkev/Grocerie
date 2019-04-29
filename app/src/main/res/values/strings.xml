@@ -30,7 +30,7 @@
     <string name="shopping_list_title">My Grocerie List</string>
     <string name="shopping_list_item_picked_up">Picked up</string>
     <string name="shopping_list_item_to_get">To get</string>
-    <string name="appbar_scrolling_view_behavior">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="appbar_scrolling_view_behavior">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
     <string name="delete_all_dialog_msg">Delete all ingredients?</string>
     <string name="editor_delete_all_ingredient_failed">Error with deleting ingredients</string>
     <string name="editor_delete_all_ingredient_successful">Ingredients deleted</string>
@@ -41,8 +41,13 @@
     <string name="action_empty_list">Empty List</string>
     <string name="empty_ingredient_list_title_text">It\'s a bit lonely here...</string>
     <string name="empty_ingredient_list_subtitle_text">Get started by adding an ingredient</string>
-    <string name="empty_shopping_list_subtitle_text">Get started by adding items from your ingredient list</string>
-    <string name="empty_shopping_list_title_text">Your fridge is either very full or very empty!</string>
+    <string name="empty_shopping_to_buy_list_subtitle_text">Get started by adding items from your ingredient list</string>
+    <string name="empty_shopping_to_buy_list_title_text">No ingredients on your list!</string>
+    <string name="empty_shopping_picked_up_list_subtitle_text">Check off items in your Grocerie list to see them here</string>
+    <string name="empty_shopping_picked_up_list_title_text">No ingredients in your basket!</string>
+    <string name="empty_shopping_list_subtitle_text">no ingredients here</string>
+    <string name="empty_shopping_list_title_text">add from your list</string>
+
     <string name="fruit_and_veggie">Fruits and Veggies</string>
     <string name="meat_and_prot">Meats and Proteins</string>
     <string name="bread_and_grain">Breads and Grains</string>
@@ -53,4 +58,9 @@
     <string name="misc">Misc</string>
     <string name="snacks">Snacks</string>
     <string name="ingredient_editor_category">Category</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="to_buy_list">My List</string>
+    <string name="picked_up_list">Picked Up</string>
 </resources>
