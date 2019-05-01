@@ -20,7 +20,7 @@ import android.widget.RelativeLayout;
 
 import com.example.android.grocerie.R;
 import com.example.android.grocerie.recyclerViewVersion.EmptyRecyclerView;
-import com.example.android.grocerie.recyclerViewVersion.RecyclerCursorAdapter;
+import com.example.android.grocerie.RecyclerCursorAdapter;
 
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 

@@ -1,4 +1,4 @@
-package com.example.android.grocerie.recyclerViewVersion;
+package com.example.android.grocerie;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -18,10 +18,9 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.android.grocerie.IngredientEditor;
-import com.example.android.grocerie.R;
 import com.example.android.grocerie.data.IngredientContract;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
+
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SHOPPING_LIST_TYPE;
 
@@ -148,6 +147,7 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
                 if (mType == INGREDIENT_LIST_TYPE)
                 {
                     values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checkboxString);
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, 0);
                 }
                 else
                 {

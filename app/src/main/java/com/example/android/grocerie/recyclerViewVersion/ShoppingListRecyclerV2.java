@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.android.grocerie.R;
+import com.example.android.grocerie.RecyclerCursorAdapter;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 
 public class ShoppingListRecyclerV2 extends AppCompatActivity {

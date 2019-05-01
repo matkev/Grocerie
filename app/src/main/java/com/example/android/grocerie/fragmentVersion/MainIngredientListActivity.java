@@ -238,6 +238,7 @@ public class MainIngredientListActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
 
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, "0");
 
         int rowsUpdated = getContentResolver().update(IngredientEntry.CONTENT_URI, values, null, null);
 

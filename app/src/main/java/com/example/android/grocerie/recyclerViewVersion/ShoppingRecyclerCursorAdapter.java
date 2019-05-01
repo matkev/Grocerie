@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.android.grocerie.BaseCursorAdapter;
 import com.example.android.grocerie.IngredientEditor;
 import com.example.android.grocerie.R;
 import com.example.android.grocerie.data.IngredientContract;

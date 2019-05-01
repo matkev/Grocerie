@@ -67,17 +67,19 @@ public class MainShoppingListActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_uncheck_all_entries:
-                uncheckAllIngredients();
+                emptyAllItems();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void uncheckAllIngredients()
+    private void emptyAllItems()
     {
         ContentValues values = new ContentValues();
 
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, "0");
+
 
         int rowsUpdated = getContentResolver().update(IngredientEntry.CONTENT_URI, values, null, null);
 

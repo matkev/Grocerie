@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.android.grocerie.IngredientEditor;
 import com.example.android.grocerie.R;
+import com.example.android.grocerie.RecyclerCursorAdapter;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

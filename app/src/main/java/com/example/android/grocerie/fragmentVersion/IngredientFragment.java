@@ -11,7 +11,6 @@ import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,7 +20,7 @@ import android.widget.RelativeLayout;
 
 import com.example.android.grocerie.R;
 import com.example.android.grocerie.recyclerViewVersion.EmptyRecyclerView;
-import com.example.android.grocerie.recyclerViewVersion.RecyclerCursorAdapter;
+import com.example.android.grocerie.RecyclerCursorAdapter;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.BREAD_AND_GRAIN;
