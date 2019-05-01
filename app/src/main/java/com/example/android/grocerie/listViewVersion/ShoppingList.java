@@ -35,7 +35,7 @@ public class ShoppingList extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_list);
-        setTitle(R.string.shopping_list_title);
+        setTitle(R.string.shopping_list_activity_title);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

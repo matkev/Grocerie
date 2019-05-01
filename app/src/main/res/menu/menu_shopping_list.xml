@@ -7,7 +7,12 @@
 
     <item
         android:id="@+id/action_uncheck_all_entries"
-        android:title="@string/action_empty_list"
+        android:title="@string/action_clear_list"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_uncheck_picked_up_entries"
+        android:title="@string/action_clear_picked_up_items"
         app:showAsAction="never" />
 
 </menu>

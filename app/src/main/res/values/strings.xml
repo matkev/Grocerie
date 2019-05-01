@@ -1,53 +1,90 @@
 <resources>
     <string name="app_name">Grocerie</string>
-    <string name="view_lists_button">View list</string>
-    <string name="view_ingredients_button">View ingredients</string>
-    <string name="action_clear_list">Clear list</string>
+
+    <!--menu button options-->
+    <string name="button_view_listview_shopping_list">View listview shopping list</string>
+    <string name="button_view_listview_ingredients">View listview ingredients</string>
+    <string name="button_view_recyclerview_shopping_list">View recyclerview shopping list</string>
+    <string name="button_view_recyclerview_ingredients">View recyclerview ingredients</string>
+    <string name="button_view_fragments_shopping_list">View fragments shopping list</string>
+    <string name="button_view_fragments_ingredients">View fragments ingredients</string>
+
+    <!--menu actions-->
+    <!--ingredient list menu-->
     <string name="action_add_dummy_data">Add dummy data</string>
+    <string name="action_delete_all_entries">Delete All Ingredients</string>
+    <string name="action_uncheck_all_entries">Uncheck All</string>
+
+    <!--editor menu-->
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+
+    <!--shopping list menu-->
+    <string name="action_clear_list">Clear all items</string>
+    <string name="action_clear_picked_up_items">Clear picked up items</string>
+
+
+    <!--editor layout-->
     <string name="ingredient_editor_overview">Overview</string>
+    <string name="ingredient_editor_add_to_list">Add to shopping list</string>
+    <string name="ingredient_editor_category">Category</string>
     <string name="hint_ingredient_name">Name</string>
     <string name="hint_ingredient_amount">Amount</string>
     <string name="hint_ingredient_unit">Units (g, mL, cups, etc.)</string>
-    <string name="editor_activity_title_new_ingredient">Add ingredient</string>
-    <string name="editor_activity_title_edit_ingredient">Edit ingredient</string>
+
+
+    <!--editor action toast messages-->
     <string name="editor_insert_ingredient_failed">Error with inserting ingredient</string>
     <string name="editor_insert_ingredient_succesful">Ingredient saved</string>
     <string name="editor_update_ingredient_failed">Error with updating ingredient</string>
     <string name="editor_update_ingredient_succesful">Ingredient updated</string>
-    <string name="action_delete">Delete</string>
-    <string name="action_save">Save</string>
+    <string name="editor_delete_ingredient_failed">Error with deleting ingredient</string>
+    <string name="editor_delete_ingredient_successful">Ingredient deleted</string>
+
+    <!--ingredient list action toast messages-->
+    <string name="ingredient_list_delete_all_ingredient_failed">Error with deleting ingredients</string>
+    <string name="ingredient_list_delete_all_ingredient_successful">Ingredients deleted</string>
+    <string name="ingredient_list_uncheck_all_ingredient_failed">Error with unchecking ingredients</string>
+    <string name="ingredient_list_uncheck_all_ingredient_successful">Unchecked all ingredients</string>
+
+    <!--shopping list action toast messages-->
+    <string name="shopping_list_clear_all_items_failed">Error with clearing all ingredients</string>
+    <string name="shopping_list_clear_all_items_successful">Ingredients cleared</string>
+    <string name="shopping_list_clear_picked_up_items_failed">Error with unchecking picked up ingredients</string>
+    <string name="shopping_list_clear_picked_up_items_successful">Unchecked picked up ingredients</string>
+
+
+    <!--user confirmation dialogs-->
     <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
     <string name="discard">Discard</string>
     <string name="keep_editing">Keep Editing</string>
     <string name="delete_dialog_msg">Delete this ingredient?</string>
+    <string name="delete_all_dialog_msg">Delete all ingredients?</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
-    <string name="editor_delete_ingredient_failed">Error with deleting ingredient</string>
-    <string name="editor_delete_ingredient_successful">Ingredient deleted</string>
-    <string name="activity_home_page">.HomePage</string>
-    <string name="ingredient_editor_add_to_list">Add to shopping list</string>
-    <string name="ingredients_list_title">My Ingredients List</string>
-    <string name="shopping_list_title">My Grocerie List</string>
-    <string name="shopping_list_item_picked_up">Picked up</string>
-    <string name="shopping_list_item_to_get">To get</string>
-    <string name="appbar_scrolling_view_behavior">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
-    <string name="delete_all_dialog_msg">Delete all ingredients?</string>
-    <string name="editor_delete_all_ingredient_failed">Error with deleting ingredients</string>
-    <string name="editor_delete_all_ingredient_successful">Ingredients deleted</string>
-    <string name="action_delete_all_entries">Delete All Ingredients</string>
-    <string name="action_uncheck_all_entries">Uncheck All</string>
-    <string name="editor_uncheck_all_ingredient_failed">Error with unchecking ingredients</string>
-    <string name="editor_uncheck_all_ingredient_successful">Unchecked all ingredients</string>
-    <string name="action_empty_list">Empty List</string>
+
+    <!--activity and fragment titles-->
+    <string name="ingredients_list_activity_title">My Ingredients List</string>
+    <string name="shopping_list_activity_title">My Grocerie List</string>
+    <string name="shopping_list_picked_up">Picked up</string>
+    <string name="shopping_list_my_list">My List</string>
+    <string name="editor_activity_title_new_ingredient">Add ingredient</string>
+    <string name="editor_activity_title_edit_ingredient">Edit ingredient</string>
+
+    <!--empty view texts-->
     <string name="empty_ingredient_list_title_text">It\'s a bit lonely here...</string>
     <string name="empty_ingredient_list_subtitle_text">Get started by adding an ingredient</string>
-    <string name="empty_shopping_to_buy_list_subtitle_text">Get started by adding items from your ingredient list</string>
-    <string name="empty_shopping_to_buy_list_title_text">No ingredients on your list!</string>
-    <string name="empty_shopping_picked_up_list_subtitle_text">Check off items in your Grocerie list to see them here</string>
-    <string name="empty_shopping_picked_up_list_title_text">No ingredients in your basket!</string>
-    <string name="empty_shopping_list_subtitle_text">no ingredients here</string>
-    <string name="empty_shopping_list_title_text">add from your list</string>
 
+    <string name="empty_shopping_to_buy_list_title_text">No ingredients on your list!</string>
+    <string name="empty_shopping_to_buy_list_subtitle_text">Get started by adding items from your ingredient list</string>
+
+    <string name="empty_shopping_picked_up_list_title_text">No ingredients in your basket!</string>
+    <string name="empty_shopping_picked_up_list_subtitle_text">Check off items in your Grocerie list to see them here</string>
+
+    <string name="empty_shopping_list_title_text">No ingredients on your list!</string>
+    <string name="empty_shopping_list_subtitle_text">Get started by adding items from your ingredient list</string>
+
+    <!--categories-->
     <string name="fruit_and_veggie">Fruits and Veggies</string>
     <string name="meat_and_prot">Meats and Proteins</string>
     <string name="bread_and_grain">Breads and Grains</string>
@@ -57,10 +94,10 @@
     <string name="drinks">Drinks</string>
     <string name="misc">Misc</string>
     <string name="snacks">Snacks</string>
-    <string name="ingredient_editor_category">Category</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="to_buy_list">My List</string>
-    <string name="picked_up_list">Picked Up</string>
+    <!--For scrolling behavior in coordinator layout-->
+    <string name="appbar_scrolling_view_behavior">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
+
+
+
 </resources>

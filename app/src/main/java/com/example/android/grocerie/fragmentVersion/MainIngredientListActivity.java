@@ -13,8 +13,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.icu.util.Measure;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +22,6 @@ import android.widget.Toast;
 
 import com.example.android.grocerie.IngredientEditor;
 import com.example.android.grocerie.R;
-import com.example.android.grocerie.recyclerViewVersion.IngredientsListRecycler;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
@@ -37,9 +36,6 @@ import static com.example.android.grocerie.data.IngredientContract.IngredientEnt
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SNACKS;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.MISC;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainIngredientListActivity extends AppCompatActivity {
 
     ViewPager viewPager;
@@ -53,9 +49,8 @@ public class MainIngredientListActivity extends AppCompatActivity {
 
         initViewPagerAndTabs();
 
-
         // Setup FAB to open EditorActivity
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,11 +61,10 @@ public class MainIngredientListActivity extends AppCompatActivity {
         });
     }
 
-
     private void initToolbar() {
         Toolbar mToolbar = findViewById(R.id.scrolling_toolbar);
         setSupportActionBar(mToolbar);
-        setTitle(getString(R.string.ingredients_list_title));
+        setTitle(getString(R.string.ingredients_list_activity_title));
     }
 
     private void initViewPagerAndTabs() {
@@ -173,16 +167,13 @@ public class MainIngredientListActivity extends AppCompatActivity {
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_add_dummy_data:
                 insertDummyData();
-
                 return true;
             case R.id.action_delete_all_entries:
                 showDeleteConfirmationDialog();
-
                 return true;
-            case R.id.action_uncheck_all_entries:
-                uncheckAllIngredients();
+            case R.id.action_clear_all_entries:
+                clearAllItems();
                 return true;
-            // Respond to a click on the "Delete all entries" menu option
             //TODO: sort by alphabet or most recent
         }
         return super.onOptionsItemSelected(item);
@@ -224,32 +215,37 @@ public class MainIngredientListActivity extends AppCompatActivity {
         // Show a toast message depending on whether or not the delete was successful.
         if (rowsDeleted == 0) {
             // If no rows were deleted, then there was an error with the delete.
-            Toast.makeText(this, getString(R.string.editor_delete_all_ingredient_failed),
+            Toast.makeText(this, getString(R.string.ingredient_list_delete_all_ingredient_failed),
                     Toast.LENGTH_SHORT).show();
         } else {
             // Otherwise, the delete was successful and we can display a toast.
-            Toast.makeText(this, getString(R.string.editor_delete_all_ingredient_successful),
+            Toast.makeText(this, getString(R.string.ingredient_list_delete_all_ingredient_successful),
                     Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void uncheckAllIngredients() {
-
+    private void clearAllItems()
+    {
         ContentValues values = new ContentValues();
 
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
         values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, "0");
 
-        int rowsUpdated = getContentResolver().update(IngredientEntry.CONTENT_URI, values, null, null);
+        String selection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=?";
+
+        String[] selectionArgs = new String[]{"1"};
+        int rowsUpdated = getContentResolver().update(IngredientEntry.CONTENT_URI, values, selection, selectionArgs);
+
+        Log.e("myTag", "rows of checked items updated: " + rowsUpdated);
 
         // Show a toast message depending on whether or not the delete was successful.
         if (rowsUpdated == 0) {
             // If no rows were deleted, then there was an error with the delete.
-            Toast.makeText(this, getString(R.string.editor_uncheck_all_ingredient_failed),
+            Toast.makeText(this, getString(R.string.ingredient_list_uncheck_all_ingredient_failed),
                     Toast.LENGTH_SHORT).show();
         } else {
             // Otherwise, the delete was successful and we can display a toast.
-            Toast.makeText(this, getString(R.string.editor_uncheck_all_ingredient_successful),
+            Toast.makeText(this, getString(R.string.ingredient_list_uncheck_all_ingredient_successful),
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -262,11 +258,6 @@ public class MainIngredientListActivity extends AppCompatActivity {
             super(fragmentManager);
             mContext = context;
         }
-
-//        public void addFragment(Fragment fragment, String title) {
-//            fragmentList.add(fragment);
-//            fragmentTitleList.add(title);
-//        }
 
         @Override
         public Fragment getItem(int position) {
@@ -301,7 +292,5 @@ public class MainIngredientListActivity extends AppCompatActivity {
             }
         }
     }
-
-
 }
 

@@ -38,7 +38,7 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredients_list_recycler);
 
-        setTitle(R.string.ingredients_list_title);
+        setTitle(R.string.ingredients_list_activity_title);
         Toolbar toolbar = (Toolbar) findViewById(R.id.scrolling_toolbar);
         setSupportActionBar(toolbar);
 
@@ -250,11 +250,11 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         // Show a toast message depending on whether or not the delete was successful.
         if (rowsDeleted == 0) {
             // If no rows were deleted, then there was an error with the delete.
-            Toast.makeText(this, getString(R.string.editor_delete_all_ingredient_failed),
+            Toast.makeText(this, getString(R.string.ingredient_list_delete_all_ingredient_failed),
                     Toast.LENGTH_SHORT).show();
         } else {
             // Otherwise, the delete was successful and we can display a toast.
-            Toast.makeText(this, getString(R.string.editor_delete_all_ingredient_successful),
+            Toast.makeText(this, getString(R.string.ingredient_list_delete_all_ingredient_successful),
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -270,11 +270,11 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
         // Show a toast message depending on whether or not the delete was successful.
         if (rowsUpdated == 0) {
             // If no rows were deleted, then there was an error with the delete.
-            Toast.makeText(this, getString(R.string.editor_uncheck_all_ingredient_failed),
+            Toast.makeText(this, getString(R.string.ingredient_list_uncheck_all_ingredient_failed),
                     Toast.LENGTH_SHORT).show();
         } else {
             // Otherwise, the delete was successful and we can display a toast.
-            Toast.makeText(this, getString(R.string.editor_uncheck_all_ingredient_successful),
+            Toast.makeText(this, getString(R.string.ingredient_list_uncheck_all_ingredient_successful),
                     Toast.LENGTH_SHORT).show();
         }
     }

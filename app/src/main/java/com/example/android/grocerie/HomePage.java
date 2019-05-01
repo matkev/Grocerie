@@ -24,30 +24,44 @@ public class HomePage extends AppCompatActivity {
 
     }
 
-    public void sendToList(View view)
+    public void sendToListViewShoppingList(View view)
+    {
+        Intent intent = new Intent (this, ShoppingList.class);
+
+        startActivity(intent);
+    }
+
+    public void sendToListViewIngredientList(View view)
+    {
+        Intent intent = new Intent(this, IngredientsList.class);
+
+        startActivity(intent);
+    }
+
+    public void sendToRecyclerViewShoppingList(View view)
     {
         Intent intent = new Intent (this, ShoppingListRecyclerV2.class);
 
         startActivity(intent);
     }
 
-    public void sendToIngredients(View view)
+    public void sendToRecyclerViewIngredientList(View view)
     {
-        Intent intent = new Intent(this, MainIngredientListActivity.class);
+        Intent intent = new Intent(this, IngredientsListRecycler.class);
 
         startActivity(intent);
     }
 
-    public void sendToRecyclerList(View view)
+    public void sendToFragmentsShoppingList(View view)
     {
         Intent intent = new Intent(this, MainShoppingListActivity.class);
 
         startActivity(intent);
     }
 
-    public void sendToRecyclerIngredients (View view)
+    public void sendToFragmentsIngredientList (View view)
     {
-        Intent intent = new Intent(this, IngredientsListRecycler.class);
+        Intent intent = new Intent(this, MainIngredientListActivity.class);
 
         startActivity(intent);
     }

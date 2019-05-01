@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="@string/shopping_list_item_to_get" />
+            android:text="@string/shopping_list_my_list" />
 
         <ListView
             android:id="@+id/shopping_list_view_v2"
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dip"
             android:gravity="center_vertical"
-            android:text="@string/shopping_list_item_picked_up" />
+            android:text="@string/shopping_list_picked_up" />
 
         <ListView
             android:id="@+id/shopping_list_view_v2_grayzone"

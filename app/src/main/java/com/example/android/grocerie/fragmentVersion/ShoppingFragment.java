@@ -58,7 +58,40 @@ public class ShoppingFragment extends Fragment {
         @NonNull
         @Override
         public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-            return shoppingListLoader();
+
+            String [] projection = {
+                    IngredientEntry._ID,
+                    IngredientEntry.COLUMN_INGREDIENT_NAME,
+                    IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
+                    IngredientEntry.COLUMN_INGREDIENT_UNIT,
+                    IngredientEntry.COLUMN_INGREDIENT_CHECKED,
+                    IngredientEntry.COLUMN_INGREDIENT_CATEGORY,
+                    IngredientEntry.COLUMN_INGREDIENT_PICKED_UP};
+
+            String selection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=? AND " + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + " =?";
+
+            String[] selectionArgs;
+
+            switch (id) {
+                case PICKED_UP_LOADER:
+                    Log.e("myTag", "The loader id is : " + PICKED_UP_LOADER);
+                    selectionArgs = new String[]{"1","1"};
+                    break;
+                default:
+                    Log.e("myTag", "The loader id is : " + TO_BUY_LOADER);
+                    selectionArgs = new String[]{"1","0"};
+                    break;
+            }
+
+            return new CursorLoader(getActivity(),
+                    IngredientEntry.CONTENT_URI,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null);
+
+
+//            return shoppingListLoader();
 
 //            if (id == INGREDIENT_LOADER) {
 //                Log.e("myTag", "new loader in onCreate");
@@ -109,31 +142,16 @@ public class ShoppingFragment extends Fragment {
 
         }
 
-//        // Setup FAB to open EditorActivity
-//        FloatingActionButton fab = mRootView.findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), IngredientEditor.class);
-//                intent.putExtra(ingredientCategoryKey, mIngredientCategory);
-//                startActivity(intent);
-//            }
-//        });
-
         mRecyclerView = mRootView.findViewById(R.id.recyclerView);
         emptyView = mRootView.findViewById(R.id.empty_view);
 
         mRecyclerView.setEmptyView(emptyView);
-
-
-
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mCursorAdapter = new RecyclerCursorAdapter(SHOPPING_LIST_TYPE);
         mRecyclerView.setAdapter(mCursorAdapter);
 
         Log.e("myTag", "Called from onCreateView: this list type is : " + mListType);
-        Log.e("myTag", "new loader to be initiated");
 
         switch (mListType) {
             case PICKED_UP_LIST:
@@ -149,39 +167,37 @@ public class ShoppingFragment extends Fragment {
         return mRootView;
     }
 
-    private Loader<Cursor> shoppingListLoader()
-    {
-        String [] projection = {
-                IngredientEntry._ID,
-                IngredientEntry.COLUMN_INGREDIENT_NAME,
-                IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
-                IngredientEntry.COLUMN_INGREDIENT_UNIT,
-                IngredientEntry.COLUMN_INGREDIENT_CHECKED,
-                IngredientEntry.COLUMN_INGREDIENT_CATEGORY,
-                IngredientEntry.COLUMN_INGREDIENT_PICKED_UP};
-
-        String selection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=? AND " + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + " =?";
-
-        String[] selectionArgs;
-
-        switch (mListType) {
-            case PICKED_UP_LIST:
-                Log.e("myTag", "The loader id is : " + PICKED_UP_LOADER);
-                selectionArgs = new String[]{"1","1"};
-                break;
-            default:
-                Log.e("myTag", "The loader id is : " + TO_BUY_LOADER);
-                selectionArgs = new String[]{"1","0"};
-                break;
-        }
-
-        return new CursorLoader(getActivity(),
-                IngredientEntry.CONTENT_URI,
-                projection,
-                selection,
-                selectionArgs,
-                null);
-    }
-
-
+//    private Loader<Cursor> shoppingListLoader()
+//    {
+//        String [] projection = {
+//                IngredientEntry._ID,
+//                IngredientEntry.COLUMN_INGREDIENT_NAME,
+//                IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
+//                IngredientEntry.COLUMN_INGREDIENT_UNIT,
+//                IngredientEntry.COLUMN_INGREDIENT_CHECKED,
+//                IngredientEntry.COLUMN_INGREDIENT_CATEGORY,
+//                IngredientEntry.COLUMN_INGREDIENT_PICKED_UP};
+//
+//        String selection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=? AND " + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + " =?";
+//
+//        String[] selectionArgs;
+//
+//        switch (mListType) {
+//            case PICKED_UP_LIST:
+//                Log.e("myTag", "The loader id is : " + PICKED_UP_LOADER);
+//                selectionArgs = new String[]{"1","1"};
+//                break;
+//            default:
+//                Log.e("myTag", "The loader id is : " + TO_BUY_LOADER);
+//                selectionArgs = new String[]{"1","0"};
+//                break;
+//        }
+//
+//        return new CursorLoader(getActivity(),
+//                IngredientEntry.CONTENT_URI,
+//                projection,
+//                selection,
+//                selectionArgs,
+//                null);
+//    }
 }

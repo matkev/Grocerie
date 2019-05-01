@@ -15,7 +15,7 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_uncheck_all_entries"
+        android:id="@+id/action_clear_all_entries"
         android:title="@string/action_uncheck_all_entries"
         app:showAsAction="never" />
 
