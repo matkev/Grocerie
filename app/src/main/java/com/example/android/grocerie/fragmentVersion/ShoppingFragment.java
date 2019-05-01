@@ -41,8 +41,8 @@ public class ShoppingFragment extends Fragment {
     private RecyclerCursorAdapter mCursorAdapter;
 
     private static final String listTypeKey = "listType";
-    private int mListType;
 
+    private int mListType;
 
     public ShoppingFragment() {
         // Required empty public constructor
@@ -89,15 +89,6 @@ public class ShoppingFragment extends Fragment {
                     selection,
                     selectionArgs,
                     null);
-
-
-//            return shoppingListLoader();
-
-//            if (id == INGREDIENT_LOADER) {
-//                Log.e("myTag", "new loader in onCreate");
-//                return ingredientListLoader();
-//            }
-//            return null;
         }
 
         @Override
@@ -125,6 +116,10 @@ public class ShoppingFragment extends Fragment {
                              Bundle savedInstanceState) {
 //        mRecyclerView = (EmptyRecyclerView) inflater.inflate(
 //                R.layout.fragment_ingredient, container, false);
+
+        Bundle bundle = getArguments();
+
+        mListType = bundle.getInt(listTypeKey);
 
         if (mRootView == null)
         {

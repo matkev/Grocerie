@@ -26,6 +26,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.FRUIT_AND_VEG;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.MEAT_AND_PROT;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.BREAD_AND_GRAIN;
@@ -70,6 +73,18 @@ public class MainIngredientListActivity extends AppCompatActivity {
     private void initViewPagerAndTabs() {
         viewPager = findViewById(R.id.viewPager);
         PagerAdapter pagerAdapter = new PagerAdapter(this, getSupportFragmentManager());
+
+
+        pagerAdapter.addFragment(IngredientFragment.newInstance(0), getString(R.string.fruit_and_veggie));
+        pagerAdapter.addFragment(IngredientFragment.newInstance(1), getString(R.string.meat_and_prot));
+        pagerAdapter.addFragment(IngredientFragment.newInstance(2), getString(R.string.bread_and_grain));
+        pagerAdapter.addFragment(IngredientFragment.newInstance(3), getString(R.string.dairy));
+        pagerAdapter.addFragment(IngredientFragment.newInstance(4), getString(R.string.frozen));
+        pagerAdapter.addFragment(IngredientFragment.newInstance(5), getString(R.string.canned));
+        pagerAdapter.addFragment(IngredientFragment.newInstance(6), getString(R.string.drinks));
+        pagerAdapter.addFragment(IngredientFragment.newInstance(7), getString(R.string.snacks));
+        pagerAdapter.addFragment(IngredientFragment.newInstance(8), getString(R.string.misc));
+
 
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = findViewById(R.id.tabLayout);
@@ -252,6 +267,8 @@ public class MainIngredientListActivity extends AppCompatActivity {
 
     static class PagerAdapter extends FragmentPagerAdapter {
 
+        private final List<Fragment> fragmentList = new ArrayList<>();
+        private final List<String> fragmentTitleList = new ArrayList<>();
         private Context mContext;
 
         public PagerAdapter(Context context, FragmentManager fragmentManager) {
@@ -261,36 +278,55 @@ public class MainIngredientListActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new IngredientFragment(position);
+            return fragmentList.get(position);
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            fragmentList.add(fragment);
+            fragmentTitleList.add(title);
         }
 
         @Override
         public int getCount() {
-            return 9;
+            return fragmentList.size();
         }
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case FRUIT_AND_VEG:
-                    return mContext.getString(R.string.fruit_and_veggie);
-                case MEAT_AND_PROT:
-                    return mContext.getString(R.string.meat_and_prot);
-                case BREAD_AND_GRAIN:
-                    return mContext.getString(R.string.bread_and_grain);
-                case DAIRY:
-                    return mContext.getString(R.string.dairy);
-                case FROZEN:
-                    return mContext.getString(R.string.frozen);
-                case CANNED:
-                    return mContext.getString(R.string.canned);
-                case DRINKS:
-                    return mContext.getString(R.string.drinks);
-                case SNACKS:
-                    return mContext.getString(R.string.snacks);
-                default:
-                    return mContext.getString(R.string.misc);
-            }
+            return fragmentTitleList.get(position);
         }
+
+//        @Override
+//        public Fragment getItem(int position) {
+//            return new IngredientFragment(position);
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return 9;
+//        }
+//        @Override
+//        public CharSequence getPageTitle(int position) {
+//            switch (position) {
+//                case FRUIT_AND_VEG:
+//                    return mContext.getString(R.string.fruit_and_veggie);
+//                case MEAT_AND_PROT:
+//                    return mContext.getString(R.string.meat_and_prot);
+//                case BREAD_AND_GRAIN:
+//                    return mContext.getString(R.string.bread_and_grain);
+//                case DAIRY:
+//                    return mContext.getString(R.string.dairy);
+//                case FROZEN:
+//                    return mContext.getString(R.string.frozen);
+//                case CANNED:
+//                    return mContext.getString(R.string.canned);
+//                case DRINKS:
+//                    return mContext.getString(R.string.drinks);
+//                case SNACKS:
+//                    return mContext.getString(R.string.snacks);
+//                default:
+//                    return mContext.getString(R.string.misc);
+//            }
+//        }
     }
 }
 

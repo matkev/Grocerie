@@ -19,6 +19,9 @@ import com.example.android.grocerie.R;
 import com.google.android.material.tabs.TabLayout;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainShoppingListActivity extends AppCompatActivity {
 
     ViewPager viewPager;
@@ -44,6 +47,11 @@ public class MainShoppingListActivity extends AppCompatActivity {
     private void initViewPagerAndTabs() {
         viewPager = findViewById(R.id.viewPager);
         PagerAdapter pagerAdapter = new PagerAdapter(this, getSupportFragmentManager());
+
+
+        pagerAdapter.addFragment(ShoppingFragment.newInstance(0), getString(R.string.shopping_list_my_list));
+        pagerAdapter.addFragment(ShoppingFragment.newInstance(1), getString(R.string.shopping_list_picked_up));
+
 
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = findViewById(R.id.tabLayout);
@@ -124,6 +132,9 @@ public class MainShoppingListActivity extends AppCompatActivity {
 
     static class PagerAdapter extends FragmentPagerAdapter {
 
+
+        private final List<Fragment> fragmentList = new ArrayList<>();
+        private final List<String> fragmentTitleList = new ArrayList<>();
         private Context mContext;
 
         public PagerAdapter(Context context, FragmentManager fragmentManager) {
@@ -133,21 +144,39 @@ public class MainShoppingListActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new ShoppingFragment(position);
+            return fragmentList.get(position);
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            fragmentList.add(fragment);
+            fragmentTitleList.add(title);
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return fragmentList.size();
         }
         @Override
         public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case PICKED_UP_LIST:
-                    return mContext.getString(R.string.shopping_list_picked_up);
-                default:
-                    return mContext.getString(R.string.shopping_list_my_list);
-            }
+            return fragmentTitleList.get(position);
         }
+
+//        public Fragment getItem(int position) {
+//            return new ShoppingFragment(position);
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return 2;
+//        }
+//        @Override
+//        public CharSequence getPageTitle(int position) {
+//            switch (position) {
+//                case PICKED_UP_LIST:
+//                    return mContext.getString(R.string.shopping_list_picked_up);
+//                default:
+//                    return mContext.getString(R.string.shopping_list_my_list);
+//            }
+//        }
     }
 }

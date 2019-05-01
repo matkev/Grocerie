@@ -161,6 +161,11 @@ public class IngredientFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
+        Bundle bundle = getArguments();
+
+        mIngredientCategory = bundle.getInt(ingredientCategoryKey);
+
         if (mRootView == null)
         {
             Log.e("myTag", "The root view is null");
