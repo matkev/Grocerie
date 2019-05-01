@@ -53,7 +53,7 @@ public class IngredientCursorAdapter extends CursorAdapter implements CompoundBu
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
 
-        return LayoutInflater.from(context).inflate(R.layout.ingredient_list_item, parent, false);
+        return LayoutInflater.from(context).inflate(R.layout.generic_ingredient_item, parent, false);
     }
 
     /**

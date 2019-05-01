@@ -40,13 +40,16 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
         this.mContext = parent.getContext();
 
         View formNameView;
-        if (mType == IngredientEntry.INGREDIENT_LIST_TYPE) {
-            Log.e("myTag", "ingredient list item inflated");
-            formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingredient_list_item, parent, false);
-        } else {
-            Log.e("myTag", "shopping list item inflated");
-            formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.shopping_list_item, parent, false);
-        }
+
+        formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_ingredient_item, parent, false);
+
+//        if (mType == IngredientEntry.INGREDIENT_LIST_TYPE) {
+//            Log.e("myTag", "ingredient list item inflated");
+//            formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingredient_list_item, parent, false);
+//        } else {
+//            Log.e("myTag", "shopping list item inflated");
+//            formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.shopping_list_item, parent, false);
+//        }
         return new IngredientViewHolder(formNameView);
     }
 

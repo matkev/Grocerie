@@ -34,7 +34,7 @@ public class ShoppingRecyclerCursorAdapter extends BaseCursorAdapter<ShoppingRec
     public ShoppingRecyclerCursorAdapter.IngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         this.mContext = parent.getContext();
 
-        View formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.shopping_list_item, parent, false);
+        View formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_ingredient_item, parent, false);
         return new ShoppingRecyclerCursorAdapter.IngredientViewHolder(formNameView);
     }
 

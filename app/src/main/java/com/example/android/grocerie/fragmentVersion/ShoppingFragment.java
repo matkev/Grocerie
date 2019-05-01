@@ -124,7 +124,7 @@ public class ShoppingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 //        mRecyclerView = (EmptyRecyclerView) inflater.inflate(
-//                R.layout.ingredient_fragment, container, false);
+//                R.layout.fragment_ingredient, container, false);
 
         if (mRootView == null)
         {
@@ -132,12 +132,12 @@ public class ShoppingFragment extends Fragment {
             if (mListType == TO_BUY_LIST)
             {
                 mRootView = (ConstraintLayout) inflater.inflate(
-                        R.layout.to_buy_shopping_fragment, container, false);
+                        R.layout.fragment_to_buy_shopping, container, false);
             }
             else
             {
                 mRootView = (ConstraintLayout) inflater.inflate(
-                        R.layout.picked_up_shopping_fragment, container, false);
+                        R.layout.fragment_picked_up_shopping, container, false);
             }
 
         }

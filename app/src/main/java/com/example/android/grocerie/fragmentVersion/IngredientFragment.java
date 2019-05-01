@@ -165,7 +165,7 @@ public class IngredientFragment extends Fragment {
         {
             Log.e("myTag", "The root view is null");
             mRootView = (ConstraintLayout) inflater.inflate(
-                    R.layout.ingredient_fragment, container, false);
+                    R.layout.fragment_ingredient, container, false);
         }
 
         mRecyclerView = mRootView.findViewById(R.id.recyclerView);
