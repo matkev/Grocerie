@@ -236,12 +236,28 @@ public class MainIngredientListActivity extends AppCompatActivity {
         // Show a toast message depending on whether or not the delete was successful.
         if (rowsDeleted == 0) {
             // If no rows were deleted, then there was an error with the delete.
-            Toast.makeText(this, getString(R.string.ingredient_list_delete_all_ingredient_failed),
-                    Toast.LENGTH_SHORT).show();
-        } else {
+            showSnackbar(
+                    mainView,
+                    getString(R.string.ingredient_list_delete_all_ingredient_failed),
+                    Toast.LENGTH_SHORT);
+
+//            Toast.makeText(this, getString(R.string.ingredient_list_delete_all_ingredient_failed),
+//                    Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
             // Otherwise, the delete was successful and we can display a toast.
-            Toast.makeText(this, getString(R.string.ingredient_list_delete_all_ingredient_successful),
-                    Toast.LENGTH_SHORT).show();
+
+            //query the database for all ingredients
+            //get the cursor
+            //on UNDO, go through the cursor one at a time and get values and insert all the ignredients
+            showSnackbar(
+                    mainView,
+                    getString(R.string.ingredient_list_delete_all_ingredient_successful),
+                    Toast.LENGTH_SHORT);
+
+//            Toast.makeText(this, getString(R.string.ingredient_list_delete_all_ingredient_successful),
+//                    Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -262,12 +278,28 @@ public class MainIngredientListActivity extends AppCompatActivity {
         // Show a toast message depending on whether or not the delete was successful.
         if (rowsUpdated == 0) {
             // If no rows were deleted, then there was an error with the delete.
-            Toast.makeText(this, getString(R.string.ingredient_list_uncheck_all_ingredient_failed),
-                    Toast.LENGTH_SHORT).show();
-        } else {
+
+            showSnackbar(
+                    mainView,
+                    getString(R.string.ingredient_list_uncheck_all_ingredient_failed),
+                    Toast.LENGTH_SHORT);
+//            Toast.makeText(this, getString(R.string.ingredient_list_uncheck_all_ingredient_failed),
+//                    Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
             // Otherwise, the delete was successful and we can display a toast.
-            Toast.makeText(this, getString(R.string.ingredient_list_uncheck_all_ingredient_successful),
-                    Toast.LENGTH_SHORT).show();
+
+            //query the database for all checked ingredients
+            //get the cursor
+            //on UNDO, go through the cursor one at a time and get ids and update the ignredients to be checked
+            showSnackbar(
+                    mainView,
+                    getString(R.string.ingredient_list_uncheck_all_ingredient_successful),
+                    Toast.LENGTH_SHORT);
+//
+//            Toast.makeText(this, getString(R.string.ingredient_list_uncheck_all_ingredient_successful),
+//                    Toast.LENGTH_SHORT).show();
         }
     }
 
