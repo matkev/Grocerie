@@ -13,6 +13,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 import com.example.android.grocerie.IngredientEditor;
 import com.example.android.grocerie.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 
@@ -41,12 +43,16 @@ import static com.example.android.grocerie.data.IngredientContract.IngredientEnt
 
 public class MainIngredientListActivity extends AppCompatActivity {
 
+    View mainView;
+    static final int EDITOR_REQUEST = 1;  // The request code
+
     ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_ingredient_list_fragments);
+        mainView = findViewById(R.id.main_layout_id);
 
         initToolbar();
 
@@ -59,7 +65,7 @@ public class MainIngredientListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainIngredientListActivity.this, IngredientEditor.class);
                 intent.putExtra("IngredientCategory", viewPager.getCurrentItem());
-                startActivity(intent);
+                startActivityForResult(intent, EDITOR_REQUEST);
             }
         });
     }
@@ -327,6 +333,148 @@ public class MainIngredientListActivity extends AppCompatActivity {
 //                    return mContext.getString(R.string.misc);
 //            }
 //        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == EDITOR_REQUEST) {
+            Bundle oldValues;
+            ContentValues values;
+
+            // Make sure the request was successful
+            switch (resultCode)
+            {
+                case 0:
+                    Log.e("intent", "return code was 0");
+                    showSnackbar(
+                        mainView,
+                        getString(R.string.editor_insert_ingredient_failed),
+                        Toast.LENGTH_SHORT);
+                    return;
+                case 1:
+                    Log.e("intent", "return code was 1");
+
+                    Uri newUri = Uri.parse(data.getStringExtra("newUri"));
+                    insertUndoSnackbar(
+                            mainView,
+                            getString(R.string.editor_insert_ingredient_succesful),
+                            Toast.LENGTH_SHORT,
+                            newUri);
+                    return;
+                case 2:
+                    showSnackbar(
+                            mainView,
+                            getString(R.string.editor_update_ingredient_failed),
+                            Toast.LENGTH_SHORT);
+                    return;
+                case 3:
+                    Uri currentIngredientUri = Uri.parse(data.getStringExtra("currentIngredientUri"));
+                    oldValues = data.getBundleExtra("oldValues");
+
+                    values = new ContentValues();
+
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, oldValues.getString("name"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, oldValues.getInt("amount"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, oldValues.getString("unit"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, oldValues.getInt("toBuy"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, oldValues.getInt("category"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, oldValues.getInt("pickedUp"));
+
+
+                    updateUndoSnackbar(
+                            mainView,
+                            getString(R.string.editor_update_ingredient_succesful),
+                            Toast.LENGTH_SHORT,
+                            currentIngredientUri,
+                            values);
+                    return;
+                case 4:
+                    showSnackbar(
+                            mainView,
+                            getString(R.string.editor_delete_ingredient_failed),
+                            Toast.LENGTH_SHORT);
+                    return;
+                case 5:
+
+                    oldValues = data.getBundleExtra("oldValues");
+
+                    values = new ContentValues();
+
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, oldValues.getString("name"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, oldValues.getInt("amount"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, oldValues.getString("unit"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, oldValues.getInt("toBuy"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, oldValues.getInt("category"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, oldValues.getInt("pickedUp"));
+
+
+                    deleteUndoSnackBar(
+                            mainView,
+                            getString(R.string.editor_delete_ingredient_successful),
+                            Toast.LENGTH_SHORT,
+                            values);
+                    return;
+            }
+        }
+    }
+
+    public void showSnackbar(View view, String message, int duration)
+    {
+        // Create snackbar
+        final Snackbar snackbar = Snackbar.make(view, message, duration);
+        snackbar.show();
+    }
+
+    public void insertUndoSnackbar(View view, String message, int duration, Uri uri)
+    {
+        // Create snackbar
+        final Snackbar snackbar = Snackbar.make(view, message, duration);
+
+        // Set an action on it, and a handler
+        snackbar.setAction("UNDO", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContentResolver().delete(uri, null, null);
+                snackbar.dismiss();
+            }
+        });
+
+        snackbar.show();
+    }
+
+    public void updateUndoSnackbar(View view, String message, int duration, Uri uri, ContentValues values)
+    {
+        // Create snackbar
+        final Snackbar snackbar = Snackbar.make(view, message, duration);
+
+        // Set an action on it, and a handler
+        snackbar.setAction("UNDO", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContentResolver().update(uri, values, null, null);
+                snackbar.dismiss();
+            }
+        });
+
+        snackbar.show();
+    }
+
+
+    public void deleteUndoSnackBar(View view, String message, int duration, ContentValues values)
+    {
+        // Create snackbar
+        final Snackbar snackbar = Snackbar.make(view, message, duration);
+
+        // Set an action on it, and a handler
+        snackbar.setAction("UNDO", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+                snackbar.dismiss();
+            }
+        });
+
+        snackbar.show();
     }
 }
 

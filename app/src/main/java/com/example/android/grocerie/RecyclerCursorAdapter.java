@@ -1,5 +1,6 @@
 package com.example.android.grocerie;
 
+import android.app.Activity;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -26,6 +27,8 @@ import static com.example.android.grocerie.data.IngredientContract.IngredientEnt
 
 
 public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapter.IngredientViewHolder> {
+
+    static final int EDITOR_REQUEST = 1;  // The request code
 
     private Context mContext;
     private int mType;
@@ -174,7 +177,7 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
 
                 intent.setData(currentIngredientUri);
 
-                mContext.startActivity(intent);
+                ((Activity)mContext).startActivityForResult(intent, EDITOR_REQUEST);
             }
         });
     }

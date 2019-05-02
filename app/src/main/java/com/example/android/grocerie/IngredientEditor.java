@@ -1,5 +1,6 @@
 package com.example.android.grocerie;
 
+import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
@@ -12,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -26,10 +28,11 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.NavUtils;
 
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
-import com.example.android.grocerie.data.IngredientDbHelper;
+import com.google.android.material.snackbar.Snackbar;
 
 public class IngredientEditor extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -37,40 +40,32 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
     private int mIngredientCategory;
     private boolean mIngredientHasChanged = false;
 
-    private static final int EXISTING_INGREDIENT_LOADER = 0;
+    private static final int CURRENT_INGREDIENT_LOADER = 0;
 
     private Uri mCurrentIngredientUri;
 
-    /**
-     * EditText field to enter the pet's name
-     */
     private EditText mNameEditText;
-
-    /**
-     * EditText field to enter the pet's Amount
-     */
     private EditText mAmountEditText;
-
-    /**
-     * EditText field to enter the pet's weight
-     */
     private EditText mUnitEditText;
-
     private Switch mCheckedSwitch;
-
     private Spinner mCategorySpinner;
 
     private int mCategory = 0;
 
+    View mainView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredient_editor);
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
+        final LayoutInflater factory = getLayoutInflater();
+
+
+        mainView = findViewById(R.id.main_layout_id);
 
         Intent intent = getIntent();
         mCurrentIngredientUri = intent.getData();
@@ -122,9 +117,11 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
                     break;
             }
             invalidateOptionsMenu();
-        } else {
+        }
+        else
+        {
             setTitle(R.string.editor_activity_title_edit_ingredient);
-            getLoaderManager().initLoader(EXISTING_INGREDIENT_LOADER, null, this);
+            getLoaderManager().initLoader(CURRENT_INGREDIENT_LOADER, null, this);
 
         }
 
@@ -194,11 +191,9 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         String amountString = mAmountEditText.getText().toString().trim();
         String unitString = mUnitEditText.getText().toString().trim();
 
-        if (mCurrentIngredientUri == null && TextUtils.isEmpty(nameString) && TextUtils.isEmpty(amountString) &&
-                TextUtils.isEmpty(unitString) && mCategory == IngredientEntry.MISC) {
+        if (mCurrentIngredientUri == null && TextUtils.isEmpty(nameString)) {
             return;
         }
-
 
         int amount = 0;
         if (!TextUtils.isEmpty(amountString)) {
@@ -220,33 +215,78 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
 //        IngredientDbHelper mDbHelper = new IngredientDbHelper(this);
 //        SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
-
         values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, nameString);
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, amount);
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, unitString);
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checked);
         values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, mCategory);
 
-
-        if (mCurrentIngredientUri == null) {
+        if (mCurrentIngredientUri == null)
+        {
             Uri newUri = getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
-            if (newUri == null) {
-                Toast.makeText(this, R.string.editor_insert_ingredient_failed, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, R.string.editor_insert_ingredient_succesful, Toast.LENGTH_SHORT).show();
+
+            if (newUri == null)
+            {
+
+                Intent returnIntent = new Intent();
+                setResult(0, returnIntent);
+
+//                showSnackbar(
+//                        mainView,
+//                        getString(R.string.editor_insert_ingredient_failed),
+//                        Toast.LENGTH_SHORT);
             }
+            else
+            {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("newUri", newUri.toString());
+                setResult(1, returnIntent);
+
+//                insertUndoSnackbar(
+//                        mainView,
+//                        getString(R.string.editor_insert_ingredient_succesful),
+//                        Toast.LENGTH_SHORT,
+//                        newUri);
+            }
+
+//            if (newUri == null) {
+//                Toast.makeText(this, R.string.editor_insert_ingredient_failed, Toast.LENGTH_SHORT).show();
+//            } else {
+//                Toast.makeText(this, R.string.editor_insert_ingredient_succesful, Toast.LENGTH_SHORT).show();
+//            }
         }
         else
         {
+//            ContentValues oldValues = getValuesFromUri(mCurrentIngredientUri);
+            Bundle oldValues = getBundleFromUri(mCurrentIngredientUri);
 
             int rowsAffected = getContentResolver().update(mCurrentIngredientUri, values, null, null);
 
-            if (rowsAffected == 0) {
-                Toast.makeText(this, R.string.editor_update_ingredient_failed, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, R.string.editor_update_ingredient_succesful, Toast.LENGTH_SHORT).show();
+            if (rowsAffected == 0)
+            {
+
+                Intent returnIntent = new Intent();
+                setResult(2, returnIntent);
+//                showSnackbar(
+//                        mainView,
+//                        getString(R.string.editor_update_ingredient_failed),
+//                        Toast.LENGTH_SHORT);
             }
+            else
+            {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("currentIngredientUri", mCurrentIngredientUri.toString());
+                returnIntent.putExtra("oldValues", oldValues);
+                setResult(3, returnIntent);
+//                updateUndoSnackbar(
+//                        mainView,
+//                        getString(R.string.editor_update_ingredient_succesful),
+//                        Toast.LENGTH_SHORT,
+//                        mCurrentIngredientUri,
+//                        oldValues);
+            }
+
         }
     }
 
@@ -267,6 +307,7 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             case R.id.action_save:
                 //save pet to the database
                 saveIngredient();
+
                 //exit activity
                 finish();
 
@@ -505,24 +546,185 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
      * Perform the deletion of the pet in the database.
      */
     private void deletePet() {
+
+
+//        ContentValues oldValues = getValuesFromUri(mCurrentIngredientUri);
+
+        Bundle oldValues = getBundleFromUri(mCurrentIngredientUri);
         if (mCurrentIngredientUri != null) {
             // Call the ContentResolver to delete the pet at the given content URI.
             // Pass in null for the selection and selection args because the mCurrentPetUri
             // content URI already identifies the pet that we want.
             int rowsDeleted = getContentResolver().delete(mCurrentIngredientUri, null, null);
 
-            // Show a toast message depending on whether or not the delete was successful.
-            if (rowsDeleted == 0) {
-                // If no rows were deleted, then there was an error with the delete.
-                Toast.makeText(this, getString(R.string.editor_delete_ingredient_failed),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                // Otherwise, the delete was successful and we can display a toast.
-                Toast.makeText(this, getString(R.string.editor_delete_ingredient_successful),
-                        Toast.LENGTH_SHORT).show();
+
+
+
+            if (rowsDeleted == 0)
+            {
+                Intent returnIntent = new Intent();
+                setResult(4, returnIntent);
+//                showSnackbar(
+//                        mainView,
+//                        getString(R.string.editor_delete_ingredient_failed),
+//                        Toast.LENGTH_SHORT);
             }
+            else
+            {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("oldValues", oldValues);
+                setResult(5, returnIntent);
+//                deleteUndoSnackBar(
+//                        mainView,
+//                        getString(R.string.editor_delete_ingredient_successful),
+//                        Toast.LENGTH_SHORT,
+//                        oldValues);
+            }
+
+//
+//            // Show a toast message depending on whether or not the delete was successful.
+//            if (rowsDeleted == 0) {
+//                // If no rows were deleted, then there was an error with the delete.
+//                Toast.makeText(this, getString(R.string.editor_delete_ingredient_failed),
+//                        Toast.LENGTH_SHORT).show();
+//            } else {
+//                // Otherwise, the delete was successful and we can display a toast.
+//                Toast.makeText(this, getString(R.string.editor_delete_ingredient_successful),
+//                        Toast.LENGTH_SHORT).show();
+//            }
         }
 
         finish();
+    }
+
+//    public void showSnackbar(View view, String message, int duration)
+//    {
+//        // Create snackbar
+//        final Snackbar snackbar = Snackbar.make(view, message, duration);
+//        snackbar.show();
+//    }
+//
+//    public void insertUndoSnackbar(View view, String message, int duration, Uri uri)
+//    {
+//        // Create snackbar
+//        final Snackbar snackbar = Snackbar.make(view, message, duration);
+//
+//        // Set an action on it, and a handler
+//        snackbar.setAction("UNDO", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getContentResolver().delete(uri, null, null);
+//                snackbar.dismiss();
+//            }
+//        });
+//
+//        snackbar.show();
+//    }
+//
+//    public void updateUndoSnackbar(View view, String message, int duration, Uri uri, ContentValues values)
+//    {
+//        // Create snackbar
+//        final Snackbar snackbar = Snackbar.make(view, message, duration);
+//
+//        // Set an action on it, and a handler
+//        snackbar.setAction("UNDO", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getContentResolver().update(uri, values, null, null);
+//                snackbar.dismiss();
+//            }
+//        });
+//
+//        snackbar.show();
+//    }
+//
+//
+//    public void deleteUndoSnackBar(View view, String message, int duration, ContentValues values)
+//    {
+//        // Create snackbar
+//        final Snackbar snackbar = Snackbar.make(view, message, duration);
+//
+//        // Set an action on it, and a handler
+//        snackbar.setAction("UNDO", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+//                snackbar.dismiss();
+//            }
+//        });
+//
+//        snackbar.show();
+//    }
+
+    private ContentValues getValuesFromUri(Uri uri)
+    {
+        Cursor cursor = getContentResolver().query(mCurrentIngredientUri, null, null, null, null);
+
+        ContentValues values = new ContentValues();
+
+        if (cursor.moveToFirst()) {
+            int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
+            int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
+            int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
+            int checkedColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CHECKED);
+            int pickedUpColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP);
+            int categoryColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
+
+            // Extract out the value from the Cursor for the given column index
+            String name = cursor.getString(nameColumnIndex);
+            int amount = cursor.getInt(amountColumnIndex);
+            String unit = cursor.getString(unitColumnIndex);
+            int checked = cursor.getInt(checkedColumnIndex);
+            int category = cursor.getInt(categoryColumnIndex);
+            int pickedUp = cursor.getInt(pickedUpColumnIndex);
+
+            values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, name);
+            values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, amount);
+            values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, unit);
+            values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checked);
+            values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, category);
+            values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, pickedUp);
+
+
+        }
+
+        return values;
+
+    }
+
+    private Bundle getBundleFromUri(Uri uri)
+    {
+        Cursor cursor = getContentResolver().query(mCurrentIngredientUri, null, null, null, null);
+
+        Bundle bundle = new Bundle();
+
+        if (cursor.moveToFirst()) {
+            int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
+            int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
+            int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
+            int checkedColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CHECKED);
+            int pickedUpColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP);
+            int categoryColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
+
+            // Extract out the value from the Cursor for the given column index
+            String name = cursor.getString(nameColumnIndex);
+            int amount = cursor.getInt(amountColumnIndex);
+            String unit = cursor.getString(unitColumnIndex);
+            int checked = cursor.getInt(checkedColumnIndex);
+            int category = cursor.getInt(categoryColumnIndex);
+            int pickedUp = cursor.getInt(pickedUpColumnIndex);
+
+            bundle.putString("name", name);
+            bundle.putInt("amount", amount);
+            bundle.putString("unit", unit);
+            bundle.putInt("toBuy", checked);
+            bundle.putInt("category", category);
+            bundle.putInt("pickedUp", pickedUp);
+
+
+        }
+
+        return bundle;
+
     }
 }
