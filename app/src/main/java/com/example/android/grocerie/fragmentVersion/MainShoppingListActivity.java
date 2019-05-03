@@ -9,13 +9,17 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.android.grocerie.R;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 
@@ -23,6 +27,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainShoppingListActivity extends AppCompatActivity {
+
+    static final int EDITOR_REQUEST = 1;  // The request code
+
+    public static final int UPDATE_FAIL = 2;
+    public static final int UPDATE_SUCCESS = 3;
+    public static final int DELETE_FAIL = 4;
+    public static final int DELETE_SUCCESS = 5;
+    public static final int NO_CHANGE = 6;
+
+    View mainView;
 
     ViewPager viewPager;
     private static final int TO_BUY_LIST = 0;
@@ -32,6 +46,7 @@ public class MainShoppingListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_shopping_list_fragments);
+        mainView = findViewById(R.id.main_layout_id);
 
         initToolbar();
 
@@ -97,12 +112,17 @@ public class MainShoppingListActivity extends AppCompatActivity {
         // Show a toast message depending on whether or not the delete was successful.
         if (rowsUpdated == 0) {
             // If no rows were deleted, then there was an error with the delete.
-            Toast.makeText(this, getString(R.string.shopping_list_clear_all_items_failed),
-                    Toast.LENGTH_SHORT).show();
+            showSnackbar(
+                    mainView,
+                    getString(R.string.shopping_list_clear_all_items_failed),
+                    Toast.LENGTH_SHORT);
+
         } else {
             // Otherwise, the delete was successful and we can display a toast.
-            Toast.makeText(this, getString(R.string.shopping_list_clear_all_items_successful),
-                    Toast.LENGTH_SHORT).show();
+            showSnackbar(
+                    mainView,
+                    getString(R.string.shopping_list_clear_all_items_successful),
+                    Toast.LENGTH_SHORT);
         }
     }
 
@@ -121,12 +141,16 @@ public class MainShoppingListActivity extends AppCompatActivity {
         // Show a toast message depending on whether or not the delete was successful.
         if (rowsUpdated == 0) {
             // If no rows were deleted, then there was an error with the delete.
-            Toast.makeText(this, getString(R.string.shopping_list_clear_picked_up_items_failed),
-                    Toast.LENGTH_SHORT).show();
+            showSnackbar(
+                    mainView,
+                    getString(R.string.shopping_list_clear_picked_up_items_failed),
+                    Toast.LENGTH_SHORT);
         } else {
             // Otherwise, the delete was successful and we can display a toast.
-            Toast.makeText(this, getString(R.string.shopping_list_clear_picked_up_items_successful),
-                    Toast.LENGTH_SHORT).show();
+            showSnackbar(
+                    mainView,
+                    getString(R.string.shopping_list_clear_picked_up_items_successful),
+                    Toast.LENGTH_SHORT);
         }
     }
 
@@ -161,22 +185,118 @@ public class MainShoppingListActivity extends AppCompatActivity {
             return fragmentTitleList.get(position);
         }
 
-//        public Fragment getItem(int position) {
-//            return new ShoppingFragment(position);
-//        }
-//
-//        @Override
-//        public int getCount() {
-//            return 2;
-//        }
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//            switch (position) {
-//                case PICKED_UP_LIST:
-//                    return mContext.getString(R.string.shopping_list_picked_up);
-//                default:
-//                    return mContext.getString(R.string.shopping_list_my_list);
-//            }
-//        }
+    }
+
+    //decides which snackbar to display depending on the result received from the editor
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == EDITOR_REQUEST) {
+            Bundle oldValues;
+            ContentValues values;
+
+            // Make sure the request was successful
+            switch (resultCode)
+            {
+                case UPDATE_FAIL:
+                    Log.e("intent", "return code was 2");
+                    showSnackbar(
+                            mainView,
+                            getString(R.string.editor_update_ingredient_failed),
+                            Toast.LENGTH_SHORT);
+                    return;
+                case UPDATE_SUCCESS:
+                    Log.e("intent", "return code was 3");
+
+                    Uri currentIngredientUri = Uri.parse(data.getStringExtra("currentIngredientUri"));
+                    oldValues = data.getBundleExtra("oldValues");
+
+                    values = new ContentValues();
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, oldValues.getString("name"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, oldValues.getInt("amount"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, oldValues.getString("unit"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, oldValues.getInt("toBuy"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, oldValues.getInt("category"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, oldValues.getInt("pickedUp"));
+
+                    updateUndoSnackbar(
+                            mainView,
+                            getString(R.string.editor_update_ingredient_succesful),
+                            Toast.LENGTH_SHORT,
+                            currentIngredientUri,
+                            values);
+                    return;
+                case DELETE_FAIL:
+                    Log.e("intent", "return code was 4");
+                    showSnackbar(
+                            mainView,
+                            getString(R.string.editor_delete_ingredient_failed),
+                            Toast.LENGTH_SHORT);
+                    return;
+                case DELETE_SUCCESS:
+                    Log.e("intent", "return code was 5");
+
+                    oldValues = data.getBundleExtra("oldValues");
+
+                    values = new ContentValues();
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, oldValues.getString("name"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, oldValues.getInt("amount"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, oldValues.getString("unit"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, oldValues.getInt("toBuy"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, oldValues.getInt("category"));
+                    values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, oldValues.getInt("pickedUp"));
+
+                    deleteUndoSnackBar(
+                            mainView,
+                            getString(R.string.editor_delete_ingredient_successful),
+                            Toast.LENGTH_SHORT,
+                            values);
+                    return;
+                case NO_CHANGE:
+                    Log.e("intent", "return code was 6");
+
+                    return;
+                default:
+                    return;
+            }
+        }
+    }
+
+    //snackbar methods
+    public void showSnackbar(View view, String message, int duration)
+    {
+        // Create snackbar
+        final Snackbar snackbar = Snackbar.make(view, message, duration);
+        snackbar.show();
+    }
+
+
+    public void updateUndoSnackbar(View view, String message, int duration, Uri uri, ContentValues values)
+    {
+        // Create snackbar
+        final Snackbar snackbar = Snackbar.make(view, message, duration);
+        // Set an action on it, and a handler
+        snackbar.setAction("UNDO", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContentResolver().update(uri, values, null, null);
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
+    }
+
+    public void deleteUndoSnackBar(View view, String message, int duration, ContentValues values)
+    {
+        // Create snackbar
+        final Snackbar snackbar = Snackbar.make(view, message, duration);
+        // Set an action on it, and a handler
+        snackbar.setAction("UNDO", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
     }
 }
