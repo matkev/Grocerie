@@ -28,50 +28,58 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.NavUtils;
 
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
-import com.google.android.material.snackbar.Snackbar;
 
 public class IngredientEditor extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    //possible results to set
+    public static final int INSERT_FAIL = 0;
+    public static final int INSERT_SUCCESS = 1;
+    public static final int UPDATE_FAIL = 2;
+    public static final int UPDATE_SUCCESS = 3;
+    public static final int DELETE_FAIL = 4;
+    public static final int DELETE_SUCCESS = 5;
+    public static final int NO_CHANGE = 6;
 
-    private int mIngredientCategory;
+    //what category fragment was open when the editor was opened
+    private int mCurrentCategory;
+
+    //has the current ingredient in the editor (blank or pre-existing) been changed
     private boolean mIngredientHasChanged = false;
 
+    //ID of the loader for the current ingredient
     private static final int CURRENT_INGREDIENT_LOADER = 0;
 
+    //uri of the current ingredient
     private Uri mCurrentIngredientUri;
 
+    //views within the editor
     private EditText mNameEditText;
     private EditText mAmountEditText;
     private EditText mUnitEditText;
     private Switch mCheckedSwitch;
     private Spinner mCategorySpinner;
 
+    //value of the category to be set
     private int mCategory = 0;
-
-    View mainView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ingredient_editor);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        final LayoutInflater factory = getLayoutInflater();
-
-
-        mainView = findViewById(R.id.main_layout_id);
-
+        //getting the current ingredient uri from the intent data
         Intent intent = getIntent();
         mCurrentIngredientUri = intent.getData();
 
         Log.e("myTag", "The uri of the current row is " + mCurrentIngredientUri);
-
 
         // Find all relevant views that we will need to read user input from
         mNameEditText = (EditText) findViewById(R.id.edit_ingredient_name);
@@ -80,14 +88,14 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         mCheckedSwitch = (Switch) findViewById(R.id.edit_ingredient_checked);
         mCategorySpinner = (Spinner) findViewById(R.id.edit_ingredient_category);
 
-
         setupSpinner();
 
-
+        //if the uri is null, editor is adding a new ingredient
+        //sets the spinner to the current category
         if (mCurrentIngredientUri == null) {
             setTitle(R.string.editor_activity_title_new_ingredient);
-            mIngredientCategory = intent.getIntExtra("IngredientCategory", 0);
-            switch (mIngredientCategory) {
+            mCurrentCategory = intent.getIntExtra("currentCategory", 0);
+            switch (mCurrentCategory) {
                 case IngredientEntry.FRUIT_AND_VEG:
                     mCategorySpinner.setSelection(0);
                     break;
@@ -118,14 +126,17 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             }
             invalidateOptionsMenu();
         }
+        //otherwise, the editor is updating an existing ingredient
         else
         {
             setTitle(R.string.editor_activity_title_edit_ingredient);
+            //loads the current ingredient's values into the editor
             getLoaderManager().initLoader(CURRENT_INGREDIENT_LOADER, null, this);
 
         }
 
 
+        //to check if any of the views are changed
         mNameEditText.setOnTouchListener(mTouchListener);
         mAmountEditText.setOnTouchListener(mTouchListener);
         mUnitEditText.setOnTouchListener(mTouchListener);
@@ -134,21 +145,21 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
     }
 
     /**
-     * Setup the dropdown spinner that allows the user to select the gender of the pet.
+     * Setup the dropdown spinner that allows the user to select the category of the ingredient.
      */
     private void setupSpinner() {
         // Create adapter for spinner. The list options are from the String array it will use
         // the spinner will use the default layout
-        ArrayAdapter genderSpinnerAdapter = ArrayAdapter.createFromResource(this,
+        ArrayAdapter categorySpinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.array_category_options, android.R.layout.simple_spinner_item);
 
         // Specify dropdown layout style - simple list view with 1 item per line
-        genderSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        categorySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
 
         // Apply the adapter to the spinner
-        mCategorySpinner.setAdapter(genderSpinnerAdapter);
+        mCategorySpinner.setAdapter(categorySpinnerAdapter);
 
-        // Set the integer mSelected to the constant values
+        // Set the integer mCategory to the constant values
         mCategorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -178,7 +189,7 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                mCategory = IngredientEntry.MISC; // Unknown
+                mCategory = IngredientEntry.MISC; // miscellaneous
 
             }
         });
@@ -200,7 +211,6 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             amount = Integer.parseInt(amountString);
         }
 
-
         ContentValues values = new ContentValues();
 
         int checked;
@@ -211,10 +221,6 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, 0);
         }
 
-
-//        IngredientDbHelper mDbHelper = new IngredientDbHelper(this);
-//        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
         values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, nameString);
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, amount);
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, unitString);
@@ -224,72 +230,37 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         if (mCurrentIngredientUri == null)
         {
             Uri newUri = getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-
-
             if (newUri == null)
             {
-
                 Intent returnIntent = new Intent();
-                setResult(0, returnIntent);
-
-//                showSnackbar(
-//                        mainView,
-//                        getString(R.string.editor_insert_ingredient_failed),
-//                        Toast.LENGTH_SHORT);
+                setResult(INSERT_FAIL, returnIntent);
             }
             else
             {
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("newUri", newUri.toString());
-                setResult(1, returnIntent);
-
-//                insertUndoSnackbar(
-//                        mainView,
-//                        getString(R.string.editor_insert_ingredient_succesful),
-//                        Toast.LENGTH_SHORT,
-//                        newUri);
+                setResult(INSERT_SUCCESS, returnIntent);
             }
-
-//            if (newUri == null) {
-//                Toast.makeText(this, R.string.editor_insert_ingredient_failed, Toast.LENGTH_SHORT).show();
-//            } else {
-//                Toast.makeText(this, R.string.editor_insert_ingredient_succesful, Toast.LENGTH_SHORT).show();
-//            }
         }
         else
         {
-//            ContentValues oldValues = getValuesFromUri(mCurrentIngredientUri);
             Bundle oldValues = getBundleFromUri(mCurrentIngredientUri);
-
             int rowsAffected = getContentResolver().update(mCurrentIngredientUri, values, null, null);
 
             if (rowsAffected == 0)
             {
-
                 Intent returnIntent = new Intent();
-                setResult(2, returnIntent);
-//                showSnackbar(
-//                        mainView,
-//                        getString(R.string.editor_update_ingredient_failed),
-//                        Toast.LENGTH_SHORT);
+                setResult(UPDATE_FAIL, returnIntent);
             }
             else
             {
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("currentIngredientUri", mCurrentIngredientUri.toString());
                 returnIntent.putExtra("oldValues", oldValues);
-                setResult(3, returnIntent);
-//                updateUndoSnackbar(
-//                        mainView,
-//                        getString(R.string.editor_update_ingredient_succesful),
-//                        Toast.LENGTH_SHORT,
-//                        mCurrentIngredientUri,
-//                        oldValues);
+                setResult(UPDATE_SUCCESS, returnIntent);
             }
-
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -307,21 +278,21 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             case R.id.action_save:
                 //save pet to the database
                 saveIngredient();
-
-                //exit activity
                 finish();
 
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
-
                 showDeleteConfirmationDialog();
                 return true;
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
+
+                Log.e("intent", "up button pressed");
                 // If the pet hasn't changed, continue with navigating up to parent activity
                 // which is the {@link CatalogActivity}.
                 if (!mIngredientHasChanged) {
+                    setResult(NO_CHANGE, null);
                     NavUtils.navigateUpFromSameTask(IngredientEditor.this);
                     return true;
                 }
@@ -334,12 +305,14 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 // User clicked "Discard" button, navigate to parent activity.
+                                setResult(NO_CHANGE, null);
                                 NavUtils.navigateUpFromSameTask(IngredientEditor.this);
                             }
                         };
 
                 // Show a dialog that notifies the user they have unsaved changes
                 showUnsavedChangesDialog(discardButtonClickListener);
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -487,6 +460,9 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
     public void onBackPressed() {
         // If the pet hasn't changed, continue with handling back button press
         if (!mIngredientHasChanged) {
+
+            Intent returnIntent = new Intent();
+            setResult(NO_CHANGE, returnIntent);
             super.onBackPressed();
             return;
         }
@@ -498,6 +474,8 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // User clicked "Discard" button, close the current activity.
+                        Intent returnIntent = new Intent();
+                        setResult(NO_CHANGE, returnIntent);
                         finish();
                     }
                 };
@@ -547,9 +525,6 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
      */
     private void deletePet() {
 
-
-//        ContentValues oldValues = getValuesFromUri(mCurrentIngredientUri);
-
         Bundle oldValues = getBundleFromUri(mCurrentIngredientUri);
         if (mCurrentIngredientUri != null) {
             // Call the ContentResolver to delete the pet at the given content URI.
@@ -557,139 +532,19 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             // content URI already identifies the pet that we want.
             int rowsDeleted = getContentResolver().delete(mCurrentIngredientUri, null, null);
 
-
-
-
             if (rowsDeleted == 0)
             {
                 Intent returnIntent = new Intent();
-                setResult(4, returnIntent);
-//                showSnackbar(
-//                        mainView,
-//                        getString(R.string.editor_delete_ingredient_failed),
-//                        Toast.LENGTH_SHORT);
+                setResult(DELETE_FAIL, returnIntent);
             }
             else
             {
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("oldValues", oldValues);
-                setResult(5, returnIntent);
-//                deleteUndoSnackBar(
-//                        mainView,
-//                        getString(R.string.editor_delete_ingredient_successful),
-//                        Toast.LENGTH_SHORT,
-//                        oldValues);
+                setResult(DELETE_SUCCESS, returnIntent);
             }
-
-//
-//            // Show a toast message depending on whether or not the delete was successful.
-//            if (rowsDeleted == 0) {
-//                // If no rows were deleted, then there was an error with the delete.
-//                Toast.makeText(this, getString(R.string.editor_delete_ingredient_failed),
-//                        Toast.LENGTH_SHORT).show();
-//            } else {
-//                // Otherwise, the delete was successful and we can display a toast.
-//                Toast.makeText(this, getString(R.string.editor_delete_ingredient_successful),
-//                        Toast.LENGTH_SHORT).show();
-//            }
         }
-
         finish();
-    }
-
-//    public void showSnackbar(View view, String message, int duration)
-//    {
-//        // Create snackbar
-//        final Snackbar snackbar = Snackbar.make(view, message, duration);
-//        snackbar.show();
-//    }
-//
-//    public void insertUndoSnackbar(View view, String message, int duration, Uri uri)
-//    {
-//        // Create snackbar
-//        final Snackbar snackbar = Snackbar.make(view, message, duration);
-//
-//        // Set an action on it, and a handler
-//        snackbar.setAction("UNDO", new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getContentResolver().delete(uri, null, null);
-//                snackbar.dismiss();
-//            }
-//        });
-//
-//        snackbar.show();
-//    }
-//
-//    public void updateUndoSnackbar(View view, String message, int duration, Uri uri, ContentValues values)
-//    {
-//        // Create snackbar
-//        final Snackbar snackbar = Snackbar.make(view, message, duration);
-//
-//        // Set an action on it, and a handler
-//        snackbar.setAction("UNDO", new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getContentResolver().update(uri, values, null, null);
-//                snackbar.dismiss();
-//            }
-//        });
-//
-//        snackbar.show();
-//    }
-//
-//
-//    public void deleteUndoSnackBar(View view, String message, int duration, ContentValues values)
-//    {
-//        // Create snackbar
-//        final Snackbar snackbar = Snackbar.make(view, message, duration);
-//
-//        // Set an action on it, and a handler
-//        snackbar.setAction("UNDO", new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-//                snackbar.dismiss();
-//            }
-//        });
-//
-//        snackbar.show();
-//    }
-
-    private ContentValues getValuesFromUri(Uri uri)
-    {
-        Cursor cursor = getContentResolver().query(mCurrentIngredientUri, null, null, null, null);
-
-        ContentValues values = new ContentValues();
-
-        if (cursor.moveToFirst()) {
-            int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
-            int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
-            int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
-            int checkedColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CHECKED);
-            int pickedUpColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP);
-            int categoryColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
-
-            // Extract out the value from the Cursor for the given column index
-            String name = cursor.getString(nameColumnIndex);
-            int amount = cursor.getInt(amountColumnIndex);
-            String unit = cursor.getString(unitColumnIndex);
-            int checked = cursor.getInt(checkedColumnIndex);
-            int category = cursor.getInt(categoryColumnIndex);
-            int pickedUp = cursor.getInt(pickedUpColumnIndex);
-
-            values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, name);
-            values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, amount);
-            values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, unit);
-            values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checked);
-            values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, category);
-            values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, pickedUp);
-
-
-        }
-
-        return values;
-
     }
 
     private Bundle getBundleFromUri(Uri uri)
@@ -720,11 +575,41 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             bundle.putInt("toBuy", checked);
             bundle.putInt("category", category);
             bundle.putInt("pickedUp", pickedUp);
-
-
         }
-
         return bundle;
-
     }
+
+//    private ContentValues getValuesFromUri(Uri uri)
+//    {
+//        Cursor cursor = getContentResolver().query(mCurrentIngredientUri, null, null, null, null);
+//
+//        ContentValues values = new ContentValues();
+//
+//        if (cursor.moveToFirst()) {
+//            int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
+//            int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
+//            int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
+//            int checkedColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CHECKED);
+//            int pickedUpColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP);
+//            int categoryColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
+//
+//            // Extract out the value from the Cursor for the given column index
+//            String name = cursor.getString(nameColumnIndex);
+//            int amount = cursor.getInt(amountColumnIndex);
+//            String unit = cursor.getString(unitColumnIndex);
+//            int checked = cursor.getInt(checkedColumnIndex);
+//            int category = cursor.getInt(categoryColumnIndex);
+//            int pickedUp = cursor.getInt(pickedUpColumnIndex);
+//
+//            values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, name);
+//            values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, amount);
+//            values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, unit);
+//            values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checked);
+//            values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, category);
+//            values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, pickedUp);
+//
+//
+//        }
+//        return values;
+//    }
 }
