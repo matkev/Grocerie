@@ -7,9 +7,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,7 +38,7 @@ public class MainShoppingListActivity extends AppCompatActivity {
     public static final int DELETE_SUCCESS = 5;
     public static final int NO_CHANGE = 6;
 
-    View mainView;
+    View mainLayout;
 
     ViewPager viewPager;
     private static final int TO_BUY_LIST = 0;
@@ -46,7 +48,7 @@ public class MainShoppingListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_shopping_list_fragments);
-        mainView = findViewById(R.id.main_layout_id);
+        mainLayout = findViewById(R.id.main_layout_id);
 
         initToolbar();
 
@@ -104,7 +106,22 @@ public class MainShoppingListActivity extends AppCompatActivity {
 
         String selection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=?";
 
-        String[] selectionArgs = new String[]{"1"};
+        String toBuySelection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=? AND " + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + "=?";
+        String pickedUpSelection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=? AND " + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + "=?";
+
+        String[] selectionArgs= new String[]{"1"};
+        String[] toBuySelectionArgs = new String[]{"1","0"};
+        String[] pickedUpSelectionArgs = new String[]{"1","1"};
+
+
+        String [] projection = {
+                IngredientEntry._ID};
+
+
+        Cursor toBuyCursor = getContentResolver().query(IngredientEntry.CONTENT_URI, projection, toBuySelection, toBuySelectionArgs, null);
+        Cursor pickedUpCursor = getContentResolver().query(IngredientEntry.CONTENT_URI, projection, pickedUpSelection, pickedUpSelectionArgs, null);
+
+
         int rowsUpdated = getContentResolver().update(IngredientEntry.CONTENT_URI, values, selection, selectionArgs);
 
         Log.e("myTag", "rows of checked items updated: " + rowsUpdated);
@@ -113,16 +130,18 @@ public class MainShoppingListActivity extends AppCompatActivity {
         if (rowsUpdated == 0) {
             // If no rows were deleted, then there was an error with the delete.
             showSnackbar(
-                    mainView,
+                    mainLayout,
                     getString(R.string.shopping_list_clear_all_items_failed),
                     Toast.LENGTH_SHORT);
 
         } else {
             // Otherwise, the delete was successful and we can display a toast.
-            showSnackbar(
-                    mainView,
+            clearAllItemsUndoSnackBar(
+                    mainLayout,
                     getString(R.string.shopping_list_clear_all_items_successful),
-                    Toast.LENGTH_SHORT);
+                    Toast.LENGTH_SHORT,
+                    toBuyCursor,
+                    pickedUpCursor);
         }
     }
 
@@ -136,21 +155,29 @@ public class MainShoppingListActivity extends AppCompatActivity {
 
         String[] selectionArgs = new String[]{"1"};
 
+        String [] projection = {
+                IngredientEntry._ID};
+
+
+        Cursor cursor = getContentResolver().query(IngredientEntry.CONTENT_URI, projection, selection, selectionArgs, null);
+
+
         int rowsUpdated = getContentResolver().update(IngredientEntry.CONTENT_URI, values, selection, selectionArgs);
 
         // Show a toast message depending on whether or not the delete was successful.
         if (rowsUpdated == 0) {
             // If no rows were deleted, then there was an error with the delete.
             showSnackbar(
-                    mainView,
+                    mainLayout,
                     getString(R.string.shopping_list_clear_picked_up_items_failed),
                     Toast.LENGTH_SHORT);
         } else {
             // Otherwise, the delete was successful and we can display a toast.
-            showSnackbar(
-                    mainView,
+            clearAllPickedUpUndoSnackBar(
+                    mainLayout,
                     getString(R.string.shopping_list_clear_picked_up_items_successful),
-                    Toast.LENGTH_SHORT);
+                    Toast.LENGTH_SHORT,
+                    cursor);
         }
     }
 
@@ -200,7 +227,7 @@ public class MainShoppingListActivity extends AppCompatActivity {
                 case UPDATE_FAIL:
                     Log.e("intent", "return code was 2");
                     showSnackbar(
-                            mainView,
+                            mainLayout,
                             getString(R.string.editor_update_ingredient_failed),
                             Toast.LENGTH_SHORT);
                     return;
@@ -219,7 +246,7 @@ public class MainShoppingListActivity extends AppCompatActivity {
                     values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, oldValues.getInt("pickedUp"));
 
                     updateUndoSnackbar(
-                            mainView,
+                            mainLayout,
                             getString(R.string.editor_update_ingredient_succesful),
                             Toast.LENGTH_SHORT,
                             currentIngredientUri,
@@ -228,7 +255,7 @@ public class MainShoppingListActivity extends AppCompatActivity {
                 case DELETE_FAIL:
                     Log.e("intent", "return code was 4");
                     showSnackbar(
-                            mainView,
+                            mainLayout,
                             getString(R.string.editor_delete_ingredient_failed),
                             Toast.LENGTH_SHORT);
                     return;
@@ -246,7 +273,7 @@ public class MainShoppingListActivity extends AppCompatActivity {
                     values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, oldValues.getInt("pickedUp"));
 
                     deleteUndoSnackBar(
-                            mainView,
+                            mainLayout,
                             getString(R.string.editor_delete_ingredient_successful),
                             Toast.LENGTH_SHORT,
                             values);
@@ -294,6 +321,89 @@ public class MainShoppingListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
+    }
+
+    public void clearAllItemsUndoSnackBar(View view, String message, int duration, Cursor toBuyCursor, Cursor pickedUpCursor)
+    {
+        // Create snackbar
+        final Snackbar snackbar = Snackbar.make(view, message, duration);
+        // Set an action on it, and a handler
+        snackbar.setAction("UNDO", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (toBuyCursor.moveToFirst())
+                {
+
+                    do {
+                        int IDColumnIndex = toBuyCursor.getColumnIndex(IngredientEntry._ID);
+
+                        // Extract out the value from the Cursor for the given column index
+                        int id = toBuyCursor.getInt(IDColumnIndex);
+
+                        ContentValues values = new ContentValues();
+                        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, 1);
+                        values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, 0);
+
+
+                        getContentResolver().update(ContentUris.withAppendedId(IngredientEntry.CONTENT_URI, id), values, null, null);
+                    }while(toBuyCursor.moveToNext());
+                }
+                if (pickedUpCursor.moveToFirst())
+                {
+
+                    do {
+                        int IDColumnIndex = pickedUpCursor.getColumnIndex(IngredientEntry._ID);
+
+                        // Extract out the value from the Cursor for the given column index
+                        int id = pickedUpCursor.getInt(IDColumnIndex);
+
+                        ContentValues values = new ContentValues();
+                        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, 1);
+                        values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, 1);
+
+
+                        getContentResolver().update(ContentUris.withAppendedId(IngredientEntry.CONTENT_URI, id), values, null, null);
+                    }while(pickedUpCursor.moveToNext());
+                }
+
+
+
+                snackbar.dismiss();
+            }
+        });
+        snackbar.show();
+    }
+
+    public void clearAllPickedUpUndoSnackBar(View view, String message, int duration, Cursor cursor)
+    {
+        // Create snackbar
+        final Snackbar snackbar = Snackbar.make(view, message, duration);
+        // Set an action on it, and a handler
+        snackbar.setAction("UNDO", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cursor.moveToFirst())
+                {
+
+                    do {
+                        int IDColumnIndex = cursor.getColumnIndex(IngredientEntry._ID);
+
+                        // Extract out the value from the Cursor for the given column index
+                        int id = cursor.getInt(IDColumnIndex);
+
+                        ContentValues values = new ContentValues();
+                        values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, 1);
+                        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, 1);
+
+
+                        getContentResolver().update(ContentUris.withAppendedId(IngredientEntry.CONTENT_URI, id), values, null, null);
+                    }while(cursor.moveToNext());
+                }
+
                 snackbar.dismiss();
             }
         });
