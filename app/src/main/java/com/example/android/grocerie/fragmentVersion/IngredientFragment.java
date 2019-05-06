@@ -1,6 +1,8 @@
 package com.example.android.grocerie.fragmentVersion;
 
+import android.database.ContentObserver;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,8 +12,10 @@ import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.example.android.grocerie.R;
+import com.example.android.grocerie.dragAndDropHelper.SimpleItemTouchHelperCallback;
 import com.example.android.grocerie.recyclerViewVersion.EmptyRecyclerView;
 import com.example.android.grocerie.RecyclerCursorAdapter;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
@@ -33,9 +38,13 @@ import static com.example.android.grocerie.data.IngredientContract.IngredientEnt
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.MEAT_AND_PROT;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.MISC;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SNACKS;
+import static com.example.android.grocerie.data.IngredientContract.IngredientEntry._ID;
 
 
 public class IngredientFragment extends Fragment {
+
+    private ItemTouchHelper mItemTouchHelper;
+
 
     //loader ids
     private static final int FRUIT_AND_VEGGIE_LOADER = FRUIT_AND_VEG;
@@ -78,7 +87,7 @@ public class IngredientFragment extends Fragment {
         public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
 
             String [] projection = {
-                    IngredientEntry._ID,
+                    _ID,
                     IngredientEntry.COLUMN_INGREDIENT_NAME,
                     IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
                     IngredientEntry.COLUMN_INGREDIENT_UNIT,
@@ -128,12 +137,31 @@ public class IngredientFragment extends Fragment {
                     break;
             }
 
+
+            ContentObserver observer = new ContentObserver(new Handler()) {
+                @Override
+                public boolean deliverSelfNotifications() {
+                    return super.deliverSelfNotifications();
+                }
+
+                @Override
+                public void onChange(boolean selfChange) {
+                    super.onChange(selfChange);
+                }
+
+                @Override
+                public void onChange(boolean selfChange, Uri uri) {
+                    super.onChange(selfChange, uri);
+                }
+            };
+            getActivity().getContentResolver().registerContentObserver(IngredientEntry.CONTENT_URI, false, observer);
+
             return new CursorLoader(getActivity(),
                     IngredientEntry.CONTENT_URI,
                     projection,
                     selection,
                     selectionArgs,
-                    null);
+                    _ID);
         }
 
         @Override
@@ -147,6 +175,7 @@ public class IngredientFragment extends Fragment {
         }
     };
 
+
     public static IngredientFragment newInstance(int ingredientCategory) {
         IngredientFragment fragment = new IngredientFragment();
         Log.e("myTag", "Called from newInstance: this ingredient category is : " + ingredientCategory);
@@ -158,12 +187,9 @@ public class IngredientFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         Bundle bundle = getArguments();
-
         mIngredientCategory = bundle.getInt(ingredientCategoryKey);
 
         if (mRootView == null)
@@ -181,6 +207,10 @@ public class IngredientFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mCursorAdapter = new RecyclerCursorAdapter(INGREDIENT_LIST_TYPE);
         mRecyclerView.setAdapter(mCursorAdapter);
+
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter, this.getContext());
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         Log.e("myTag", "Called from onCreateView: this ingredient category is : " + mIngredientCategory);
 
@@ -223,68 +253,9 @@ public class IngredientFragment extends Fragment {
                 break;
         }
 
+
         return mRootView;
     }
 
 
-//    private Loader<Cursor> ingredientListLoader()
-//    {
-//        String [] projection = {
-//                IngredientEntry._ID,
-//                IngredientEntry.COLUMN_INGREDIENT_NAME,
-//                IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
-//                IngredientEntry.COLUMN_INGREDIENT_UNIT,
-//                IngredientEntry.COLUMN_INGREDIENT_CHECKED,
-//                IngredientEntry.COLUMN_INGREDIENT_CATEGORY,
-//                IngredientEntry.COLUMN_INGREDIENT_PICKED_UP};
-//
-//        String selection = IngredientEntry.COLUMN_INGREDIENT_CATEGORY + "=?";
-//
-//        String[] selectionArgs;
-//        switch (mIngredientCategory) {
-//            case IngredientEntry.FRUIT_AND_VEG:
-//                Log.e("myTag", "The selection args is : " + FRUIT_AND_VEG);
-//                selectionArgs = new String[]{Integer.toString(FRUIT_AND_VEG)};
-//                break;
-//            case IngredientEntry.MEAT_AND_PROT:
-//                Log.e("myTag", "The selection args is : " + MEAT_AND_PROT);
-//                selectionArgs = new String[]{Integer.toString(MEAT_AND_PROT)};
-//                break;
-//            case IngredientEntry.BREAD_AND_GRAIN:
-//                Log.e("myTag", "The selection args is : " + BREAD_AND_GRAIN);
-//                selectionArgs = new String[]{Integer.toString(BREAD_AND_GRAIN)};
-//                break;
-//            case IngredientEntry.DAIRY:
-//                Log.e("myTag", "The selection args is : " + DAIRY);
-//                selectionArgs = new String[]{Integer.toString(DAIRY)};
-//                break;
-//            case IngredientEntry.FROZEN:
-//                Log.e("myTag", "The selection args is : " + FROZEN);
-//                selectionArgs = new String[]{Integer.toString(FROZEN)};
-//                break;
-//            case IngredientEntry.CANNED:
-//                Log.e("myTag", "The selection args is : " + CANNED);
-//                selectionArgs = new String[]{Integer.toString(CANNED)};
-//                break;
-//            case IngredientEntry.DRINKS:
-//                Log.e("myTag", "The selection args is : " + DRINKS);
-//                selectionArgs = new String[]{Integer.toString(DRINKS)};
-//                break;
-//            case IngredientEntry.SNACKS:
-//                Log.e("myTag", "The selection args is : " + SNACKS);
-//                selectionArgs = new String[]{Integer.toString(SNACKS)};
-//                break;
-//            default:
-//                Log.e("myTag", "The selection args is : " + MISC);
-//                selectionArgs = new String[]{Integer.toString(MISC)};
-//                break;
-//        }
-//
-//        return new CursorLoader(getActivity(),
-//                IngredientEntry.CONTENT_URI,
-//                projection,
-//                selection,
-//                selectionArgs,
-//                null);
-//    }
 }

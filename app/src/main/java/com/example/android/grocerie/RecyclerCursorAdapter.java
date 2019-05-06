@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -21,12 +22,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.grocerie.data.IngredientContract;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
+import com.example.android.grocerie.dragAndDropHelper.ItemTouchHelperAdapter;
+import com.example.android.grocerie.dragAndDropHelper.ItemTouchHelperViewHolder;
 
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SHOPPING_LIST_TYPE;
 
 
-public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapter.IngredientViewHolder> {
+public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapter.IngredientViewHolder>
+                implements ItemTouchHelperAdapter
+{
 
     static final int EDITOR_REQUEST = 1;  // The request code
 
@@ -42,22 +47,16 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
     public IngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         this.mContext = parent.getContext();
 
-        View formNameView;
+        View formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_ingredient_item, parent, false);
+        IngredientViewHolder viewHolder = new IngredientViewHolder(formNameView);
 
-        formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_ingredient_item, parent, false);
-
-//        if (mType == IngredientEntry.INGREDIENT_LIST_TYPE) {
-//            Log.e("myTag", "ingredient list item inflated");
-//            formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.ingredient_list_item, parent, false);
-//        } else {
-//            Log.e("myTag", "shopping list item inflated");
-//            formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.shopping_list_item, parent, false);
-//        }
-        return new IngredientViewHolder(formNameView);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(IngredientViewHolder holder, Cursor cursor) {
+
+        Log.e("myTag", "viewHolder position is " + holder.getAdapterPosition());
 
         holder.CheckBox.setOnCheckedChangeListener(null);
 
@@ -182,12 +181,23 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
         });
     }
 
+//    @Override
+//    public void onItemDismiss(int position) {
+//        mItems.remove(position);
+//        notifyItemRemoved(position);
+//    }
+
+    public void onItemMove(int fromPosition, int toPosition) {
+
+    }
+
+
     @Override
     public void swapCursor(Cursor newCursor) {
         super.swapCursor(newCursor);
     }
 
-    class IngredientViewHolder extends RecyclerView.ViewHolder {
+    class IngredientViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
 
         TextView nameTextView;
         TextView summaryTextView;
@@ -197,6 +207,7 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
 
         IngredientViewHolder(View itemView) {
             super(itemView);
+
             nameTextView = itemView.findViewById(R.id.textViewName);
             summaryTextView = itemView.findViewById(R.id.textViewSummary);
             CheckBox = itemView.findViewById(R.id.checkBoxView);
@@ -206,6 +217,14 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
             {
                 categoryTextView = itemView.findViewById(R.id.textViewCategory);
             }
+        }
+
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY);
+        }
+
+        public void onItemClear() {
+            itemView.setBackgroundColor(0);
         }
     }
 }

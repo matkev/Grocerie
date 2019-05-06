@@ -30,6 +30,7 @@ public final class IngredientContract {
         public static final String COLUMN_INGREDIENT_CATEGORY = "category";
         public static final String COLUMN_INGREDIENT_PICKED_UP = "picked_up";
 
+
         public static final int FRUIT_AND_VEG = 0;
         public static final int MEAT_AND_PROT = 1;
         public static final int BREAD_AND_GRAIN = 2;

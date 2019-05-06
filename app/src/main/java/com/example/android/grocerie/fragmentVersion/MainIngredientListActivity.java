@@ -5,7 +5,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.AlertDialog;
@@ -167,7 +166,6 @@ public class MainIngredientListActivity extends AppCompatActivity {
 
         Cursor cursor = getContentResolver().query(IngredientEntry.CONTENT_URI, projection, null, null, null);
 
-
         int rowsDeleted = getContentResolver().delete(IngredientEntry.CONTENT_URI, null, null);
 
         // Show a toast message depending on whether or not the delete was successful.
@@ -181,10 +179,6 @@ public class MainIngredientListActivity extends AppCompatActivity {
         else
         {
             // Otherwise, the delete was successful and we can display a toast.
-
-            //query the database for all ingredients
-            //get the cursor
-            //on UNDO, go through the cursor one at a time and get values and insert all the ignredients
             deleteAllUndoSnackBar(
                     mainLayout,
                     getString(R.string.ingredient_list_delete_all_ingredient_successful),
@@ -196,20 +190,14 @@ public class MainIngredientListActivity extends AppCompatActivity {
     private void clearAllItems()
     {
         ContentValues values = new ContentValues();
-
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
         values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, "0");
 
         String selection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=?";
-
         String[] selectionArgs = new String[]{"1"};
-
-        String [] projection = {
-                IngredientEntry._ID};
-
+        String [] projection = {IngredientEntry._ID};
 
         Cursor cursor = getContentResolver().query(IngredientEntry.CONTENT_URI, projection, selection, selectionArgs, null);
-
 
         int rowsUpdated = getContentResolver().update(IngredientEntry.CONTENT_URI, values, selection, selectionArgs);
 
@@ -218,7 +206,6 @@ public class MainIngredientListActivity extends AppCompatActivity {
         // Show a toast message depending on whether or not the delete was successful.
         if (rowsUpdated == 0) {
             // If no rows were deleted, then there was an error with the delete.
-
             showSnackbar(
                     mainLayout,
                     getString(R.string.ingredient_list_uncheck_all_ingredient_failed),
@@ -227,11 +214,6 @@ public class MainIngredientListActivity extends AppCompatActivity {
         else
         {
             // Otherwise, the delete was successful and we can display a toast.
-
-
-            //query the database for all checked ingredients
-            //get the cursor
-            //on UNDO, go through the cursor one at a time and get ids and update the ignredients to be checked
             uncheckAllUndoSnackBar(
                     mainLayout,
                     getString(R.string.ingredient_list_uncheck_all_ingredient_successful),
@@ -276,92 +258,117 @@ public class MainIngredientListActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
         if (requestCode == EDITOR_REQUEST) {
-            Bundle oldValues;
-            ContentValues values;
 
             // Make sure the request was successful
             switch (resultCode)
             {
                 case INSERT_FAIL:
                     Log.e("intent", "return code was 0");
-                    showSnackbar(
-                        mainLayout,
-                        getString(R.string.editor_insert_ingredient_failed),
-                        Toast.LENGTH_SHORT);
+                    insertFailResultHandler();
                     return;
                 case INSERT_SUCCESS:
                     Log.e("intent", "return code was 1");
-
-                    Uri newUri = Uri.parse(data.getStringExtra("newUri"));
-                    insertUndoSnackbar(
-                            mainLayout,
-                            getString(R.string.editor_insert_ingredient_succesful),
-                            Toast.LENGTH_SHORT,
-                            newUri);
+                    insertSuccessResultHandler(data);
                     return;
                 case UPDATE_FAIL:
                     Log.e("intent", "return code was 2");
-                    showSnackbar(
-                            mainLayout,
-                            getString(R.string.editor_update_ingredient_failed),
-                            Toast.LENGTH_SHORT);
+                    updateFailResultHandler();
                     return;
                 case UPDATE_SUCCESS:
                     Log.e("intent", "return code was 3");
-
-                    Uri currentIngredientUri = Uri.parse(data.getStringExtra("currentIngredientUri"));
-                    oldValues = data.getBundleExtra("oldValues");
-
-                    values = new ContentValues();
-                    values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, oldValues.getString("name"));
-                    values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, oldValues.getInt("amount"));
-                    values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, oldValues.getString("unit"));
-                    values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, oldValues.getInt("toBuy"));
-                    values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, oldValues.getInt("category"));
-                    values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, oldValues.getInt("pickedUp"));
-
-                    updateUndoSnackbar(
-                            mainLayout,
-                            getString(R.string.editor_update_ingredient_succesful),
-                            Toast.LENGTH_SHORT,
-                            currentIngredientUri,
-                            values);
+                    updateSuccessResultHandler(data);
                     return;
                 case DELETE_FAIL:
                     Log.e("intent", "return code was 4");
-                    showSnackbar(
-                            mainLayout,
-                            getString(R.string.editor_delete_ingredient_failed),
-                            Toast.LENGTH_SHORT);
+                    deleteFailResultHandler();
                     return;
                 case DELETE_SUCCESS:
                     Log.e("intent", "return code was 5");
-
-                    oldValues = data.getBundleExtra("oldValues");
-
-                    values = new ContentValues();
-                    values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, oldValues.getString("name"));
-                    values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, oldValues.getInt("amount"));
-                    values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, oldValues.getString("unit"));
-                    values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, oldValues.getInt("toBuy"));
-                    values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, oldValues.getInt("category"));
-                    values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, oldValues.getInt("pickedUp"));
-
-                    deleteUndoSnackBar(
-                            mainLayout,
-                            getString(R.string.editor_delete_ingredient_successful),
-                            Toast.LENGTH_SHORT,
-                            values);
+                    deleteSuccessResultHandler(data);
                     return;
                 case NO_CHANGE:
                     Log.e("intent", "return code was 6");
-
                     return;
                 default:
                     return;
             }
         }
     }
+
+    private void insertFailResultHandler()
+    {
+        showSnackbar(
+                mainLayout,
+                getString(R.string.editor_insert_ingredient_failed),
+                Toast.LENGTH_SHORT);
+    }
+
+    private void insertSuccessResultHandler(Intent data)
+    {
+        Uri newUri = Uri.parse(data.getStringExtra("newUri"));
+        insertUndoSnackbar(
+                mainLayout,
+                getString(R.string.editor_insert_ingredient_succesful),
+                Toast.LENGTH_SHORT,
+                newUri);
+    }
+
+    private void updateFailResultHandler()
+    {
+        showSnackbar(
+                mainLayout,
+                getString(R.string.editor_update_ingredient_failed),
+                Toast.LENGTH_SHORT);
+    }
+
+    private void updateSuccessResultHandler(Intent data)
+    {
+        Uri currentIngredientUri = Uri.parse(data.getStringExtra("currentIngredientUri"));
+        Bundle oldValuesBundle = data.getBundleExtra("oldValues");
+
+        ContentValues oldValues = new ContentValues();
+        oldValues.put(IngredientEntry.COLUMN_INGREDIENT_NAME, oldValuesBundle.getString("name"));
+        oldValues.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, oldValuesBundle.getInt("amount"));
+        oldValues.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, oldValuesBundle.getString("unit"));
+        oldValues.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, oldValuesBundle.getInt("toBuy"));
+        oldValues.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, oldValuesBundle.getInt("category"));
+        oldValues.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, oldValuesBundle.getInt("pickedUp"));
+
+        updateUndoSnackbar(
+                mainLayout,
+                getString(R.string.editor_update_ingredient_succesful),
+                Toast.LENGTH_SHORT,
+                currentIngredientUri,
+                oldValues);
+    }
+
+    private void deleteFailResultHandler()
+    {
+        showSnackbar(
+                mainLayout,
+                getString(R.string.editor_delete_ingredient_failed),
+                Toast.LENGTH_SHORT);
+    }
+
+    private void deleteSuccessResultHandler(Intent data)
+    {
+        Bundle oldValuesBundle = data.getBundleExtra("oldValues");
+
+        ContentValues oldValues = new ContentValues();
+        oldValues.put(IngredientEntry.COLUMN_INGREDIENT_NAME, oldValuesBundle.getString("name"));
+        oldValues.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, oldValuesBundle.getInt("amount"));
+        oldValues.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, oldValuesBundle.getString("unit"));
+        oldValues.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, oldValuesBundle.getInt("toBuy"));
+        oldValues.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, oldValuesBundle.getInt("category"));
+        oldValues.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, oldValuesBundle.getInt("pickedUp"));
+
+        deleteUndoSnackBar(
+                mainLayout,
+                getString(R.string.editor_delete_ingredient_successful),
+                Toast.LENGTH_SHORT,
+                oldValues);
+    }
+
 
     //snackbar methods
     public void showSnackbar(View view, String message, int duration)
