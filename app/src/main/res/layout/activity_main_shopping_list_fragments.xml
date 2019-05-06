@@ -17,23 +17,25 @@
             android:id="@+id/scrolling_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryDark"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:titleTextColor="#FFFFFF" />
+            app:titleTextColor="@color/titleTextColor" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabTextColor="@android:color/white"
-            app:tabSelectedTextColor="@android:color/white"
-            app:tabIndicatorColor="@android:color/white"
+            app:tabTextColor="@color/tabTextColor"
+            app:tabSelectedTextColor="@color/tabSelectedTextColor"
+            app:tabIndicatorColor="@color/tabIndicatorColor"
             app:tabIndicatorHeight="6dp"
             app:tabMode="fixed"
             />
+        <!--app:tabBackground="@color/colorPrimaryLight"-->
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager

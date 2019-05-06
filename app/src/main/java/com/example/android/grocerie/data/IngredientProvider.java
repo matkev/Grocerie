@@ -30,10 +30,10 @@ public class IngredientProvider extends ContentProvider {
 
     IngredientDbHelper mDbHelper;
 
-    /** URI matcher code for the content URI for the pets table */
+    /** URI matcher code for the content URI for the ingredients table */
     private static final int INGREDIENTS = 100;
 
-    /** URI matcher code for the content URI for a single pet in the pets table */
+    /** URI matcher code for the content URI for a single ingredient in the ingredients table */
     private static final int INGREDIENT_ID = 101;
 
     /**
@@ -126,23 +126,6 @@ public class IngredientProvider extends ContentProvider {
             throw new IllegalArgumentException("Ingredient requires a name");
         }
 
-        Integer amount = values.getAsInteger(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
-        //TODO: data validation of the other database columns
-//
-//        if (amount == null || !isValidChecked(gender)) {
-//
-//            Log.e(LOG_TAG, "gender is null or invalid");
-//
-//            throw new IllegalArgumentException("Pet requires a valid gender");
-//        }
-//
-//        Integer weight = values.getAsInteger(IngredientEntry.COLUMN_PET_WEIGHT);
-//        if (weight != null && weight < 0)
-//        {
-//            Log.e(LOG_TAG, "weight is negative");
-//
-//            throw new IllegalArgumentException("Pet requires a valid weight");
-//        }
 
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
 
@@ -178,18 +161,18 @@ public class IngredientProvider extends ContentProvider {
         switch(match)
         {
             case INGREDIENTS:
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                return updateIngredient(uri, contentValues, selection, selectionArgs);
             case INGREDIENT_ID:
                 selection = IngredientEntry._ID + "=?";
 
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                return updatePet(uri, contentValues, selection, selectionArgs);
+                return updateIngredient(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
     }
 
-    private int updatePet(Uri uri, ContentValues values, String selection, String[] selectionArgs)
+    private int updateIngredient(Uri uri, ContentValues values, String selection, String[] selectionArgs)
     {
         if (values.containsKey(IngredientEntry.COLUMN_INGREDIENT_NAME))
         {
@@ -202,29 +185,6 @@ public class IngredientProvider extends ContentProvider {
             }
         }
 
-        //TODO: data validation for updating table
-
-//        if (values.containsKey(IngredientEntry.COLUMN_PET_GENDER))
-//        {
-//            Integer gender = values.getAsInteger(PetEntry.COLUMN_PET_GENDER);
-//            if (gender == null || !isValidGender(gender)) {
-//
-//                Log.e(LOG_TAG, "gender is null or invalid");
-//
-//                throw new IllegalArgumentException("Pet requires a valid gender");
-//            }
-//        }
-//
-//        if (values.containsKey(PetEntry.COLUMN_PET_WEIGHT))
-//        {
-//            Integer weight = values.getAsInteger(PetEntry.COLUMN_PET_WEIGHT);
-//            if (weight != null && weight < 0)
-//            {
-//                Log.e(LOG_TAG, "weight is negative");
-//
-//                throw new IllegalArgumentException("Pet requires a valid weight");
-//            }
-//        }
 
         if (values.size() == 0)
         {

@@ -45,7 +45,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="216dp"
-            android:src="@drawable/groceries_4" />
+            android:src="@drawable/empty_grocery" />
 
         <TextView
             android:id="@+id/empty_title_text"
@@ -79,7 +79,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:layout_marginStart="128dp"
-        android:src="@drawable/ic_outline_add_24px"
+        android:src="@drawable/ic_outline_add_24px_white"
         app:borderWidth="0dp"
 
 

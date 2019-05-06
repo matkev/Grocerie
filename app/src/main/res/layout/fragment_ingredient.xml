@@ -30,7 +30,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="137dp"
-            android:src="@drawable/groceries_4" />
+            android:src="@drawable/empty_grocery" />
 
         <TextView
             android:id="@+id/empty_title_text"

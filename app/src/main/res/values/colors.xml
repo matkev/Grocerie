@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#ff4081</color>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--<color name="colorAccent">#ff4081</color>-->
+    <!--<color name="tabTextColor">@android:color/white</color>-->
+    <!--<color name="tabSelectedTextColor">@android:color/white</color>-->
+    <!--<color name="tabIndicatorColor">@android:color/white</color>-->
+    <!--<color name="titleTextColor">@android:color/white</color>-->
+
+    <!--<color name="colorPrimary">#bce88c</color>-->
+    <!--<color name="colorPrimaryDark">#8ab65d</color>-->
+    <!--<color name="colorAccent">#ffa000</color>-->
+    <!--<color name="tabTextColor">@android:color/black</color>-->
+    <!--<color name="tabSelectedTextColor">@android:color/black</color>-->
+    <!--<color name="tabIndicatorColor">@color/colorAccent</color>-->
+    <!--<color name="titleTextColor">@android:color/black</color>-->
+
+
+    <!--<color name="colorPrimary">#388e3c</color>-->
+    <!--<color name="colorPrimaryDark">#00600f</color>-->
+    <!--<color name="colorAccent">#ff6f00</color>-->
+    <!--<color name="tabTextColor">@color/colorPrimary</color>-->
+    <!--<color name="tabSelectedTextColor">@color/colorPrimaryDark</color>-->
+    <!--<color name="tabIndicatorColor">@color/colorPrimaryDark</color>-->
+    <!--<color name="titleTextColor">@android:color/white</color>-->
+    <!--<color name="colorPrimaryLight">@android:color/white</color>-->
+
+
+
+    <!--<color name="colorPrimary">#388e3c</color>-->
+    <!--<color name="colorPrimaryDark">#00600f</color>-->
+    <!--<color name="tabTextColor">@android:color/white</color>-->
+    <!--<color name="tabSelectedTextColor">@android:color/white</color>-->
+    <!--<color name="tabIndicatorColor">@android:color/white</color>-->
+    <!--<color name="titleTextColor">@android:color/white</color>-->
+    <!--<color name="colorAccent">#ffa000</color>-->
+
+
+    <!--<color name="colorAccent">#ff6f00</color>-->
+    <!--<color name="colorAccent">#ff4081</color>-->
+    <!--<color name="colorAccent">#ffd600</color>-->
+    <!--<color name="colorAccent">#ffc107</color>-->
+    <!--<color name="colorAccent">#d32f2f</color>-->
+
+
+    <color name="colorPrimary">#546e7a</color>
+    <color name="colorPrimaryDark">#29434e</color>
+    <color name="tabTextColor">@android:color/white</color>
+    <color name="tabSelectedTextColor">@android:color/white</color>
+    <color name="tabIndicatorColor">@android:color/white</color>
+    <color name="titleTextColor">@android:color/white</color>
+    <color name="colorAccent">#43a047</color>
+
+
 </resources>

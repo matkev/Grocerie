@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
             android:layout_marginStart="128dp"
-            android:src="@drawable/ic_outline_add_24px"
+            android:src="@drawable/ic_outline_add_24px_white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
