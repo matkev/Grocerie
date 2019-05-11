@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".fragmentVersion.MainShoppingListActivity"></activity>
+        <activity android:name=".ArrayListFragmentVersion.MainShoppingArrayListActivity"></activity>
+        <activity android:name=".ArrayListFragmentVersion.MainIngredientArrayListActivity" />
+        <activity android:name=".fragmentVersion.MainShoppingListActivity" />
         <activity android:name=".fragmentVersion.MainIngredientListActivity" />
         <activity android:name=".recyclerViewVersion.ShoppingListRecycler" />
         <activity

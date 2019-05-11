@@ -92,18 +92,21 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
         int position = cursor.getInt(positionIndex);
 
 
-        Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, idValue);
-
-        Log.e("reorder", "the current ingredient is " + currentIngredientUri);
-        int databasePosition = getPosition(currentIngredientUri);
-        int listPosition = holder.getAdapterPosition();
-        if (databasePosition != listPosition)
+        if (mType == INGREDIENT_LIST_TYPE)
         {
-            Log.e("reorder", "order of " + currentIngredientUri.toString() + " was updated from " + databasePosition + " to " + listPosition);
+            Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, idValue);
 
-            ContentValues values = new ContentValues();
-            values.put(COLUMN_INGREDIENT_POSITION, listPosition);
-            mContext.getContentResolver().update(currentIngredientUri, values, null, null);
+            Log.e("reorder", "the current ingredient is " + currentIngredientUri);
+            int databasePosition = getPosition(currentIngredientUri);
+            int listPosition = holder.getAdapterPosition();
+            if (databasePosition != listPosition)
+            {
+                Log.e("reorder", "order of " + currentIngredientUri.toString() + " was updated from " + databasePosition + " to " + listPosition);
+
+                ContentValues values = new ContentValues();
+                values.put(COLUMN_INGREDIENT_POSITION, listPosition);
+                mContext.getContentResolver().update(currentIngredientUri, values, null, null);
+            }
         }
 
         if (TextUtils.isEmpty(ingredientAmount)) {

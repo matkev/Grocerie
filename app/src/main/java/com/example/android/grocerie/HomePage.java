@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.android.grocerie.ArrayListFragmentVersion.MainIngredientArrayListActivity;
+import com.example.android.grocerie.ArrayListFragmentVersion.MainShoppingArrayListActivity;
 import com.example.android.grocerie.fragmentVersion.MainIngredientListActivity;
 import com.example.android.grocerie.fragmentVersion.MainShoppingListActivity;
 import com.example.android.grocerie.listViewVersion.IngredientsList;
@@ -61,6 +63,20 @@ public class HomePage extends AppCompatActivity {
     public void sendToFragmentsIngredientList (View view)
     {
         Intent intent = new Intent(this, MainIngredientListActivity.class);
+
+        startActivity(intent);
+    }
+
+    public void sendToArrayListShoppingList(View view)
+    {
+        Intent intent = new Intent(this, MainShoppingArrayListActivity.class);
+
+        startActivity(intent);
+    }
+
+    public void sendToArrayListIngredientList (View view)
+    {
+        Intent intent = new Intent(this, MainIngredientArrayListActivity.class);
 
         startActivity(intent);
     }
