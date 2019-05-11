@@ -32,7 +32,8 @@ public class IngredientDbHelper extends SQLiteOpenHelper {
                 + IngredientEntry.COLUMN_INGREDIENT_UNIT + " TEXT, "
                 + IngredientEntry.COLUMN_INGREDIENT_CHECKED + " INTEGER NOT NULL DEFAULT 0, "
                 + IngredientEntry.COLUMN_INGREDIENT_CATEGORY + " INTEGER NOT NULL, "
-                + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + " INTEGER NOT NULL DEFAULT 0);";
+                + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + " INTEGER NOT NULL DEFAULT 0, "
+                + IngredientEntry.COLUMN_INGREDIENT_POSITION + " INTEGER NOT NULL DEFAULT 0);";
 
         db.execSQL(SQL_CREATE_INGREDIENTS_TABLE);
     }

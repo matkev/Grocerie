@@ -38,7 +38,6 @@ import static com.example.android.grocerie.data.IngredientContract.IngredientEnt
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.MEAT_AND_PROT;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.MISC;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SNACKS;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry._ID;
 
 
 public class IngredientFragment extends Fragment {
@@ -87,13 +86,14 @@ public class IngredientFragment extends Fragment {
         public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
 
             String [] projection = {
-                    _ID,
+                    IngredientEntry._ID,
                     IngredientEntry.COLUMN_INGREDIENT_NAME,
                     IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
                     IngredientEntry.COLUMN_INGREDIENT_UNIT,
                     IngredientEntry.COLUMN_INGREDIENT_CHECKED,
                     IngredientEntry.COLUMN_INGREDIENT_CATEGORY,
-                    IngredientEntry.COLUMN_INGREDIENT_PICKED_UP};
+                    IngredientEntry.COLUMN_INGREDIENT_PICKED_UP,
+                    IngredientEntry.COLUMN_INGREDIENT_POSITION};
 
             String selection = IngredientEntry.COLUMN_INGREDIENT_CATEGORY + "=?";
 
@@ -161,7 +161,7 @@ public class IngredientFragment extends Fragment {
                     projection,
                     selection,
                     selectionArgs,
-                    _ID);
+                    IngredientEntry.COLUMN_INGREDIENT_POSITION);
         }
 
         @Override
@@ -175,7 +175,8 @@ public class IngredientFragment extends Fragment {
         }
     };
 
-
+    //factory method with bundled arguments instead of a constructor with arguments
+    //default constructor is called when fragment is drestroyed by default
     public static IngredientFragment newInstance(int ingredientCategory) {
         IngredientFragment fragment = new IngredientFragment();
         Log.e("myTag", "Called from newInstance: this ingredient category is : " + ingredientCategory);
@@ -192,6 +193,7 @@ public class IngredientFragment extends Fragment {
         Bundle bundle = getArguments();
         mIngredientCategory = bundle.getInt(ingredientCategoryKey);
 
+        //only inflate the rootview if it's null
         if (mRootView == null)
         {
             Log.e("myTag", "The root view is null");
@@ -199,21 +201,26 @@ public class IngredientFragment extends Fragment {
                     R.layout.fragment_ingredient, container, false);
         }
 
+        //binding views
         mRecyclerView = mRootView.findViewById(R.id.recyclerView);
         emptyView = mRootView.findViewById(R.id.empty_view);
 
+        //setting empty view
         mRecyclerView.setEmptyView(emptyView);
 
+        //setting up recycler view
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mCursorAdapter = new RecyclerCursorAdapter(INGREDIENT_LIST_TYPE);
         mRecyclerView.setAdapter(mCursorAdapter);
 
+        //setting up drag and drop implementation
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter, this.getContext());
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         Log.e("myTag", "Called from onCreateView: this ingredient category is : " + mIngredientCategory);
 
+        //starting loader based on the category
         switch (mIngredientCategory) {
             case IngredientEntry.FRUIT_AND_VEG:
                 Log.e("myTag", "The loader id is : " + FRUIT_AND_VEG);
@@ -252,10 +259,6 @@ public class IngredientFragment extends Fragment {
                 LoaderManager.getInstance(getActivity()).initLoader(MISC_LOADER, null, ingredientListLoader);
                 break;
         }
-
-
         return mRootView;
     }
-
-
 }

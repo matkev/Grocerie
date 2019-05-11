@@ -12,6 +12,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 
+
+/**
+ * An implementation of {@link ItemTouchHelper.Callback} that enables basic drag & drop and
+ * swipe-to-dismiss. Drag events are automatically started by an item long-press.<br/>
+ * </br/>
+ * Expects the <code>RecyclerView.Adapter</code> to react to {@link
+ * ItemTouchHelperAdapter} callbacks and the <code>RecyclerView.ViewHolder</code> to implement
+ * {@link ItemTouchHelperViewHolder}.
+ *
+ * @author Paul Burke (ipaulpro)
+ */
+
+
 public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback{
 
     static Context mContext;
@@ -44,6 +57,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback{
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder source, RecyclerView.ViewHolder target) {
         mAdapter.onItemMove(source.getAdapterPosition(), target.getAdapterPosition());
+        Log.e("reorder", "moving from " + source.getAdapterPosition() + " to " + target.getAdapterPosition());
         return true;
     }
 
@@ -70,6 +84,9 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback{
         itemViewHolder.onItemClear();
     }
 
+
+
+    //my own implementation
     public static void updateDatabase(Uri ingredientToBeUpdated, int newPosition) {
 
         //update the table
@@ -86,7 +103,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback{
                 IngredientEntry.COLUMN_INGREDIENT_PICKED_UP};
 
 
-        Cursor allIngredientsCursor = mContext.getContentResolver().query(IngredientEntry.CONTENT_URI, null, null, null, null);
+        Cursor allIngredientsCursor = mContext.getContentResolver().query(IngredientEntry.CONTENT_URI, projection, null, null, null);
 
         if (allIngredientsCursor.moveToFirst())
         {

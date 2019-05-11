@@ -29,6 +29,8 @@ public final class IngredientContract {
         public static final String COLUMN_INGREDIENT_CHECKED = "checked";
         public static final String COLUMN_INGREDIENT_CATEGORY = "category";
         public static final String COLUMN_INGREDIENT_PICKED_UP = "picked_up";
+        public static final String COLUMN_INGREDIENT_POSITION = "position";
+
 
 
         public static final int FRUIT_AND_VEG = 0;

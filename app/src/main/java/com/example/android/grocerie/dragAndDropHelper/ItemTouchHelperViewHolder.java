@@ -2,6 +2,12 @@ package com.example.android.grocerie.dragAndDropHelper;
 
 import androidx.recyclerview.widget.ItemTouchHelper;
 
+/**
+ * Interface to notify an item ViewHolder of relevant callbacks from {
+ * android.support.v7.widget.helper.ItemTouchHelper.Callback}.
+ */
+
+
 public interface ItemTouchHelperViewHolder {
     /**
      * Called when the {@link ItemTouchHelper} first registers an item as being moved or swiped.

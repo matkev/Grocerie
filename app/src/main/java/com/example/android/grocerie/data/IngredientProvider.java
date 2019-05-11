@@ -15,8 +15,11 @@ import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CHECKED_YES;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CHECKED_NO;
 
+import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_CATEGORY;
+import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.PICKED_UP_YES;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.PICKED_UP_NO;
+import static com.example.android.grocerie.data.IngredientContract.IngredientEntry._ID;
 
 /**
  * Created by matth on 4/5/2019.
@@ -81,7 +84,7 @@ public class IngredientProvider extends ContentProvider {
                         null, null, sortOrder);
                 break;
             case INGREDIENT_ID:
-                selection = IngredientEntry._ID + "=?";
+                selection = _ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 cursor = database.query(IngredientEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
@@ -129,6 +132,10 @@ public class IngredientProvider extends ContentProvider {
 
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
 
+        int maxPosition = getMaxPositionInCategory(values.getAsInteger(COLUMN_INGREDIENT_CATEGORY));
+        values.put(COLUMN_INGREDIENT_POSITION, maxPosition + 1);
+        Log.e("reorder", "inserting " + uri.toString() + " at position: " + (maxPosition + 1));
+
         long id = database.insert(IngredientEntry.TABLE_NAME, null, values);
 
         if (id == -1)
@@ -142,14 +149,14 @@ public class IngredientProvider extends ContentProvider {
         return ContentUris.withAppendedId(IngredientEntry.CONTENT_URI, id);
     }
 
-    public static boolean isValidChecked(int checked)
-    {
-        if (checked == CHECKED_YES || checked == CHECKED_NO ) {
-            return true;
-        }
-
-        return false;
-    }
+//    public static boolean isValidChecked(int checked)
+//    {
+//        if (checked == CHECKED_YES || checked == CHECKED_NO ) {
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
     /**
      * Updates the data at the given selection and selection arguments, with the new ContentValues.
@@ -163,9 +170,31 @@ public class IngredientProvider extends ContentProvider {
             case INGREDIENTS:
                 return updateIngredient(uri, contentValues, selection, selectionArgs);
             case INGREDIENT_ID:
-                selection = IngredientEntry._ID + "=?";
-
+                selection = _ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+
+
+                if (contentValues.containsKey(COLUMN_INGREDIENT_CATEGORY))
+                {
+                    int oldCategory = getCategory(uri);
+                    int newCategory = contentValues.getAsInteger(COLUMN_INGREDIENT_CATEGORY);
+                    if (oldCategory == newCategory)
+                    {
+                        Log.e("reorder", "category was the same");
+                    }
+                    else
+                    {
+                        Log.e("reorder", "category was different");
+
+                        int maxPosition = getMaxPositionInCategory(newCategory);
+                        contentValues.put(COLUMN_INGREDIENT_POSITION, maxPosition + 1);
+                        Log.e("reorder", "updating " + uri.toString() + " to position: " + (maxPosition + 1));
+
+
+//                    updateCategoryPositions(oldCategory);
+                    }
+                }
+
                 return updateIngredient(uri, contentValues, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
@@ -219,7 +248,7 @@ public class IngredientProvider extends ContentProvider {
                 break;
             case INGREDIENT_ID:
                 // Delete a single row given by the ID in the URI
-                selection = IngredientEntry._ID + "=?";
+                selection = _ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = database.delete(IngredientEntry.TABLE_NAME, selection, selectionArgs);
                 break;
@@ -250,4 +279,85 @@ public class IngredientProvider extends ContentProvider {
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }
     }
+
+    private int getCategory(Uri uri)
+    {
+        String [] projection = {IngredientEntry.COLUMN_INGREDIENT_CATEGORY };
+
+        Cursor cursor = getContext().getContentResolver().query(uri, projection, null, null,null);
+
+        int category = 3000;
+        if (cursor.moveToFirst())
+        {
+            int categoryindex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
+            category = cursor.getInt(categoryindex);
+        }
+
+
+        return category;
+    }
+
+    private int getMaxPositionInCategory(int category)
+    {
+
+        String [] projection = {IngredientEntry.COLUMN_INGREDIENT_POSITION};
+
+        String selection = COLUMN_INGREDIENT_CATEGORY + "=?";
+        String[] selectionArgs = new String[]{Integer.toString(category)};
+
+        Cursor cursor = getContext().getContentResolver().query(IngredientEntry.CONTENT_URI, projection, selection, selectionArgs, null);
+
+        int maxPosition = -1;
+
+        if (cursor.moveToFirst()) {
+            do {
+                int positionColumnIndex = cursor.getColumnIndex(COLUMN_INGREDIENT_POSITION);
+
+                // Extract out the value from the Cursor for the given column index
+                int position = cursor.getInt(positionColumnIndex);
+
+
+                if (position > maxPosition) {
+                    maxPosition = position;
+                }
+
+            } while (cursor.moveToNext());
+        }
+
+//        Log.e("reorder", "max position is " + maxPosition);
+        return maxPosition;
+    }
+
+
+    private void updateCategoryPositions(int category)
+    {
+
+        String [] projection = {IngredientEntry.COLUMN_INGREDIENT_POSITION};
+
+        String selection = COLUMN_INGREDIENT_CATEGORY + "=?";
+        String[] selectionArgs = new String[]{Integer.toString(category)};
+
+        Cursor cursor = getContext().getContentResolver().query(IngredientEntry.CONTENT_URI, projection, selection, selectionArgs, null);
+
+        int maxPosition = -1;
+
+        if (cursor.moveToFirst()) {
+            do {
+                int positionColumnIndex = cursor.getColumnIndex(COLUMN_INGREDIENT_POSITION);
+
+                // Extract out the value from the Cursor for the given column index
+                int position = cursor.getInt(positionColumnIndex);
+
+
+                if (position > maxPosition) {
+                    maxPosition = position;
+                }
+
+            } while (cursor.moveToNext());
+        }
+
+        Log.e("reorder", "max position is " + maxPosition);
+    }
+
+
 }
