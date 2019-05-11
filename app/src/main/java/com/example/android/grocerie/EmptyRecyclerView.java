@@ -1,4 +1,4 @@
-package com.example.android.grocerie.recyclerViewVersion;
+package com.example.android.grocerie;
 
 import android.content.Context;
 import android.util.AttributeSet;

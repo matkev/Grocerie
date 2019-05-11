@@ -1,7 +1,5 @@
 package com.example.android.grocerie.dragAndDropHelper;
 
-import com.example.android.grocerie.recyclerViewVersion.EmptyRecyclerView;
-
 /**
  * Interface to notify a {RecyclerView.Adapter} of moving and dismissal event from a {
  * android.support.v7.widget.helper.ItemTouchHelper.Callback}.

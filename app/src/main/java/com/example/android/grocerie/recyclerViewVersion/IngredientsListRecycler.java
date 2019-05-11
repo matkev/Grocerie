@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.android.grocerie.EmptyRecyclerView;
 import com.example.android.grocerie.IngredientEditor;
 import com.example.android.grocerie.R;
 import com.example.android.grocerie.RecyclerCursorAdapter;
@@ -204,7 +205,8 @@ public class IngredientsListRecycler extends AppCompatActivity implements Loader
                 IngredientEntry.COLUMN_INGREDIENT_UNIT,
                 IngredientEntry.COLUMN_INGREDIENT_CHECKED,
                 IngredientEntry.COLUMN_INGREDIENT_CATEGORY,
-                IngredientEntry.COLUMN_INGREDIENT_PICKED_UP};
+                IngredientEntry.COLUMN_INGREDIENT_PICKED_UP,
+                IngredientEntry.COLUMN_INGREDIENT_POSITION};
 
         return new CursorLoader(this,
                 IngredientEntry.CONTENT_URI,

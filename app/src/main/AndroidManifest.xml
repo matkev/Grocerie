@@ -13,12 +13,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".fragmentVersion.MainShoppingListActivity"></activity>
         <activity android:name=".fragmentVersion.MainIngredientListActivity" />
-        <activity android:name=".recyclerViewVersion.ShoppingListRecyclerV2" />
+        <activity android:name=".recyclerViewVersion.ShoppingListRecycler" />
         <activity
             android:name=".recyclerViewVersion.IngredientsListRecycler"
-            android:parentActivityName=".HomePage" />
-        <activity
-            android:name=".recyclerViewVersion.ShoppingListRecycler"
             android:parentActivityName=".HomePage" />
         <activity
             android:name=".HomePage"

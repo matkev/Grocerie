@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.example.android.grocerie.R;
-import com.example.android.grocerie.recyclerViewVersion.EmptyRecyclerView;
+import com.example.android.grocerie.EmptyRecyclerView;
 import com.example.android.grocerie.RecyclerCursorAdapter;
 
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
@@ -66,7 +66,8 @@ public class ShoppingFragment extends Fragment {
                     IngredientEntry.COLUMN_INGREDIENT_UNIT,
                     IngredientEntry.COLUMN_INGREDIENT_CHECKED,
                     IngredientEntry.COLUMN_INGREDIENT_CATEGORY,
-                    IngredientEntry.COLUMN_INGREDIENT_PICKED_UP};
+                    IngredientEntry.COLUMN_INGREDIENT_PICKED_UP,
+                    IngredientEntry.COLUMN_INGREDIENT_POSITION};
 
             String selection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=? AND " + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + " =?";
 

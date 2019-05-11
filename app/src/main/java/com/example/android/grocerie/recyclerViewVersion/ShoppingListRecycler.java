@@ -13,22 +13,68 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.example.android.grocerie.EmptyRecyclerView;
 import com.example.android.grocerie.R;
 import com.example.android.grocerie.RecyclerCursorAdapter;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 
-public class ShoppingListRecycler extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ShoppingListRecycler extends AppCompatActivity {
     EmptyRecyclerView mRecyclerView;
+    EmptyRecyclerView mPickedUpRecyclerView;
     RelativeLayout emptyView;
     private static final int SHOP_LOADER = 1;
+    private static final int PICKED_UP_LOADER = 2;
+
     private RecyclerCursorAdapter mCursorAdapter;
+    private RecyclerCursorAdapter mPickedUpAdapter;
+
+    private LoaderManager.LoaderCallbacks<Cursor> shoppingListLoader = new LoaderManager.LoaderCallbacks<Cursor>() {
+        @NonNull
+        @Override
+        public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+            if (id == SHOP_LOADER) {
+                return shoppingListLoader();
+            }
+            return null;
+        }
+
+        @Override
+        public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+            mCursorAdapter.swapCursor(data);
+        }
+
+        @Override
+        public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+            mCursorAdapter.swapCursor(null);
+        }
+    };
+
+    private LoaderManager.LoaderCallbacks<Cursor> pickedUpListLoader = new LoaderManager.LoaderCallbacks<Cursor>() {
+        @NonNull
+        @Override
+        public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+            if (id == PICKED_UP_LOADER) {
+                return pickedUpListLoader();
+            }
+            return null;
+        }
+
+        @Override
+        public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+            mPickedUpAdapter.swapCursor(data);
+        }
+
+        @Override
+        public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+            mPickedUpAdapter.swapCursor(null);
+        }
+    };
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,21 +86,31 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
 
         //bind view
         mRecyclerView = findViewById(R.id.shopping_list_view_recycler);
-        emptyView = findViewById(R.id.empty_view);
+
+        mPickedUpRecyclerView = findViewById(R.id.picked_up_list_view_recycler);
+//        emptyView = findViewById(R.id.empty_view);
 
         EmptyRecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        EmptyRecyclerView.LayoutManager mPickedUpLayoutManager = new LinearLayoutManager(getApplicationContext());
 
         //set layout manager
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mPickedUpRecyclerView.setLayoutManager(mPickedUpLayoutManager);
 
         //set default animator
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mCursorAdapter = new RecyclerCursorAdapter(IngredientEntry.SHOPPING_LIST_TYPE);
         mRecyclerView.setAdapter(mCursorAdapter);
 
-        mRecyclerView.setEmptyView(findViewById(R.id.empty_view));
+        mPickedUpRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mPickedUpAdapter = new RecyclerCursorAdapter(IngredientEntry.SHOPPING_LIST_TYPE);
+        mPickedUpRecyclerView.setAdapter(mPickedUpAdapter);
 
-        LoaderManager.getInstance(ShoppingListRecycler.this).initLoader(SHOP_LOADER, null, ShoppingListRecycler.this);
+//        mRecyclerView.setEmptyView(findViewById(R.id.empty_view));
+
+        LoaderManager.getInstance(ShoppingListRecycler.this).initLoader(SHOP_LOADER, null, shoppingListLoader);
+        LoaderManager.getInstance(ShoppingListRecycler.this).initLoader(PICKED_UP_LOADER, null, pickedUpListLoader);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,25 +132,6 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
         return super.onOptionsItemSelected(item);
     }
 
-    @NonNull
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        if (id == SHOP_LOADER) {
-            return shoppingListLoader();
-        }
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        mCursorAdapter.swapCursor(data);
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        mCursorAdapter.swapCursor(null);
-    }
-
     private Loader<Cursor> shoppingListLoader()
     {
         String [] projection = {
@@ -104,10 +141,34 @@ public class ShoppingListRecycler extends AppCompatActivity implements LoaderMan
                 IngredientEntry.COLUMN_INGREDIENT_UNIT,
                 IngredientEntry.COLUMN_INGREDIENT_CHECKED,
                 IngredientEntry.COLUMN_INGREDIENT_CATEGORY,
-                IngredientEntry.COLUMN_INGREDIENT_PICKED_UP};
+                IngredientEntry.COLUMN_INGREDIENT_PICKED_UP,
+                IngredientEntry.COLUMN_INGREDIENT_POSITION};
 
-        String selection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=?";
-        String[] selectionArgs = new String[]{"1"};
+        String selection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=? AND " + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + " =?";
+        String[] selectionArgs = new String[]{"1","0"};
+
+        return new CursorLoader(this,
+                IngredientEntry.CONTENT_URI,
+                projection,
+                selection,
+                selectionArgs,
+                null);
+    }
+
+    private Loader<Cursor> pickedUpListLoader()
+    {
+        String [] projection = {
+                IngredientEntry._ID,
+                IngredientEntry.COLUMN_INGREDIENT_NAME,
+                IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
+                IngredientEntry.COLUMN_INGREDIENT_UNIT,
+                IngredientEntry.COLUMN_INGREDIENT_CHECKED,
+                IngredientEntry.COLUMN_INGREDIENT_CATEGORY,
+                IngredientEntry.COLUMN_INGREDIENT_PICKED_UP,
+                IngredientEntry.COLUMN_INGREDIENT_POSITION};
+
+        String selection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=? AND " + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + " =?";
+        String[] selectionArgs = new String[]{"1","1"};
 
         return new CursorLoader(this,
                 IngredientEntry.CONTENT_URI,
