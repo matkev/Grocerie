@@ -12,14 +12,18 @@ import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.DragStartHelper;
+import androidx.core.view.MotionEventCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.grocerie.BaseCursorAdapter;
@@ -35,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static androidx.core.view.DragStartHelper.*;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SHOPPING_LIST_TYPE;
@@ -47,6 +52,7 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
 
     static final int EDITOR_REQUEST = 1;  // The request code
 
+    private final OnStartDragListener mDragStartListener;
     private Context mContext;
     private int mType;
     private List<Ingredient> mItems = new ArrayList<>();
@@ -55,10 +61,20 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
     LayoutInflater inflater;
     IngredientDbHelper dbHelper;
 
-    public RecyclerViewListAdapter(int type, List<Ingredient> datalist) {
+    public RecyclerViewListAdapter(int type, List<Ingredient> datalist, OnStartDragListener dragStartListener) {
         super();
         mType = type;
         mItems = datalist;
+        mDragStartListener = dragStartListener;
+        if (mDragStartListener == null)
+        {
+            Log.e("reorder", "mdragstartlistener is null");
+        }
+        else
+        {
+            Log.e("reorder", "mdragstartlistener is not null");
+
+        }
     }
 
     @Override
@@ -126,6 +142,8 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
 
         if (mType == SHOPPING_LIST_TYPE) // || mType == INGREDIENT_LIST_TYPE)
         {
+            holder.handleView.setVisibility(View.GONE);
+
             switch (ingredientCategory) {
                 case IngredientEntry.FRUIT_AND_VEG:
                     holder.categoryTextView.setText(R.string.fruit_and_veggie);
@@ -221,6 +239,30 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
             }
         });
 
+        if (mType == INGREDIENT_LIST_TYPE)
+        {
+            // Start a drag whenever the handle view it touched
+            holder.handleView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+//                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                    if (mDragStartListener == null)
+                    {
+                        Log.e("reorder", "in listener: mdragstartlistener is null");
+                    }
+                    else
+                    {
+                        Log.e("reorder", "in listener: mdragstartlistener is not null");
+
+                    }
+
+                    mDragStartListener.onStartDrag(holder);
+//                }
+                    return false;
+                }
+            });
+        }
+
     }
 
     @Override
@@ -266,6 +308,7 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
         TextView categoryTextView;
         CheckBox CheckBox;
         LinearLayout ingredientSummary;
+        ImageView handleView;
 
         IngredientViewHolder(View itemView) {
             super(itemView);
@@ -275,9 +318,15 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
             CheckBox = itemView.findViewById(R.id.checkBoxView);
             ingredientSummary = itemView.findViewById(R.id.ingredient_summary);
 
+
             if (mType == SHOPPING_LIST_TYPE) //|| mType == INGREDIENT_LIST_TYPE)
             {
+//                handleView.setVisibility(View.GONE);
                 categoryTextView = itemView.findViewById(R.id.textViewCategory);
+            }
+            else
+            {
+                handleView = itemView.findViewById(R.id.handle);
             }
         }
 

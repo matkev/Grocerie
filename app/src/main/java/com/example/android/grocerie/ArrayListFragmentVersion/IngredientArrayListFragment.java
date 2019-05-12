@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.DragStartHelper;
 import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.CursorLoader;
@@ -48,7 +49,7 @@ import static com.example.android.grocerie.data.IngredientContract.IngredientEnt
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry._ID;
 
 
-public class IngredientArrayListFragment extends Fragment {
+public class IngredientArrayListFragment extends Fragment implements OnStartDragListener {
 
     private ItemTouchHelper mItemTouchHelper;
 
@@ -108,34 +109,34 @@ public class IngredientArrayListFragment extends Fragment {
 
         //setting up recycler view
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mArrayListAdapter = new RecyclerViewListAdapter(INGREDIENT_LIST_TYPE, ingredientData);
+        mArrayListAdapter = new RecyclerViewListAdapter(INGREDIENT_LIST_TYPE, ingredientData, this);
         mRecyclerView.setAdapter(mArrayListAdapter);
 
-        //setting up drag and drop implementation
-//        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mArrayListAdapter, this.getContext());
-//        mItemTouchHelper = new ItemTouchHelper(callback);
-//        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+//        setting up drag and drop implementation
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mArrayListAdapter, this.getContext());
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
-        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
-                int position_dragged = dragged.getAdapterPosition();
-                int position_target = target.getAdapterPosition();
+//        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
+//            @Override
+//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
+//                int position_dragged = dragged.getAdapterPosition();
+//                int position_target = target.getAdapterPosition();
+//
+//                Collections.swap(ingredientData, position_dragged, position_target);
+//
+//                mArrayListAdapter.notifyItemMoved(position_dragged, position_target);
+//
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+//
+//            }
+//        });
 
-                Collections.swap(ingredientData, position_dragged, position_target);
-
-                mArrayListAdapter.notifyItemMoved(position_dragged, position_target);
-
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
-            }
-        });
-
-        helper.attachToRecyclerView(mRecyclerView);
+//        helper.attachToRecyclerView(mRecyclerView);
 
         Log.e("myTag", "Called from onCreateView: this ingredient category is : " + mIngredientCategory);
 
@@ -156,34 +157,34 @@ public class IngredientArrayListFragment extends Fragment {
 
         //setting up recycler view
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mArrayListAdapter = new RecyclerViewListAdapter(INGREDIENT_LIST_TYPE, ingredientData);
+        mArrayListAdapter = new RecyclerViewListAdapter(INGREDIENT_LIST_TYPE, ingredientData, this);
         mRecyclerView.setAdapter(mArrayListAdapter);
 
 //        //setting up drag and drop implementation
-//        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mArrayListAdapter, this.getContext());
-//        mItemTouchHelper = new ItemTouchHelper(callback);
-//        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mArrayListAdapter, this.getContext());
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
-        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
-                int position_dragged = dragged.getAdapterPosition();
-                int position_target = target.getAdapterPosition();
-
-                Collections.swap(ingredientData, position_dragged, position_target);
-
-                mArrayListAdapter.notifyItemMoved(position_dragged, position_target);
-
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
-            }
-        });
-
-        helper.attachToRecyclerView(mRecyclerView);
+//        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
+//            @Override
+//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
+//                int position_dragged = dragged.getAdapterPosition();
+//                int position_target = target.getAdapterPosition();
+//
+//                Collections.swap(ingredientData, position_dragged, position_target);
+//
+//                mArrayListAdapter.notifyItemMoved(position_dragged, position_target);
+//
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+//
+//            }
+//        });
+//
+//        helper.attachToRecyclerView(mRecyclerView);
     }
 
 
@@ -237,5 +238,10 @@ public class IngredientArrayListFragment extends Fragment {
             }while(cursor.moveToNext());
         }
         return allIngredients;
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
     }
 }
