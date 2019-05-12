@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -310,6 +311,7 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
         TextView categoryTextView;
         CheckBox CheckBox;
         LinearLayout ingredientSummary;
+        ImageView handleView;
 
         IngredientViewHolder(View itemView) {
             super(itemView);
@@ -318,6 +320,9 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
             summaryTextView = itemView.findViewById(R.id.textViewSummary);
             CheckBox = itemView.findViewById(R.id.checkBoxView);
             ingredientSummary = itemView.findViewById(R.id.ingredient_summary);
+            handleView = itemView.findViewById(R.id.handle);
+
+            handleView.setVisibility(View.INVISIBLE);
 
             if (mType == SHOPPING_LIST_TYPE) //|| mType == INGREDIENT_LIST_TYPE)
             {

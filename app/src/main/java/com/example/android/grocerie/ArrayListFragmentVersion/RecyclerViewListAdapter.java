@@ -47,8 +47,7 @@ import static com.example.android.grocerie.data.IngredientContract.IngredientEnt
 
 
 public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewListAdapter.IngredientViewHolder>
-        implements ItemTouchHelperAdapter
-{
+        implements ItemTouchHelperAdapter {
 
     static final int EDITOR_REQUEST = 1;  // The request code
 
@@ -66,15 +65,6 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
         mType = type;
         mItems = datalist;
         mDragStartListener = dragStartListener;
-        if (mDragStartListener == null)
-        {
-            Log.e("reorder", "mdragstartlistener is null");
-        }
-        else
-        {
-            Log.e("reorder", "mdragstartlistener is not null");
-
-        }
     }
 
     @Override
@@ -104,12 +94,9 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
         int ingredientPosition = currentIngredient.getPosition();
 
         int ingredientChecked;
-        if (mType == INGREDIENT_LIST_TYPE)
-        {
+        if (mType == INGREDIENT_LIST_TYPE) {
             ingredientChecked = currentIngredient.getTo_buy();
-        }
-        else
-        {
+        } else {
             ingredientChecked = currentIngredient.getPicked_up();
         }
 
@@ -118,15 +105,14 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
         }
 
 
-        if (mType == INGREDIENT_LIST_TYPE)
-        {
+        if (mType == INGREDIENT_LIST_TYPE) {
             Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, idValue);
 
             Log.e("reorder", "the current ingredient is " + currentIngredientUri);
-            int databasePosition = currentIngredient.getPosition();;
+            int databasePosition = currentIngredient.getPosition();
+            ;
             int listPosition = holder.getAdapterPosition();
-            if (databasePosition != listPosition)
-            {
+            if (databasePosition != listPosition) {
                 Log.e("reorder", "order of " + currentIngredientUri.toString() + " was updated from " + databasePosition + " to " + listPosition);
 
                 currentIngredient.setPosition(listPosition);
@@ -142,7 +128,7 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
 
         if (mType == SHOPPING_LIST_TYPE) // || mType == INGREDIENT_LIST_TYPE)
         {
-            holder.handleView.setVisibility(View.GONE);
+            holder.handleView.setVisibility(View.INVISIBLE);
 
             switch (ingredientCategory) {
                 case IngredientEntry.FRUIT_AND_VEG:
@@ -202,17 +188,14 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
 
                 ContentValues values = new ContentValues();
 
-                if (mType == INGREDIENT_LIST_TYPE)
-                {
+                if (mType == INGREDIENT_LIST_TYPE) {
                     values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checkboxString);
                     values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, 0);
 
                     currentIngredient.setTo_buy(checkboxInt);
                     currentIngredient.setPicked_up(0);
 
-                }
-                else
-                {
+                } else {
                     values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, checkboxString);
                     currentIngredient.setPicked_up(checkboxInt);
 
@@ -235,27 +218,16 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
 
                 intent.setData(currentIngredientUri);
 
-                ((Activity)mContext).startActivityForResult(intent, EDITOR_REQUEST);
+                ((Activity) mContext).startActivityForResult(intent, EDITOR_REQUEST);
             }
         });
 
-        if (mType == INGREDIENT_LIST_TYPE)
-        {
+        if (mType == INGREDIENT_LIST_TYPE) {
             // Start a drag whenever the handle view it touched
             holder.handleView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
 //                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                    if (mDragStartListener == null)
-                    {
-                        Log.e("reorder", "in listener: mdragstartlistener is null");
-                    }
-                    else
-                    {
-                        Log.e("reorder", "in listener: mdragstartlistener is not null");
-
-                    }
-
                     mDragStartListener.onStartDrag(holder);
 //                }
                     return false;
@@ -270,32 +242,10 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
         return mItems.size();
     }
 
-    public void onBindViewHolder(IngredientViewHolder holder, Cursor cursor) {
-
-    }
-
-//    @Override
-//    public void onItemDismiss(int position) {
-//        mItems.remove(position);
-//        notifyItemRemoved(position);
-//    }
-
     public void onItemMove(int fromPosition, int toPosition) {
 
-//        Ingredient prev = mItems.remove(fromPosition);
-//        mItems.add(toPosition > fromPosition ? toPosition - 1 : toPosition, prev);
-
-//        if (fromPosition < toPosition) {
-//            for (int i = fromPosition; i < toPosition; i++) {
-//                Collections.swap(mItems, i, i + 1);
-//            }
-//        } else {
-//            for (int i = fromPosition; i > toPosition; i--) {
-//                Collections.swap(mItems, i, i - 1);
-//            }
-//        }
-
         Collections.swap(mItems, fromPosition, toPosition);
+
 
         notifyItemMoved(fromPosition, toPosition);
     }
@@ -309,6 +259,8 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
         CheckBox CheckBox;
         LinearLayout ingredientSummary;
         ImageView handleView;
+        int beforeMovePosition;
+        int afterMovePosition;
 
         IngredientViewHolder(View itemView) {
             super(itemView);
@@ -317,25 +269,72 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
             summaryTextView = itemView.findViewById(R.id.textViewSummary);
             CheckBox = itemView.findViewById(R.id.checkBoxView);
             ingredientSummary = itemView.findViewById(R.id.ingredient_summary);
+            handleView = itemView.findViewById(R.id.handle);
 
 
-            if (mType == SHOPPING_LIST_TYPE) //|| mType == INGREDIENT_LIST_TYPE)
-            {
-//                handleView.setVisibility(View.GONE);
+            if (mType == SHOPPING_LIST_TYPE) {
+                handleView.setVisibility(View.INVISIBLE);
                 categoryTextView = itemView.findViewById(R.id.textViewCategory);
             }
-            else
-            {
-                handleView = itemView.findViewById(R.id.handle);
-            }
+
         }
 
         public void onItemSelected() {
-//            itemView.setBackgroundColor(Color.LTGRAY);
+            itemView.setBackgroundColor(Color.LTGRAY);
+            beforeMovePosition = this.getAdapterPosition();
+
+            displayItems();
+
         }
 
         public void onItemClear() {
-//            itemView.setBackgroundColor(0);
+            itemView.setBackgroundColor(0);
+            afterMovePosition = this.getAdapterPosition();
+            displayItems();
+
+            if (afterMovePosition != beforeMovePosition) {
+                if (afterMovePosition > beforeMovePosition) {
+                    for (int i = beforeMovePosition; i < afterMovePosition; i++) {
+                        int id = mItems.get(i).getId();
+                        updatePosition(id, i);
+//                        mItems.get(i).setPosition(i);
+                    }
+                }
+                if (afterMovePosition < beforeMovePosition)
+                {
+                    for (int i = beforeMovePosition; i > afterMovePosition; i--)
+                    {
+                        int id = mItems.get(i).getId();
+                        updatePosition(id, i);
+//                        mItems.get(i).setPosition(i);
+                    }
+                }
+            }
+
+            int id = mItems.get(afterMovePosition).getId();
+            updatePosition(id, afterMovePosition);
+//            mItems.get(afterMovePosition).setPosition(afterMovePosition);
+
+        }
+    }
+
+    public void updatePosition(int uriId, int newPosition) {
+
+        Uri uriToUpdate = ContentUris.withAppendedId(IngredientEntry.CONTENT_URI, uriId);
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_INGREDIENT_POSITION, Integer.toString(newPosition));
+
+        mContext.getContentResolver().update(uriToUpdate, values, null, null);
+    }
+
+    public void displayItems()
+    {
+        Log.e("reorder", "displaying all items names///////");
+
+        for (int i = 0;  i < mItems.size(); i ++)
+        {
+            String name = mItems.get(i).getName();
+            Log.e("reorder", name);
         }
     }
 }

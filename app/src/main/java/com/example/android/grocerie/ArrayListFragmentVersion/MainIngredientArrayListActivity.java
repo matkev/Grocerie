@@ -127,6 +127,9 @@ public class MainIngredientArrayListActivity extends AppCompatActivity {
             case R.id.action_clear_all_entries:
                 clearAllItems();
                 return true;
+            case R.id.action_edit_mode:
+                startEditMode();
+                return true;
             //TODO: sort by alphabet or most recent
         }
         return super.onOptionsItemSelected(item);
@@ -228,6 +231,11 @@ public class MainIngredientArrayListActivity extends AppCompatActivity {
                     Toast.LENGTH_SHORT,
                     cursor);
         }
+    }
+
+    private void startEditMode()
+    {
+
     }
 
     //populates the viewpager with fragments and titles

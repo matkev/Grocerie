@@ -1,18 +1,12 @@
 package com.example.android.grocerie.ArrayListFragmentVersion;
 
-import android.database.ContentObserver;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.view.DragStartHelper;
 import androidx.fragment.app.Fragment;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.CursorLoader;
-import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,24 +22,13 @@ import com.example.android.grocerie.R;
 import com.example.android.grocerie.dragAndDropHelper.SimpleItemTouchHelperCallback;
 import com.example.android.grocerie.EmptyRecyclerView;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
-import com.example.android.grocerie.fragmentVersion.IngredientFragment;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.BREAD_AND_GRAIN;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CANNED;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_CATEGORY;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.DAIRY;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.DRINKS;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.FROZEN;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.FRUIT_AND_VEG;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.MEAT_AND_PROT;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.MISC;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SNACKS;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry._ID;
 
 
@@ -117,27 +100,6 @@ public class IngredientArrayListFragment extends Fragment implements OnStartDrag
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
-//        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
-//            @Override
-//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
-//                int position_dragged = dragged.getAdapterPosition();
-//                int position_target = target.getAdapterPosition();
-//
-//                Collections.swap(ingredientData, position_dragged, position_target);
-//
-//                mArrayListAdapter.notifyItemMoved(position_dragged, position_target);
-//
-//                return false;
-//            }
-//
-//            @Override
-//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-//
-//            }
-//        });
-
-//        helper.attachToRecyclerView(mRecyclerView);
-
         Log.e("myTag", "Called from onCreateView: this ingredient category is : " + mIngredientCategory);
 
         return mRootView;
@@ -164,27 +126,6 @@ public class IngredientArrayListFragment extends Fragment implements OnStartDrag
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mArrayListAdapter, this.getContext());
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mRecyclerView);
-
-//        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
-//            @Override
-//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
-//                int position_dragged = dragged.getAdapterPosition();
-//                int position_target = target.getAdapterPosition();
-//
-//                Collections.swap(ingredientData, position_dragged, position_target);
-//
-//                mArrayListAdapter.notifyItemMoved(position_dragged, position_target);
-//
-//                return false;
-//            }
-//
-//            @Override
-//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-//
-//            }
-//        });
-//
-//        helper.attachToRecyclerView(mRecyclerView);
     }
 
 
