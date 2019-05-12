@@ -190,6 +190,8 @@ public class IngredientFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        Log.e("reorder", "we are in the normal ingredient fragment");
+
         Bundle bundle = getArguments();
         mIngredientCategory = bundle.getInt(ingredientCategoryKey);
 

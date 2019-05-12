@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.android.grocerie.ArrayListFragmentVersion.MainIngredientArrayListActivity;
@@ -77,6 +78,8 @@ public class HomePage extends AppCompatActivity {
     public void sendToArrayListIngredientList (View view)
     {
         Intent intent = new Intent(this, MainIngredientArrayListActivity.class);
+
+        Log.e("reorder", "sending to main ingredient array list activity");
 
         startActivity(intent);
     }

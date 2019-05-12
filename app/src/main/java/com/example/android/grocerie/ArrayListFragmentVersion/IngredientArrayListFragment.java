@@ -14,6 +14,7 @@ import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.util.Log;
@@ -25,12 +26,17 @@ import android.widget.RelativeLayout;
 import com.example.android.grocerie.R;
 import com.example.android.grocerie.dragAndDropHelper.SimpleItemTouchHelperCallback;
 import com.example.android.grocerie.EmptyRecyclerView;
-import com.example.android.grocerie.RecyclerCursorAdapter;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 import com.example.android.grocerie.fragmentVersion.IngredientFragment;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.BREAD_AND_GRAIN;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CANNED;
+import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_CATEGORY;
+import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.DAIRY;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.DRINKS;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.FROZEN;
@@ -39,23 +45,12 @@ import static com.example.android.grocerie.data.IngredientContract.IngredientEnt
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.MEAT_AND_PROT;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.MISC;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SNACKS;
+import static com.example.android.grocerie.data.IngredientContract.IngredientEntry._ID;
 
 
 public class IngredientArrayListFragment extends Fragment {
 
     private ItemTouchHelper mItemTouchHelper;
-
-
-    //loader ids
-    private static final int FRUIT_AND_VEGGIE_LOADER = FRUIT_AND_VEG;
-    private static final int MEAT_AND_PROT_LOADER = MEAT_AND_PROT;
-    private static final int BREAD_AND_GRAIN_LOADER = BREAD_AND_GRAIN;
-    private static final int DAIRY_LOADER = DAIRY;
-    private static final int FROZEN_LOADER = FROZEN;
-    private static final int CANNED_LOADER = CANNED;
-    private static final int DRINKS_LOADER = DRINKS;
-    private static final int SNACKS_LOADER = SNACKS;
-    private static final int MISC_LOADER = MISC;
 
     //views
     EmptyRecyclerView mRecyclerView;
@@ -63,7 +58,7 @@ public class IngredientArrayListFragment extends Fragment {
     ConstraintLayout mRootView;
 
     //reyclerview adapter
-    private RecyclerCursorAdapter mCursorAdapter;
+    private RecyclerViewListAdapter mArrayListAdapter;
 
     private static final String ingredientCategoryKey = "IngredientCategory";
 
@@ -74,112 +69,10 @@ public class IngredientArrayListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public IngredientArrayListFragment(int ingredientCategory)
-    {
-        Log.e("myTag", "Called from constructor: this ingredient category is : " + ingredientCategory);
-        mIngredientCategory = ingredientCategory;
-    }
-
-
-    private LoaderManager.LoaderCallbacks<Cursor> ingredientListLoader = new LoaderManager.LoaderCallbacks<Cursor>() {
-        @NonNull
-        @Override
-        public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-
-            String [] projection = {
-                    IngredientEntry._ID,
-                    IngredientEntry.COLUMN_INGREDIENT_NAME,
-                    IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
-                    IngredientEntry.COLUMN_INGREDIENT_UNIT,
-                    IngredientEntry.COLUMN_INGREDIENT_CHECKED,
-                    IngredientEntry.COLUMN_INGREDIENT_CATEGORY,
-                    IngredientEntry.COLUMN_INGREDIENT_PICKED_UP,
-                    IngredientEntry.COLUMN_INGREDIENT_POSITION};
-
-            String selection = IngredientEntry.COLUMN_INGREDIENT_CATEGORY + "=?";
-
-            String[] selectionArgs;
-            switch (id) {
-                case FRUIT_AND_VEGGIE_LOADER:
-                    Log.e("myTag", "The selection args is : " + FRUIT_AND_VEG);
-                    selectionArgs = new String[]{Integer.toString(FRUIT_AND_VEG)};
-                    break;
-                case MEAT_AND_PROT_LOADER:
-                    Log.e("myTag", "The selection args is : " + MEAT_AND_PROT);
-                    selectionArgs = new String[]{Integer.toString(MEAT_AND_PROT)};
-                    break;
-                case BREAD_AND_GRAIN_LOADER:
-                    Log.e("myTag", "The selection args is : " + BREAD_AND_GRAIN);
-                    selectionArgs = new String[]{Integer.toString(BREAD_AND_GRAIN)};
-                    break;
-                case DAIRY_LOADER:
-                    Log.e("myTag", "The selection args is : " + DAIRY);
-                    selectionArgs = new String[]{Integer.toString(DAIRY)};
-                    break;
-                case FROZEN_LOADER:
-                    Log.e("myTag", "The selection args is : " + FROZEN);
-                    selectionArgs = new String[]{Integer.toString(FROZEN)};
-                    break;
-                case CANNED_LOADER:
-                    Log.e("myTag", "The selection args is : " + CANNED);
-                    selectionArgs = new String[]{Integer.toString(CANNED)};
-                    break;
-                case DRINKS_LOADER:
-                    Log.e("myTag", "The selection args is : " + DRINKS);
-                    selectionArgs = new String[]{Integer.toString(DRINKS)};
-                    break;
-                case SNACKS_LOADER:
-                    Log.e("myTag", "The selection args is : " + SNACKS);
-                    selectionArgs = new String[]{Integer.toString(SNACKS)};
-                    break;
-                default:
-                    Log.e("myTag", "The selection args is : " + MISC);
-                    selectionArgs = new String[]{Integer.toString(MISC)};
-                    break;
-            }
-
-
-            ContentObserver observer = new ContentObserver(new Handler()) {
-                @Override
-                public boolean deliverSelfNotifications() {
-                    return super.deliverSelfNotifications();
-                }
-
-                @Override
-                public void onChange(boolean selfChange) {
-                    super.onChange(selfChange);
-                }
-
-                @Override
-                public void onChange(boolean selfChange, Uri uri) {
-                    super.onChange(selfChange, uri);
-                }
-            };
-            getActivity().getContentResolver().registerContentObserver(IngredientEntry.CONTENT_URI, false, observer);
-
-            return new CursorLoader(getActivity(),
-                    IngredientEntry.CONTENT_URI,
-                    projection,
-                    selection,
-                    selectionArgs,
-                    IngredientEntry.COLUMN_INGREDIENT_POSITION);
-        }
-
-        @Override
-        public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-            mCursorAdapter.swapCursor(data);
-        }
-
-        @Override
-        public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-            mCursorAdapter.swapCursor(null);
-        }
-    };
-
     //factory method with bundled arguments instead of a constructor with arguments
     //default constructor is called when fragment is drestroyed by default
-    public static IngredientFragment newInstance(int ingredientCategory) {
-        IngredientFragment fragment = new IngredientFragment();
+    public static IngredientArrayListFragment newInstance(int ingredientCategory) {
+        IngredientArrayListFragment fragment = new IngredientArrayListFragment();
         Log.e("myTag", "Called from newInstance: this ingredient category is : " + ingredientCategory);
 
         Bundle args = new Bundle();
@@ -190,6 +83,8 @@ public class IngredientArrayListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        Log.e("reorder", "we are in the array list ingredient fragment");
 
         Bundle bundle = getArguments();
         mIngredientCategory = bundle.getInt(ingredientCategoryKey);
@@ -209,57 +104,138 @@ public class IngredientArrayListFragment extends Fragment {
         //setting empty view
         mRecyclerView.setEmptyView(emptyView);
 
+       List<Ingredient> ingredientData = getAllIngredients(mIngredientCategory);
+
         //setting up recycler view
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mCursorAdapter = new RecyclerCursorAdapter(INGREDIENT_LIST_TYPE);
-        mRecyclerView.setAdapter(mCursorAdapter);
+        mArrayListAdapter = new RecyclerViewListAdapter(INGREDIENT_LIST_TYPE, ingredientData);
+        mRecyclerView.setAdapter(mArrayListAdapter);
 
         //setting up drag and drop implementation
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter, this.getContext());
-        mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+//        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mArrayListAdapter, this.getContext());
+//        mItemTouchHelper = new ItemTouchHelper(callback);
+//        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
+                int position_dragged = dragged.getAdapterPosition();
+                int position_target = target.getAdapterPosition();
+
+                Collections.swap(ingredientData, position_dragged, position_target);
+
+                mArrayListAdapter.notifyItemMoved(position_dragged, position_target);
+
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+            }
+        });
+
+        helper.attachToRecyclerView(mRecyclerView);
 
         Log.e("myTag", "Called from onCreateView: this ingredient category is : " + mIngredientCategory);
 
-        //starting loader based on the category
-        switch (mIngredientCategory) {
-            case IngredientEntry.FRUIT_AND_VEG:
-                Log.e("myTag", "The loader id is : " + FRUIT_AND_VEG);
-                LoaderManager.getInstance(getActivity()).initLoader(FRUIT_AND_VEGGIE_LOADER, null, ingredientListLoader);
-                break;
-            case IngredientEntry.MEAT_AND_PROT:
-                Log.e("myTag", "The loader id is : " + MEAT_AND_PROT);
-                LoaderManager.getInstance(getActivity()).initLoader(MEAT_AND_PROT_LOADER, null, ingredientListLoader);
-                break;
-            case IngredientEntry.BREAD_AND_GRAIN:
-                Log.e("myTag", "The loader id is : " + BREAD_AND_GRAIN);
-                LoaderManager.getInstance(getActivity()).initLoader(BREAD_AND_GRAIN_LOADER, null, ingredientListLoader);
-                break;
-            case IngredientEntry.DAIRY:
-                Log.e("myTag", "The loader id is : " + DAIRY);
-                LoaderManager.getInstance(getActivity()).initLoader(DAIRY_LOADER, null, ingredientListLoader);
-                break;
-            case IngredientEntry.FROZEN:
-                Log.e("myTag", "The loader id is : " + FROZEN);
-                LoaderManager.getInstance(getActivity()).initLoader(FROZEN_LOADER, null, ingredientListLoader);
-                break;
-            case IngredientEntry.CANNED:
-                Log.e("myTag", "The loader id is : " + CANNED);
-                LoaderManager.getInstance(getActivity()).initLoader(CANNED_LOADER, null, ingredientListLoader);
-                break;
-            case IngredientEntry.DRINKS:
-                Log.e("myTag", "The loader id is : " + DRINKS);
-                LoaderManager.getInstance(getActivity()).initLoader(DRINKS_LOADER, null, ingredientListLoader);
-                break;
-            case IngredientEntry.SNACKS:
-                Log.e("myTag", "The loader id is : " + SNACKS);
-                LoaderManager.getInstance(getActivity()).initLoader(SNACKS_LOADER, null, ingredientListLoader);
-                break;
-            default:
-                Log.e("myTag", "The loader id is : " + MISC);
-                LoaderManager.getInstance(getActivity()).initLoader(MISC_LOADER, null, ingredientListLoader);
-                break;
-        }
         return mRootView;
+    }
+
+    public void onResume()
+    {
+        super.onResume();
+        //binding views
+        mRecyclerView = mRootView.findViewById(R.id.recyclerView);
+        emptyView = mRootView.findViewById(R.id.empty_view);
+
+        //setting empty view
+        mRecyclerView.setEmptyView(emptyView);
+
+        List<Ingredient> ingredientData = getAllIngredients(mIngredientCategory);
+
+        //setting up recycler view
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mArrayListAdapter = new RecyclerViewListAdapter(INGREDIENT_LIST_TYPE, ingredientData);
+        mRecyclerView.setAdapter(mArrayListAdapter);
+
+//        //setting up drag and drop implementation
+//        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mArrayListAdapter, this.getContext());
+//        mItemTouchHelper = new ItemTouchHelper(callback);
+//        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
+
+        ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder dragged, @NonNull RecyclerView.ViewHolder target) {
+                int position_dragged = dragged.getAdapterPosition();
+                int position_target = target.getAdapterPosition();
+
+                Collections.swap(ingredientData, position_dragged, position_target);
+
+                mArrayListAdapter.notifyItemMoved(position_dragged, position_target);
+
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+            }
+        });
+
+        helper.attachToRecyclerView(mRecyclerView);
+    }
+
+
+    public ArrayList<Ingredient> getAllIngredients(int ingredientCategory)
+    {
+
+        String [] projection = {
+                IngredientEntry._ID,
+                IngredientEntry.COLUMN_INGREDIENT_NAME,
+                IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
+                IngredientEntry.COLUMN_INGREDIENT_UNIT,
+                IngredientEntry.COLUMN_INGREDIENT_CHECKED,
+                IngredientEntry.COLUMN_INGREDIENT_CATEGORY,
+                IngredientEntry.COLUMN_INGREDIENT_PICKED_UP,
+                IngredientEntry.COLUMN_INGREDIENT_POSITION};
+
+        String selection = COLUMN_INGREDIENT_CATEGORY + "=?";
+
+        String[] selectionArgs = new String[]{Integer.toString(ingredientCategory)};
+
+        Cursor cursor = getContext().getContentResolver().query(IngredientEntry.CONTENT_URI, projection, selection, selectionArgs, COLUMN_INGREDIENT_POSITION);
+
+        ArrayList<Ingredient> allIngredients = new ArrayList<>();
+        if (cursor.moveToFirst())
+        {
+
+            do {
+                int idColumnIndex = cursor.getColumnIndex(_ID);
+                int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
+                int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
+                int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
+                int toBuyColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CHECKED);
+                int pickedUpColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP);
+                int categoryColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
+                int positionColumnIndex = cursor.getColumnIndex(COLUMN_INGREDIENT_POSITION);
+
+                // Extract out the value from the Cursor for the given column index
+                int id = cursor.getInt(idColumnIndex);
+                String name = cursor.getString(nameColumnIndex);
+                String amount = cursor.getString(amountColumnIndex);
+                String unit = cursor.getString(unitColumnIndex);
+                int toBuy = cursor.getInt(toBuyColumnIndex);
+                int category = cursor.getInt(categoryColumnIndex);
+                int pickedUp = cursor.getInt(pickedUpColumnIndex);
+                int position = cursor.getInt(positionColumnIndex);
+
+
+                allIngredients.add(new Ingredient (id, name, amount, unit, toBuy, category, pickedUp, position));
+
+
+            }while(cursor.moveToNext());
+        }
+        return allIngredients;
     }
 }

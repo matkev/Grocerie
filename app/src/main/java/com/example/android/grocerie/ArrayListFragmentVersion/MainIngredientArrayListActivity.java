@@ -24,8 +24,6 @@ import android.widget.Toast;
 
 import com.example.android.grocerie.IngredientEditor;
 import com.example.android.grocerie.R;
-import com.example.android.grocerie.fragmentVersion.IngredientFragment;
-import com.example.android.grocerie.fragmentVersion.MainIngredientListActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -61,6 +59,8 @@ public class MainIngredientArrayListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_ingredient_list_array_list_fragments);
         mainLayout = findViewById(R.id.main_layout_id);
 
+        Log.e("reorder", "we are in the main array list ingredient activity");
+
         //setup custom toolbar
         initToolbar();
 
@@ -90,15 +90,15 @@ public class MainIngredientArrayListActivity extends AppCompatActivity {
         PagerAdapter pagerAdapter = new PagerAdapter(this, getSupportFragmentManager());
 
 
-        pagerAdapter.addFragment(IngredientFragment.newInstance(0), getString(R.string.fruit_and_veggie));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(1), getString(R.string.meat_and_prot));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(2), getString(R.string.bread_and_grain));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(3), getString(R.string.dairy));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(4), getString(R.string.frozen));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(5), getString(R.string.canned));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(6), getString(R.string.drinks));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(7), getString(R.string.snacks));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(8), getString(R.string.misc));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(0), getString(R.string.fruit_and_veggie));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(1), getString(R.string.meat_and_prot));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(2), getString(R.string.bread_and_grain));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(3), getString(R.string.dairy));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(4), getString(R.string.frozen));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(5), getString(R.string.canned));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(6), getString(R.string.drinks));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(7), getString(R.string.snacks));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(8), getString(R.string.misc));
 
 
         viewPager.setAdapter(pagerAdapter);
