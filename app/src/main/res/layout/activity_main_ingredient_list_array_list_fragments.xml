@@ -31,7 +31,6 @@
             app:tabTextColor="@color/tabTextColor"
             app:tabSelectedTextColor="@color/tabSelectedTextColor"
             app:tabIndicatorColor="@color/tabIndicatorColor"
-
             app:tabIndicatorHeight="6dp"
             app:tabMode="scrollable"
             />

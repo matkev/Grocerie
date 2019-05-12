@@ -13,9 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.RelativeLayout;
 
 import com.example.android.grocerie.R;
@@ -33,6 +38,8 @@ import static com.example.android.grocerie.data.IngredientContract.IngredientEnt
 
 
 public class IngredientArrayListFragment extends Fragment implements OnStartDragListener {
+
+
 
     private ItemTouchHelper mItemTouchHelper;
 
@@ -88,7 +95,8 @@ public class IngredientArrayListFragment extends Fragment implements OnStartDrag
         //setting empty view
         mRecyclerView.setEmptyView(emptyView);
 
-       List<Ingredient> ingredientData = getAllIngredients(mIngredientCategory);
+
+        List<Ingredient> ingredientData = getAllIngredients(mIngredientCategory);
 
         //setting up recycler view
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -185,4 +193,6 @@ public class IngredientArrayListFragment extends Fragment implements OnStartDrag
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         mItemTouchHelper.startDrag(viewHolder);
     }
+
+
 }

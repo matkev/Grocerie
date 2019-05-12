@@ -11,7 +11,11 @@ import android.net.Uri;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
+import androidx.appcompat.view.ActionMode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.DragStartHelper;
 import androidx.core.view.MotionEventCompat;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,16 +54,48 @@ import static com.example.android.grocerie.data.IngredientContract.IngredientEnt
 public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewListAdapter.IngredientViewHolder>
         implements ItemTouchHelperAdapter {
 
+//    private boolean isActionMode = false;
+
     static final int EDITOR_REQUEST = 1;  // The request code
 
     private final OnStartDragListener mDragStartListener;
     private Context mContext;
     private int mType;
-    private List<Ingredient> mItems = new ArrayList<>();
+    private List<Ingredient> mItems;
 
-    //from SO
-    LayoutInflater inflater;
-    IngredientDbHelper dbHelper;
+    private ActionMode.Callback actionModeCallbacks = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+            MenuInflater menuInflater = actionMode.getMenuInflater();
+
+            menuInflater.inflate(R.menu.menu_edit_mode, menu);
+            actionMode.setTitle("Edit Ingredient Positions");
+            Log.e("reorder", "action mode created");
+            MainIngredientArrayListActivity.isActionMode = true;
+            notifyDataSetChanged();
+
+
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+            Log.e("reorder", "on prepare action mode called");
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+            actionMode.finish();
+            return false;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode actionMode) {
+            MainIngredientArrayListActivity.isActionMode = false;
+            notifyDataSetChanged();
+        }
+    };
 
     public RecyclerViewListAdapter(int type, List<Ingredient> datalist, OnStartDragListener dragStartListener) {
         super();
@@ -222,6 +259,14 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
             }
         });
 
+        holder.ingredientSummary.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                ((AppCompatActivity)view.getContext()).startSupportActionMode(actionModeCallbacks);
+                return true;
+            }
+        });
+
         if (mType == INGREDIENT_LIST_TYPE) {
             // Start a drag whenever the handle view it touched
             holder.handleView.setOnTouchListener(new View.OnTouchListener() {
@@ -233,6 +278,18 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
                     return false;
                 }
             });
+        }
+
+        if (MainIngredientArrayListActivity.isActionMode)
+        {
+            holder.handleView.setVisibility(View.VISIBLE);
+            Log.e("reorder", "set handles to visible");
+        }
+        else
+        {
+            holder.handleView.setVisibility(View.GONE);
+            Log.e("reorder", "set handles to gone");
+
         }
 
     }
@@ -272,11 +329,6 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
             handleView = itemView.findViewById(R.id.handle);
 
 
-            if (mType == SHOPPING_LIST_TYPE) {
-                handleView.setVisibility(View.INVISIBLE);
-                categoryTextView = itemView.findViewById(R.id.textViewCategory);
-            }
-
         }
 
         public void onItemSelected() {
@@ -297,7 +349,7 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
                     for (int i = beforeMovePosition; i < afterMovePosition; i++) {
                         int id = mItems.get(i).getId();
                         updatePosition(id, i);
-//                        mItems.get(i).setPosition(i);
+                        mItems.get(i).setPosition(i);
                     }
                 }
                 if (afterMovePosition < beforeMovePosition)
@@ -306,14 +358,20 @@ public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewLi
                     {
                         int id = mItems.get(i).getId();
                         updatePosition(id, i);
-//                        mItems.get(i).setPosition(i);
+                        mItems.get(i).setPosition(i);
                     }
                 }
             }
 
             int id = mItems.get(afterMovePosition).getId();
             updatePosition(id, afterMovePosition);
-//            mItems.get(afterMovePosition).setPosition(afterMovePosition);
+            mItems.get(afterMovePosition).setPosition(afterMovePosition);
+
+            notifyDataSetChanged();
+        }
+
+        public void update()
+        {
 
         }
     }

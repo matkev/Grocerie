@@ -2,6 +2,7 @@ package com.example.android.grocerie.ArrayListFragmentVersion;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -37,6 +38,8 @@ public class MainIngredientArrayListActivity extends AppCompatActivity {
 
     // The editor request code
     static final int EDITOR_REQUEST = 1;
+
+    public static boolean isActionMode;
 
     //possible results received from editor
     public static final int INSERT_FAIL = 0;
@@ -77,6 +80,8 @@ public class MainIngredientArrayListActivity extends AppCompatActivity {
                 startActivityForResult(intent, EDITOR_REQUEST);
             }
         });
+
+
     }
 
     private void initToolbar() {

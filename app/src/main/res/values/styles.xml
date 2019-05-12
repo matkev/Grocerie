@@ -10,8 +10,10 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
+        <item name="windowActionModeOverlay">true</item>
         <!--icon-->
         <!--D1F8A1-->
+        <item name="actionModeBackground">@color/colorAccent</item>
 
     </style>
 
