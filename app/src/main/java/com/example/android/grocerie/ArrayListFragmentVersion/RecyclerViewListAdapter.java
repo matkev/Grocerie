@@ -5,10 +5,8 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
-import android.text.Layout;
 import android.text.TextUtils;
 import android.util.Log;
 import androidx.appcompat.view.ActionMode;
@@ -27,28 +25,23 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.DragStartHelper;
-import androidx.core.view.MotionEventCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.android.grocerie.BaseCursorAdapter;
+import com.example.android.grocerie.Ingredient;
 import com.example.android.grocerie.IngredientEditor;
 import com.example.android.grocerie.R;
 import com.example.android.grocerie.data.IngredientContract;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
-import com.example.android.grocerie.data.IngredientDbHelper;
 import com.example.android.grocerie.dragAndDropHelper.ItemTouchHelperAdapter;
 import com.example.android.grocerie.dragAndDropHelper.ItemTouchHelperViewHolder;
+import com.example.android.grocerie.dragAndDropHelper.OnStartDragListener;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static androidx.core.view.DragStartHelper.*;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SHOPPING_LIST_TYPE;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry._ID;
 
 
 public class RecyclerViewListAdapter extends RecyclerView.Adapter<RecyclerViewListAdapter.IngredientViewHolder>

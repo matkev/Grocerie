@@ -10,18 +10,10 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.android.grocerie.ArrayListFragmentVersion.Ingredient;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
-
-import java.util.ArrayList;
-
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CHECKED_YES;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CHECKED_NO;
 
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_CATEGORY;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.PICKED_UP_YES;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.PICKED_UP_NO;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry._ID;
 
 /**

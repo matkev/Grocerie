@@ -1,4 +1,4 @@
-package com.example.android.grocerie.ArrayListFragmentVersion;
+package com.example.android.grocerie;
 import java.io.Serializable;
 
 public class Ingredient implements Serializable {

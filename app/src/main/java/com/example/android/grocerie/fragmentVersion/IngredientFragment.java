@@ -73,13 +73,6 @@ public class IngredientFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public IngredientFragment(int ingredientCategory)
-    {
-        Log.e("myTag", "Called from constructor: this ingredient category is : " + ingredientCategory);
-        mIngredientCategory = ingredientCategory;
-    }
-
-
     private LoaderManager.LoaderCallbacks<Cursor> ingredientListLoader = new LoaderManager.LoaderCallbacks<Cursor>() {
         @NonNull
         @Override

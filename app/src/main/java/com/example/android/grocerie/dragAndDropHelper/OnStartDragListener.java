@@ -1,4 +1,4 @@
-package com.example.android.grocerie.ArrayListFragmentVersion;
+package com.example.android.grocerie.dragAndDropHelper;
 
 import androidx.recyclerview.widget.RecyclerView;
 

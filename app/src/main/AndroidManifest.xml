@@ -11,14 +11,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ArrayListFragmentVersion.MainShoppingArrayListActivity"></activity>
-        <activity android:name=".ArrayListFragmentVersion.MainIngredientArrayListActivity" />
-        <activity android:name=".fragmentVersion.MainShoppingListActivity" />
-        <activity android:name=".fragmentVersion.MainIngredientListActivity" />
-        <activity android:name=".recyclerViewVersion.ShoppingListRecycler" />
-        <activity
-            android:name=".recyclerViewVersion.IngredientsListRecycler"
-            android:parentActivityName=".HomePage" />
         <activity
             android:name=".HomePage"
             android:exported="true">
@@ -28,6 +20,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".fragmentVersion.IngredientPositionEditor"
+            android:parentActivityName=".fragmentVersion.MainIngredientListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".fragmentVersion.MainIngredientListActivity" />
+        </activity>
+        <activity android:name=".ArrayListFragmentVersion.MainShoppingArrayListActivity" />
+        <activity android:name=".ArrayListFragmentVersion.MainIngredientArrayListActivity" />
+        <activity android:name=".fragmentVersion.MainShoppingListActivity" />
+        <activity android:name=".fragmentVersion.MainIngredientListActivity" />
+        <activity android:name=".recyclerViewVersion.ShoppingListRecycler" />
+        <activity
+            android:name=".recyclerViewVersion.IngredientsListRecycler"
+            android:parentActivityName=".HomePage" />
+
         <activity android:name=".listViewVersion.ShoppingList" />
         <activity android:name=".listViewVersion.IngredientsList" />
         <activity
