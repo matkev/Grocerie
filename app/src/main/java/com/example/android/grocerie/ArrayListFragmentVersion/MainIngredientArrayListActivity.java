@@ -1,7 +1,8 @@
-package com.example.android.grocerie.fragmentVersion;
+package com.example.android.grocerie.ArrayListFragmentVersion;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -22,7 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.android.grocerie.ArrayListFragmentVersion.MainIngredientArrayListActivity;
 import com.example.android.grocerie.IngredientEditor;
 import com.example.android.grocerie.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,11 +34,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainIngredientListActivity extends AppCompatActivity {
+public class MainIngredientArrayListActivity extends AppCompatActivity {
 
     // The editor request code
     static final int EDITOR_REQUEST = 1;
-    static final int POSITION_EDITOR_REQUEST = 2;
+
+    public static boolean isActionMode;
 
     //possible results received from editor
     public static final int INSERT_FAIL = 0;
@@ -58,8 +59,10 @@ public class MainIngredientListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_ingredient_list_fragments);
+        setContentView(R.layout.activity_main_ingredient_list_array_list_fragments);
         mainLayout = findViewById(R.id.main_layout_id);
+
+        Log.e("reorder", "we are in the main array list ingredient activity");
 
         //setup custom toolbar
         initToolbar();
@@ -72,11 +75,13 @@ public class MainIngredientListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainIngredientListActivity.this, IngredientEditor.class);
+                Intent intent = new Intent(MainIngredientArrayListActivity.this, IngredientEditor.class);
                 intent.putExtra("currentCategory", viewPager.getCurrentItem());
                 startActivityForResult(intent, EDITOR_REQUEST);
             }
         });
+
+
     }
 
     private void initToolbar() {
@@ -90,15 +95,15 @@ public class MainIngredientListActivity extends AppCompatActivity {
         PagerAdapter pagerAdapter = new PagerAdapter(this, getSupportFragmentManager());
 
 
-        pagerAdapter.addFragment(IngredientFragment.newInstance(0), getString(R.string.fruit_and_veggie));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(1), getString(R.string.meat_and_prot));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(2), getString(R.string.bread_and_grain));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(3), getString(R.string.dairy));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(4), getString(R.string.frozen));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(5), getString(R.string.canned));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(6), getString(R.string.drinks));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(7), getString(R.string.snacks));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(8), getString(R.string.misc));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(0), getString(R.string.fruit_and_veggie));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(1), getString(R.string.meat_and_prot));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(2), getString(R.string.bread_and_grain));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(3), getString(R.string.dairy));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(4), getString(R.string.frozen));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(5), getString(R.string.canned));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(6), getString(R.string.drinks));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(7), getString(R.string.snacks));
+        pagerAdapter.addFragment(IngredientArrayListFragment.newInstance(8), getString(R.string.misc));
 
 
         viewPager.setAdapter(pagerAdapter);
@@ -235,11 +240,8 @@ public class MainIngredientListActivity extends AppCompatActivity {
 
     private void startEditMode()
     {
-        Intent intent = new Intent(MainIngredientListActivity.this, IngredientPositionEditor.class);
-        intent.putExtra("currentCategory", viewPager.getCurrentItem());
-        startActivity(intent);
-    }
 
+    }
 
     //populates the viewpager with fragments and titles
     static class PagerAdapter extends FragmentPagerAdapter {
@@ -312,7 +314,6 @@ public class MainIngredientListActivity extends AppCompatActivity {
                     return;
             }
         }
-
     }
 
     private void insertFailResultHandler()
@@ -521,124 +522,10 @@ public class MainIngredientListActivity extends AppCompatActivity {
     private void insertDummyData() {
 
 
-//        ContentValues values = new ContentValues();
-//
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "0");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
-//
-//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-//
-//        values.clear();
-//
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "1");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
-//
-//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-//
-//        values.clear();
-//
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "2");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
-//
-//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-//
-//        values.clear();
-//
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "3");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
-//
-//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-//
-//        values.clear();
-//
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "4");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
-//
-//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-//
-//        values.clear();
-//
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "5");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
-//
-//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-//
-//        values.clear();
-//
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "6");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
-//
-//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-//
-//        values.clear();
-//
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "7");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
-//
-//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-//
-//        values.clear();
-//
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "8");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
-//
-//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-//
-//        values.clear();
-//
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "9");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
-//
-//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-//
-//        values.clear();
-//
-//
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "10");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
-//
-//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-//
-//        values.clear();
-
-
         ContentValues values = new ContentValues();
 
-        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Green Apples");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "12");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "0");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
@@ -647,8 +534,8 @@ public class MainIngredientListActivity extends AppCompatActivity {
 
         values.clear();
 
-        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Bananas");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "6");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "1");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
@@ -657,86 +544,200 @@ public class MainIngredientListActivity extends AppCompatActivity {
 
         values.clear();
 
-        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Feta cheese");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "150");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "grams");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "3");
-
-        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-
-        values.clear();
-
-        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Eggs");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "dozen");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "1");
-
-        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-
-        values.clear();
-
-        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Naan");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "3");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "packs");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "2");
-
-        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-
-        values.clear();
-
-        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Baguette");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "2");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "2");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "2");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
         values.clear();
 
-        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Peanut Butter");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "jar");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "3");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "1");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
         values.clear();
 
-        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Cholula Hot Sauce");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "2");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "bottle");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "4");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "8");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
         values.clear();
 
-        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Orange Juice");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "bottle");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "6");
-
-        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
-
-        values.clear();
-
-
-        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Popcorn");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "bottle");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "5");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
-        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "7");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
 
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
         values.clear();
+
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "6");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
+
+        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+
+        values.clear();
+
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "7");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
+
+        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+
+        values.clear();
+
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "8");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
+
+        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+
+        values.clear();
+
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "9");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
+
+        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+
+        values.clear();
+
+
+        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "10");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
+
+        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+
+        values.clear();
+
+
+//        ContentValues values = new ContentValues();
+//
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Green Apples");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "12");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
+//
+//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+//
+//        values.clear();
+//
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Bananas");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "6");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "0");
+//
+//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+//
+//        values.clear();
+//
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Feta cheese");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "150");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "grams");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "3");
+//
+//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+//
+//        values.clear();
+//
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Eggs");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "dozen");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "1");
+//
+//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+//
+//        values.clear();
+//
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Naan");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "3");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "packs");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "2");
+//
+//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+//
+//        values.clear();
+//
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Baguette");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "2");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "2");
+//
+//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+//
+//        values.clear();
+//
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Peanut Butter");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "jar");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "1");
+//
+//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+//
+//        values.clear();
+//
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Cholula Hot Sauce");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "2");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "bottle");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "8");
+//
+//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+//
+//        values.clear();
+//
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Orange Juice");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "bottle");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "1");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "6");
+//
+//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+//
+//        values.clear();
+//
+//
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Popcorn");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "bottle");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, "7");
+//
+//        getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+//
+//        values.clear();
     }
 }
 

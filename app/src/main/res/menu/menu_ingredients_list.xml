@@ -19,4 +19,9 @@
         android:title="@string/action_uncheck_all_entries"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_edit_mode"
+        android:title="Edit List Order"
+        app:showAsAction="never" />
+
 </menu>

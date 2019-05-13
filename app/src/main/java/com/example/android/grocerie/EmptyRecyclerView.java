@@ -1,4 +1,4 @@
-package com.example.android.grocerie.recyclerViewVersion;
+package com.example.android.grocerie;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -78,5 +78,6 @@ public class EmptyRecyclerView extends RecyclerView {
 
     public void setEmptyView(View view) {
         this.mEmptyView = view;
+        initEmptyView();
     }
 }

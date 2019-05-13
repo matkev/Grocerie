@@ -1,4 +1,4 @@
-package com.example.android.grocerie.fragmentVersion;
+package com.example.android.grocerie.ArrayListFragmentVersion;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -23,12 +23,13 @@ import com.example.android.grocerie.EmptyRecyclerView;
 import com.example.android.grocerie.RecyclerCursorAdapter;
 
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
+import com.example.android.grocerie.fragmentVersion.ShoppingFragment;
 
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_CATEGORY;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SHOPPING_LIST_TYPE;
 
 
-public class ShoppingFragment extends Fragment {
+public class ShoppingArrayListFragment extends Fragment {
     private static final int TO_BUY_LOADER = 0;
     private static final int PICKED_UP_LOADER = 1;
 
@@ -45,11 +46,11 @@ public class ShoppingFragment extends Fragment {
 
     private int mListType;
 
-    public ShoppingFragment() {
+    public ShoppingArrayListFragment() {
         // Required empty public constructor
     }
 
-    public ShoppingFragment(int listType)
+    public ShoppingArrayListFragment(int listType)
     {
         Log.e("myTag", "Called from constructor: this list type is : " + listType);
         mListType = listType;
@@ -129,12 +130,12 @@ public class ShoppingFragment extends Fragment {
             if (mListType == TO_BUY_LIST)
             {
                 mRootView = (ConstraintLayout) inflater.inflate(
-                        R.layout.fragment_to_buy_shopping, container, false);
+                        R.layout.fragment_to_buy_shopping_array_list, container, false);
             }
             else
             {
                 mRootView = (ConstraintLayout) inflater.inflate(
-                        R.layout.fragment_picked_up_shopping, container, false);
+                        R.layout.fragment_picked_up_shopping_array_list, container, false);
             }
 
         }
@@ -163,38 +164,4 @@ public class ShoppingFragment extends Fragment {
 
         return mRootView;
     }
-
-//    private Loader<Cursor> shoppingListLoader()
-//    {
-//        String [] projection = {
-//                IngredientEntry._ID,
-//                IngredientEntry.COLUMN_INGREDIENT_NAME,
-//                IngredientEntry.COLUMN_INGREDIENT_AMOUNT,
-//                IngredientEntry.COLUMN_INGREDIENT_UNIT,
-//                IngredientEntry.COLUMN_INGREDIENT_CHECKED,
-//                IngredientEntry.COLUMN_INGREDIENT_CATEGORY,
-//                IngredientEntry.COLUMN_INGREDIENT_PICKED_UP};
-//
-//        String selection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=? AND " + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + " =?";
-//
-//        String[] selectionArgs;
-//
-//        switch (mListType) {
-//            case PICKED_UP_LIST:
-//                Log.e("myTag", "The loader id is : " + PICKED_UP_LOADER);
-//                selectionArgs = new String[]{"1","1"};
-//                break;
-//            default:
-//                Log.e("myTag", "The loader id is : " + TO_BUY_LOADER);
-//                selectionArgs = new String[]{"1","0"};
-//                break;
-//        }
-//
-//        return new CursorLoader(getActivity(),
-//                IngredientEntry.CONTENT_URI,
-//                projection,
-//                selection,
-//                selectionArgs,
-//                null);
-//    }
 }
