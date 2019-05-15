@@ -114,7 +114,7 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
 //            }
 //        }
 
-        if (ingredientAmount == null || TextUtils.isEmpty(ingredientAmount)) {
+        if (ingredientAmount == null || TextUtils.isEmpty(ingredientAmount) || ingredientAmount.equalsIgnoreCase("0")) {
             ingredientAmount = "";
         }
 
