@@ -1,4 +1,4 @@
-package com.example.android.grocerie.listViewVersion;
+package com.example.android.grocerie.deprecated;
 
 import android.content.Context;
 import android.database.Cursor;

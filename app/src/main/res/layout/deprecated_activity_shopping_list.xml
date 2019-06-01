@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
-        tools:context="com.example.android.grocerie.listViewVersion.ShoppingList">
+        tools:context="com.example.android.grocerie.deprecated.ShoppingList">
 
         <ListView
             android:id="@+id/shopping_list_view"

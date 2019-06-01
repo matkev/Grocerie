@@ -1,4 +1,4 @@
-package com.example.android.grocerie.recyclerViewVersion;
+package com.example.android.grocerie.deprecated;
 
 
 import android.content.ContentValues;
@@ -78,7 +78,7 @@ public class ShoppingListRecycler extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shopping_list_recycler);
+        setContentView(R.layout.deprecated_activity_shopping_list_recycler);
 
         setTitle(R.string.shopping_list_activity_title);
         Toolbar toolbar = (Toolbar) findViewById(R.id.scrolling_toolbar);

@@ -1,4 +1,4 @@
-package com.example.android.grocerie.ArrayListFragmentVersion;
+package com.example.android.grocerie.deprecated;
 
 import android.app.Activity;
 import android.content.ContentUris;

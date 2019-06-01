@@ -1,8 +1,7 @@
-package com.example.android.grocerie.ArrayListFragmentVersion;
+package com.example.android.grocerie.deprecated;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -59,7 +58,7 @@ public class MainIngredientArrayListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_ingredient_list_array_list_fragments);
+        setContentView(R.layout.deprecated_activity_main_ingredient_list_array_list_fragments);
         mainLayout = findViewById(R.id.main_layout_id);
 
         Log.e("reorder", "we are in the main array list ingredient activity");

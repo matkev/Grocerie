@@ -22,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.android.grocerie.ArrayListFragmentVersion.MainIngredientArrayListActivity;
 import com.example.android.grocerie.IngredientEditor;
 import com.example.android.grocerie.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

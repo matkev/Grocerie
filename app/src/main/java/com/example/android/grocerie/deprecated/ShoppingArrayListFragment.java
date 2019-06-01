@@ -1,4 +1,4 @@
-package com.example.android.grocerie.ArrayListFragmentVersion;
+package com.example.android.grocerie.deprecated;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -130,12 +130,12 @@ public class ShoppingArrayListFragment extends Fragment {
             if (mListType == TO_BUY_LIST)
             {
                 mRootView = (ConstraintLayout) inflater.inflate(
-                        R.layout.fragment_to_buy_shopping_array_list, container, false);
+                        R.layout.deprecated_fragment_to_buy_shopping_array_list, container, false);
             }
             else
             {
                 mRootView = (ConstraintLayout) inflater.inflate(
-                        R.layout.fragment_picked_up_shopping_array_list, container, false);
+                        R.layout.deprecated_fragment_picked_up_shopping_array_list, container, false);
             }
 
         }

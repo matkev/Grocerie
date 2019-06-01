@@ -1,4 +1,4 @@
-package com.example.android.grocerie.ArrayListFragmentVersion;
+package com.example.android.grocerie.deprecated;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -79,7 +79,7 @@ public class IngredientArrayListFragment extends Fragment implements OnStartDrag
         {
             Log.e("myTag", "The root view is null");
             mRootView = (ConstraintLayout) inflater.inflate(
-                    R.layout.fragment_ingredient_array_list, container, false);
+                    R.layout.deprecated_fragment_ingredient_array_list, container, false);
         }
 
         //binding views

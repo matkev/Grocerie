@@ -27,20 +27,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".fragmentVersion.MainIngredientListActivity" />
         </activity>
-        <activity android:name=".ArrayListFragmentVersion.MainShoppingArrayListActivity" />
-        <activity android:name=".ArrayListFragmentVersion.MainIngredientArrayListActivity" />
+        <activity android:name=".deprecated.MainShoppingArrayListActivity" />
+        <activity android:name=".deprecated.MainIngredientArrayListActivity" />
         <activity android:name=".fragmentVersion.MainShoppingListActivity" />
         <activity android:name=".fragmentVersion.MainIngredientListActivity" />
-        <activity android:name=".recyclerViewVersion.ShoppingListRecycler" />
+        <activity android:name=".deprecated.ShoppingListRecycler" />
         <activity
-            android:name=".recyclerViewVersion.IngredientsListRecycler"
+            android:name=".deprecated.IngredientsListRecycler"
             android:parentActivityName=".HomePage" />
 
-        <activity android:name=".listViewVersion.ShoppingList" />
-        <activity android:name=".listViewVersion.IngredientsList" />
+        <activity android:name=".deprecated.ShoppingList" />
+        <activity android:name=".deprecated.IngredientsList" />
         <activity
             android:name=".IngredientEditor"
-            android:parentActivityName=".recyclerViewVersion.IngredientsListRecycler" />
+            android:parentActivityName=".deprecated.IngredientsListRecycler" />
 
         <provider
             android:name=".data.IngredientProvider"

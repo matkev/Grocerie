@@ -1,4 +1,4 @@
-package com.example.android.grocerie.ArrayListFragmentVersion;
+package com.example.android.grocerie.deprecated;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -48,7 +48,7 @@ public class MainShoppingArrayListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_shopping_list_array_list_fragment);
+        setContentView(R.layout.deprecated_activity_main_shopping_list_array_list_fragment);
         mainLayout = findViewById(R.id.main_layout_id);
 
         initToolbar();

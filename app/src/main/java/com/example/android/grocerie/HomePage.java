@@ -7,14 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.example.android.grocerie.ArrayListFragmentVersion.MainIngredientArrayListActivity;
-import com.example.android.grocerie.ArrayListFragmentVersion.MainShoppingArrayListActivity;
+import com.example.android.grocerie.deprecated.MainIngredientArrayListActivity;
+import com.example.android.grocerie.deprecated.MainShoppingArrayListActivity;
 import com.example.android.grocerie.fragmentVersion.MainIngredientListActivity;
 import com.example.android.grocerie.fragmentVersion.MainShoppingListActivity;
-import com.example.android.grocerie.listViewVersion.IngredientsList;
-import com.example.android.grocerie.listViewVersion.ShoppingList;
-import com.example.android.grocerie.recyclerViewVersion.IngredientsListRecycler;
-import com.example.android.grocerie.recyclerViewVersion.ShoppingListRecycler;
+import com.example.android.grocerie.deprecated.IngredientsList;
+import com.example.android.grocerie.deprecated.ShoppingList;
+import com.example.android.grocerie.deprecated.IngredientsListRecycler;
+import com.example.android.grocerie.deprecated.ShoppingListRecycler;
 
 public class HomePage extends AppCompatActivity {
 

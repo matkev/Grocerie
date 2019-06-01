@@ -1,4 +1,4 @@
-package com.example.android.grocerie.listViewVersion;
+package com.example.android.grocerie.deprecated;
 
 import android.content.ContentUris;
 import android.content.Intent;
@@ -34,7 +34,7 @@ public class ShoppingList extends AppCompatActivity implements LoaderManager.Loa
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shopping_list);
+        setContentView(R.layout.deprecated_activity_shopping_list);
         setTitle(R.string.shopping_list_activity_title);
 
 

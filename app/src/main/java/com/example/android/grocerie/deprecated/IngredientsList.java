@@ -1,4 +1,4 @@
-package com.example.android.grocerie.listViewVersion;
+package com.example.android.grocerie.deprecated;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -36,7 +36,7 @@ public class IngredientsList extends AppCompatActivity implements LoaderManager.
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ingredients_list);
+        setContentView(R.layout.deprecated_activity_ingredients_list);
         setTitle(R.string.ingredients_list_activity_title);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
