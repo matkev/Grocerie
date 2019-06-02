@@ -47,12 +47,11 @@ android:layout_height="match_parent">
         android:id="@+id/empty_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/empty_ingredients_image"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:fontFamily="sans-serif-medium"
         android:paddingTop="16dp"
-        android:text="No ingredients in this category"
+        android:text="@string/empty_position_editor_title_text"
         android:textAppearance="?android:textAppearanceMedium" />
 
     <TextView
@@ -63,7 +62,7 @@ android:layout_height="match_parent">
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif"
         android:paddingTop="8dp"
-        android:text="Add items in your ingredients list"
+        android:text="@string/empty_positione_editor_subtitle_text"
         android:textAppearance="?android:textAppearanceSmall"
         android:textColor="#A2AAB0" />
 </RelativeLayout>
