@@ -204,10 +204,17 @@ public class MainIngredientListActivity extends AppCompatActivity {
         values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, "0");
 
         String selection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=?";
-        String[] selectionArgs = new String[]{"1"};
+        String toBuySelection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=? AND " + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + "=?";
+        String pickedUpSelection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=? AND " + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + "=?";
+
+        String[] selectionArgs= new String[]{"1"};
+        String[] toBuySelectionArgs = new String[]{"1","0"};
+        String[] pickedUpSelectionArgs = new String[]{"1","1"};
+
         String [] projection = {IngredientEntry._ID};
 
-        Cursor cursor = getContentResolver().query(IngredientEntry.CONTENT_URI, projection, selection, selectionArgs, null);
+        Cursor toBuyCursor = getContentResolver().query(IngredientEntry.CONTENT_URI, projection, toBuySelection, toBuySelectionArgs, null);
+        Cursor pickedUpCursor = getContentResolver().query(IngredientEntry.CONTENT_URI, projection, pickedUpSelection, pickedUpSelectionArgs, null);
 
         int rowsUpdated = getContentResolver().update(IngredientEntry.CONTENT_URI, values, selection, selectionArgs);
 
@@ -228,7 +235,8 @@ public class MainIngredientListActivity extends AppCompatActivity {
                     mainLayout,
                     getString(R.string.ingredient_list_uncheck_all_ingredient_successful),
                     Toast.LENGTH_SHORT,
-                    cursor);
+                    toBuyCursor,
+                    pickedUpCursor);
         }
     }
 
@@ -460,7 +468,7 @@ public class MainIngredientListActivity extends AppCompatActivity {
         snackbar.show();
     }
 
-    public void uncheckAllUndoSnackBar(View view, String message, int duration, Cursor cursor)
+    public void uncheckAllUndoSnackBar(View view, String message, int duration, Cursor toBuyCursor, Cursor pickedUpCursor)
     {
         // Create snackbar
         final Snackbar snackbar = Snackbar.make(view, message, duration);
@@ -468,22 +476,42 @@ public class MainIngredientListActivity extends AppCompatActivity {
         snackbar.setAction("UNDO", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cursor.moveToFirst())
+                if (toBuyCursor.moveToFirst())
                 {
 
                     do {
-                        int IDColumnIndex = cursor.getColumnIndex(IngredientEntry._ID);
+                        int IDColumnIndex = toBuyCursor.getColumnIndex(IngredientEntry._ID);
 
                         // Extract out the value from the Cursor for the given column index
-                        int id = cursor.getInt(IDColumnIndex);
+                        int id = toBuyCursor.getInt(IDColumnIndex);
 
                         ContentValues values = new ContentValues();
                         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, 1);
+                        values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, 0);
 
 
                         getContentResolver().update(ContentUris.withAppendedId(IngredientEntry.CONTENT_URI, id), values, null, null);
-                    }while(cursor.moveToNext());
+                    }while(toBuyCursor.moveToNext());
                 }
+                if (pickedUpCursor.moveToFirst())
+                {
+
+                    do {
+                        int IDColumnIndex = pickedUpCursor.getColumnIndex(IngredientEntry._ID);
+
+                        // Extract out the value from the Cursor for the given column index
+                        int id = pickedUpCursor.getInt(IDColumnIndex);
+
+                        ContentValues values = new ContentValues();
+                        values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, 1);
+                        values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, 1);
+
+
+                        getContentResolver().update(ContentUris.withAppendedId(IngredientEntry.CONTENT_URI, id), values, null, null);
+                    }while(pickedUpCursor.moveToNext());
+                }
+
+
 
                 snackbar.dismiss();
             }

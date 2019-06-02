@@ -100,12 +100,10 @@ public class MainShoppingListActivity extends AppCompatActivity {
     private void clearAllItems()
     {
         ContentValues values = new ContentValues();
-
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, "0");
         values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, "0");
 
         String selection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=?";
-
         String toBuySelection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=? AND " + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + "=?";
         String pickedUpSelection = IngredientEntry.COLUMN_INGREDIENT_CHECKED + "=? AND " + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + "=?";
 
@@ -113,10 +111,7 @@ public class MainShoppingListActivity extends AppCompatActivity {
         String[] toBuySelectionArgs = new String[]{"1","0"};
         String[] pickedUpSelectionArgs = new String[]{"1","1"};
 
-
-        String [] projection = {
-                IngredientEntry._ID};
-
+        String [] projection = {IngredientEntry._ID};
 
         Cursor toBuyCursor = getContentResolver().query(IngredientEntry.CONTENT_URI, projection, toBuySelection, toBuySelectionArgs, null);
         Cursor pickedUpCursor = getContentResolver().query(IngredientEntry.CONTENT_URI, projection, pickedUpSelection, pickedUpSelectionArgs, null);

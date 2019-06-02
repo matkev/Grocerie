@@ -10,10 +10,14 @@
     <string name="action_add_dummy_data">Add dummy data</string>
     <string name="action_delete_all_entries">Delete All Ingredients</string>
     <string name="action_uncheck_all_entries">Uncheck All</string>
+    <string name="action_edit_list_order">Edit List Order</string>
 
     <!--editor menu-->
     <string name="action_save">Save</string>
     <string name="action_delete">Delete</string>
+
+    <!--position editor menu-->
+    <string name="action_done">Done</string>
 
     <!--shopping list menu-->
     <string name="action_clear_list">Clear all items</string>
@@ -77,7 +81,7 @@
     <string name="empty_shopping_picked_up_list_subtitle_text">Check off items in your Grocerie list to see them here</string>
 
     <string name="empty_position_editor_title_text">No ingredients in this category</string>
-    <string name="empty_positione_editor_subtitle_text">Add items in your ingredients list</string>
+    <string name="empty_position_editor_subtitle_text">Add items in your ingredients list</string>
 
     <!--categories-->
     <string name="fruit_and_veggie">Fruits and Veggies</string>
@@ -93,8 +97,6 @@
     <!--For scrolling behavior in coordinator layout-->
     <string name="appbar_scrolling_view_behavior">com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="app_title">Grocerie!</string>
 
 

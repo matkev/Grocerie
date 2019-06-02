@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<com.example.android.grocerie.EmptyRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--android:id="@+id/recyclerView"-->
-<!--android:layout_width="match_parent"-->
-<!--android:layout_height="match_parent" />-->
+
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 android:id="@+id/coordinatorLayout"
@@ -26,9 +23,7 @@ android:layout_height="match_parent">
         app:layout_scrollFlags="scroll|enterAlways"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:titleTextColor="#FFFFFF" />
-
 </com.google.android.material.appbar.AppBarLayout>
-
 
 <com.example.android.grocerie.EmptyRecyclerView
     android:id="@+id/recyclerView"
@@ -41,7 +36,6 @@ android:layout_height="match_parent">
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerInParent="true">
-
 
     <TextView
         android:id="@+id/empty_title_text"
@@ -62,7 +56,7 @@ android:layout_height="match_parent">
         android:layout_centerHorizontal="true"
         android:fontFamily="sans-serif"
         android:paddingTop="8dp"
-        android:text="@string/empty_positione_editor_subtitle_text"
+        android:text="@string/empty_position_editor_subtitle_text"
         android:textAppearance="?android:textAppearanceSmall"
         android:textColor="#A2AAB0" />
 </RelativeLayout>

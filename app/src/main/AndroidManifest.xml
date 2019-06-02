@@ -8,7 +8,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_toastface"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_toastface"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -20,27 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivitiesAndFragments.IngredientPositionEditor"
-            android:parentActivityName=".MainActivitiesAndFragments.MainIngredientListActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivitiesAndFragments.MainIngredientListActivity" />
-        </activity>
-        <activity android:name=".deprecated.MainShoppingArrayListActivity" />
-        <activity android:name=".deprecated.MainIngredientArrayListActivity" />
+        <activity android:name=".MainActivitiesAndFragments.IngredientPositionEditor" />
         <activity android:name=".MainActivitiesAndFragments.MainShoppingListActivity" />
         <activity android:name=".MainActivitiesAndFragments.MainIngredientListActivity" />
-        <activity android:name=".deprecated.ShoppingListRecycler" />
-        <activity
-            android:name=".deprecated.IngredientsListRecycler"
-            android:parentActivityName=".HomePage" />
-
-        <activity android:name=".deprecated.ShoppingList" />
-        <activity android:name=".deprecated.IngredientsList" />
-        <activity
-            android:name=".IngredientEditor"
-            android:parentActivityName=".deprecated.IngredientsListRecycler" />
 
         <provider
             android:name=".data.IngredientProvider"

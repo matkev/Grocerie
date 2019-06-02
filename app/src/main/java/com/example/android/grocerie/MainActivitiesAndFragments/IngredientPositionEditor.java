@@ -115,7 +115,7 @@ public class IngredientPositionEditor extends AppCompatActivity implements OnSta
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
         // This adds menu items to the app bar.
-        getMenuInflater().inflate(R.menu.menu_edit_mode, menu);
+        getMenuInflater().inflate(R.menu.menu_position_editor, menu);
         return true;
     }
 
