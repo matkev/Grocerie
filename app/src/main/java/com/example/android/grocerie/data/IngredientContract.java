@@ -20,8 +20,10 @@ public final class IngredientContract {
 
     public static abstract class IngredientEntry implements BaseColumns {
 
+        //name of the table
         public static final String TABLE_NAME = "ingredients";
 
+        //names of clumns within ingredients table
         public static final String _ID = BaseColumns._ID;
         public static final String COLUMN_INGREDIENT_NAME = "name";
         public static final String COLUMN_INGREDIENT_AMOUNT = "amount";
@@ -32,7 +34,8 @@ public final class IngredientContract {
         public static final String COLUMN_INGREDIENT_POSITION = "position";
 
 
-
+        //names of the categories
+        //TODO: change how the categories are named
         public static final int FRUIT_AND_VEG = 0;
         public static final int MEAT_AND_PROT = 1;
         public static final int BREAD_AND_GRAIN = 2;

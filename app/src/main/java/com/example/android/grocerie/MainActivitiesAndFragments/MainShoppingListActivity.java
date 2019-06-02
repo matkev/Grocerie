@@ -1,4 +1,4 @@
-package com.example.android.grocerie.deprecated;
+package com.example.android.grocerie.MainActivitiesAndFragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -21,7 +21,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.android.grocerie.R;
-import com.example.android.grocerie.fragmentVersion.ShoppingFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
@@ -29,7 +28,7 @@ import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainShoppingArrayListActivity extends AppCompatActivity {
+public class MainShoppingListActivity extends AppCompatActivity {
 
     static final int EDITOR_REQUEST = 1;  // The request code
 
@@ -48,7 +47,7 @@ public class MainShoppingArrayListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.deprecated_activity_main_shopping_list_array_list_fragment);
+        setContentView(R.layout.activity_shopping_list);
         mainLayout = findViewById(R.id.main_layout_id);
 
         initToolbar();

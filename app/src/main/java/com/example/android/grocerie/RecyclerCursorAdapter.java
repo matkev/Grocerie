@@ -6,7 +6,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,30 +17,18 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.android.grocerie.data.IngredientContract;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
-import com.example.android.grocerie.data.IngredientProvider;
 import com.example.android.grocerie.dragAndDropHelper.ItemTouchHelperAdapter;
-import com.example.android.grocerie.dragAndDropHelper.ItemTouchHelperViewHolder;
-import com.example.android.grocerie.fragmentVersion.IngredientPositionEditor;
-import com.example.android.grocerie.fragmentVersion.MainIngredientListActivity;
-
-import java.util.Collections;
-
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
+import com.example.android.grocerie.MainActivitiesAndFragments.IngredientPositionEditor;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SHOPPING_LIST_TYPE;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry._ID;
 
 
 public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapter.IngredientViewHolder>
                 implements ItemTouchHelperAdapter
 {
-
     static final int EDITOR_REQUEST = 1;  // The request code
 
     private Context mContext;
@@ -232,72 +219,6 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
 
     public void onItemMove(int fromPosition, int toPosition) {
     }
-
-
-//    @Override
-//    public void swapCursor(Cursor newCursor) {
-//        super.swapCursor(newCursor);
-//    }
-
-//    public int getPosition(Uri uri)
-//    {
-//        String [] projection = {IngredientEntry.COLUMN_INGREDIENT_POSITION};
-//
-//        Cursor cursor = mContext.getContentResolver().query(uri, projection, null, null,null);
-//
-//        int position = 0;
-//        if (cursor.moveToFirst())
-//        {
-//            int positionIndex = cursor.getColumnIndex(COLUMN_INGREDIENT_POSITION);
-//            position = cursor.getInt(positionIndex);
-//        }
-//
-//        return position;
-//    }
-
-//    public void swapPosition(int fromPosition, int toPosition)
-//    {
-//        String[] projection = {_ID};
-//        String selection = COLUMN_INGREDIENT_POSITION + "=?";
-//        String[] fromSelectionArgs = new String[]{Integer.toString(fromPosition)};
-//        String[] toSelectionArgs = new String[]{Integer.toString(toPosition)};
-//
-//        Cursor fromCursor = mContext.getContentResolver().query(IngredientEntry.CONTENT_URI, projection, selection, fromSelectionArgs, null);
-//        int fromIdValue;
-//        if (fromCursor.moveToFirst()) {
-//            int fromIdIndex = fromCursor.getColumnIndex(_ID);
-//            fromIdValue = fromCursor.getInt(fromIdIndex);
-//        }
-//        else
-//        {
-//            return;
-//        }
-//
-//        Uri fromUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, fromIdValue);
-//        ContentValues fromValues = new ContentValues();
-//        fromValues.put(COLUMN_INGREDIENT_POSITION, toPosition);
-//
-//
-//
-//        Cursor toCursor = mContext.getContentResolver().query(IngredientEntry.CONTENT_URI, projection, selection, toSelectionArgs, null);
-//        int toIdValue;
-//        if (toCursor.moveToFirst()) {
-//            int toIdIndex = toCursor.getColumnIndex(_ID);
-//            toIdValue = toCursor.getInt(toIdIndex);
-//        }
-//        else
-//        {
-//            return;
-//        }
-//
-//        Uri toUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, toIdValue);
-//        ContentValues toValues = new ContentValues();
-//        toValues.put(COLUMN_INGREDIENT_POSITION, fromPosition);
-//
-//        mContext.getContentResolver().update(toUri, toValues, null, null);
-//        mContext.getContentResolver().update(fromUri, fromValues, null, null);
-//
-//    }
 
     class IngredientViewHolder extends RecyclerView.ViewHolder{ // implements ItemTouchHelperViewHolder {
 

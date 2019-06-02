@@ -2,10 +2,6 @@
     <string name="app_name">Grocerie</string>
 
     <!--menu button options-->
-    <string name="button_view_listview_shopping_list">View listview shopping list</string>
-    <string name="button_view_listview_ingredients">View listview ingredients</string>
-    <string name="button_view_recyclerview_shopping_list">View recyclerview shopping list</string>
-    <string name="button_view_recyclerview_ingredients">View recyclerview ingredients</string>
     <string name="button_view_fragments_shopping_list">View fragments shopping list</string>
     <string name="button_view_fragments_ingredients">View fragments ingredients</string>
 
@@ -22,7 +18,6 @@
     <!--shopping list menu-->
     <string name="action_clear_list">Clear all items</string>
     <string name="action_clear_picked_up_items">Clear picked up items</string>
-
 
     <!--editor layout-->
     <string name="ingredient_editor_overview">Overview</string>
