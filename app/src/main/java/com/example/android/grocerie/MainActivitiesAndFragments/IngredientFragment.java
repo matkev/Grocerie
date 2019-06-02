@@ -217,6 +217,7 @@ public class IngredientFragment extends Fragment {
         Log.e("myTag", "Called from onCreateView: this ingredient category is : " + mIngredientCategory);
 
         //starting loader based on the category
+        //TODO find different way to initiliase loaders
         switch (mIngredientCategory) {
             case IngredientEntry.FRUIT_AND_VEG:
                 Log.e("myTag", "The loader id is : " + FRUIT_AND_VEG);

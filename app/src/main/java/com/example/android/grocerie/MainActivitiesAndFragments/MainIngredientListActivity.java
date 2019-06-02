@@ -728,7 +728,6 @@ public class MainIngredientListActivity extends AppCompatActivity {
 
         values.clear();
 
-
         values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, "Popcorn");
         values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, "1");
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, "bottle");
