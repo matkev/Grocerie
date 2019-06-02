@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.android.grocerie.Ingredient;
 import com.example.android.grocerie.IngredientEditor;
 import com.example.android.grocerie.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,7 +38,6 @@ public class MainIngredientListActivity extends AppCompatActivity {
 
     // The editor request code
     static final int EDITOR_REQUEST = 1;
-    static final int POSITION_EDITOR_REQUEST = 2;
 
     //possible results received from editor
     public static final int INSERT_FAIL = 0;
@@ -57,7 +57,7 @@ public class MainIngredientListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_ingredient_list_fragments);
+        setContentView(R.layout.activity_ingredient_list);
         mainLayout = findViewById(R.id.main_layout_id);
 
         //setup custom toolbar
@@ -88,7 +88,6 @@ public class MainIngredientListActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         PagerAdapter pagerAdapter = new PagerAdapter(this, getSupportFragmentManager());
 
-
         pagerAdapter.addFragment(IngredientFragment.newInstance(0), getString(R.string.fruit_and_veggie));
         pagerAdapter.addFragment(IngredientFragment.newInstance(1), getString(R.string.meat_and_prot));
         pagerAdapter.addFragment(IngredientFragment.newInstance(2), getString(R.string.bread_and_grain));
@@ -98,7 +97,6 @@ public class MainIngredientListActivity extends AppCompatActivity {
         pagerAdapter.addFragment(IngredientFragment.newInstance(6), getString(R.string.drinks));
         pagerAdapter.addFragment(IngredientFragment.newInstance(7), getString(R.string.snacks));
         pagerAdapter.addFragment(IngredientFragment.newInstance(8), getString(R.string.misc));
-
 
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = findViewById(R.id.tabLayout);
@@ -120,23 +118,25 @@ public class MainIngredientListActivity extends AppCompatActivity {
             case R.id.action_add_dummy_data:
                 insertDummyData();
                 return true;
+            // Respond to a click on the "Delete All Ingredients" menu option
             case R.id.action_delete_all_entries:
                 showDeleteConfirmationDialog();
                 return true;
+            // Respond to a click on the "Uncheck All" menu option
             case R.id.action_clear_all_entries:
                 clearAllItems();
                 return true;
+            // Respond to a click on the "Edit List Order" menu option
             case R.id.action_edit_mode:
                 startEditMode();
                 return true;
-            //TODO: sort by alphabet or most recent
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void showDeleteConfirmationDialog() {
         // Create an AlertDialog.Builder and set the message, and click listeners
-        // for the postivie and negative buttons on the dialog.
+        // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_all_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
@@ -239,39 +239,6 @@ public class MainIngredientListActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
-    //populates the viewpager with fragments and titles
-    static class PagerAdapter extends FragmentPagerAdapter {
-
-        private final List<Fragment> fragmentList = new ArrayList<>();
-        private final List<String> fragmentTitleList = new ArrayList<>();
-        private Context mContext;
-
-        public PagerAdapter(Context context, FragmentManager fragmentManager) {
-            super(fragmentManager);
-            mContext = context;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragmentList.get(position);
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            fragmentList.add(fragment);
-            fragmentTitleList.add(title);
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentList.size();
-        }
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return fragmentTitleList.get(position);
-        }
-    }
-
     //decides which snackbar to display depending on the result received from the editor
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
@@ -311,7 +278,6 @@ public class MainIngredientListActivity extends AppCompatActivity {
                     return;
             }
         }
-
     }
 
     private void insertFailResultHandler()
@@ -352,6 +318,7 @@ public class MainIngredientListActivity extends AppCompatActivity {
         oldValues.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, oldValuesBundle.getInt("toBuy"));
         oldValues.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, oldValuesBundle.getInt("category"));
         oldValues.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, oldValuesBundle.getInt("pickedUp"));
+        oldValues.put(IngredientEntry.COLUMN_INGREDIENT_POSITION, oldValuesBundle.getInt("position"));
 
         updateUndoSnackbar(
                 mainLayout,
@@ -380,12 +347,14 @@ public class MainIngredientListActivity extends AppCompatActivity {
         oldValues.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, oldValuesBundle.getInt("toBuy"));
         oldValues.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, oldValuesBundle.getInt("category"));
         oldValues.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, oldValuesBundle.getInt("pickedUp"));
+        oldValues.put(IngredientEntry.COLUMN_INGREDIENT_POSITION, oldValuesBundle.getInt("position"));
 
         deleteUndoSnackBar(
                 mainLayout,
                 getString(R.string.editor_delete_ingredient_successful),
                 Toast.LENGTH_SHORT,
-                oldValues);
+                oldValues,
+                oldValuesBundle);
     }
 
 
@@ -427,7 +396,7 @@ public class MainIngredientListActivity extends AppCompatActivity {
         snackbar.show();
     }
 
-    public void deleteUndoSnackBar(View view, String message, int duration, ContentValues values)
+    public void deleteUndoSnackBar(View view, String message, int duration, ContentValues values, Bundle bundle)
     {
         // Create snackbar
         final Snackbar snackbar = Snackbar.make(view, message, duration);
@@ -435,7 +404,12 @@ public class MainIngredientListActivity extends AppCompatActivity {
         snackbar.setAction("UNDO", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+                Uri newUri = getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
+
+                ContentValues values = new ContentValues();
+                values.put(IngredientEntry.COLUMN_INGREDIENT_POSITION, bundle.getInt("position"));
+
+                getContentResolver().update(newUri, values, null, null);
                 snackbar.dismiss();
             }
         });
@@ -736,6 +710,38 @@ public class MainIngredientListActivity extends AppCompatActivity {
         getContentResolver().insert(IngredientEntry.CONTENT_URI, values);
 
         values.clear();
+    }
+
+    //populates the viewpager with fragments and titles
+    static class PagerAdapter extends FragmentPagerAdapter {
+
+        private final List<Fragment> fragmentList = new ArrayList<>();
+        private final List<String> fragmentTitleList = new ArrayList<>();
+        private Context mContext;
+
+        public PagerAdapter(Context context, FragmentManager fragmentManager) {
+            super(fragmentManager);
+            mContext = context;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            fragmentList.add(fragment);
+            fragmentTitleList.add(title);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
+        }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return fragmentTitleList.get(position);
+        }
     }
 }
 

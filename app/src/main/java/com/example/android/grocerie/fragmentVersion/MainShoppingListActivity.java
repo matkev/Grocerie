@@ -47,7 +47,7 @@ public class MainShoppingListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_shopping_list_fragments);
+        setContentView(R.layout.activity_shopping_list);
         mainLayout = findViewById(R.id.main_layout_id);
 
         initToolbar();

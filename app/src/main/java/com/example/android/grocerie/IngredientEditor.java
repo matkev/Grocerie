@@ -198,6 +198,13 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
 
     private void saveIngredient() {
 
+//        String[] projection = {
+//                IngredientEntry.COLUMN_INGREDIENT_POSITION};
+//
+//        Cursor positionCursor = getContentResolver().query(mCurrentIngredientUri, projection, null, null, null);
+//
+//        int currentPosition = positionCursor.getInt(positionCursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_POSITION));
+
         String nameString = mNameEditText.getText().toString().trim();
         String amountString = mAmountEditText.getText().toString().trim();
         String unitString = mUnitEditText.getText().toString().trim();
@@ -226,6 +233,7 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, unitString);
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checked);
         values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, mCategory);
+//        values.put(IngredientEntry.COLUMN_INGREDIENT_POSITION, currentPosition);
 
         if (mCurrentIngredientUri == null)
         {
@@ -560,6 +568,7 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             int checkedColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CHECKED);
             int pickedUpColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP);
             int categoryColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
+            int positionColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_POSITION);
 
             // Extract out the value from the Cursor for the given column index
             String name = cursor.getString(nameColumnIndex);
@@ -568,6 +577,7 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             int checked = cursor.getInt(checkedColumnIndex);
             int category = cursor.getInt(categoryColumnIndex);
             int pickedUp = cursor.getInt(pickedUpColumnIndex);
+            int position = cursor.getInt(positionColumnIndex);
 
             bundle.putString("name", name);
             bundle.putInt("amount", amount);
@@ -575,6 +585,7 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             bundle.putInt("toBuy", checked);
             bundle.putInt("category", category);
             bundle.putInt("pickedUp", pickedUp);
+            bundle.putInt("position", position);
         }
         return bundle;
     }
