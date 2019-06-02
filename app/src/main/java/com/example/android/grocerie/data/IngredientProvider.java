@@ -15,6 +15,8 @@ import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_CATEGORY;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry._ID;
+import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CATEGORY_ID;
+
 
 /**
  * Created by matth on 4/5/2019.
@@ -34,6 +36,10 @@ public class IngredientProvider extends ContentProvider {
     /** URI matcher code for the content URI for a single ingredient in the ingredients table */
     private static final int INGREDIENT_ID = 101;
 
+    private static final int CATEGORIES = 200;
+
+    private static final int CATEGORY_ID = 201;
+
     /**
      * UriMatcher object to match a content URI to a corresponding code.
      * The input passed into the constructor represents the code to return for the root URI.
@@ -49,6 +55,9 @@ public class IngredientProvider extends ContentProvider {
 
         sUriMatcher.addURI(IngredientContract.CONTENT_AUTHORITY, IngredientContract.PATH_INGREDIENTS, INGREDIENTS);
         sUriMatcher.addURI(IngredientContract.CONTENT_AUTHORITY, IngredientContract.PATH_INGREDIENTS + "/#", INGREDIENT_ID);
+        sUriMatcher.addURI(IngredientContract.CONTENT_AUTHORITY, IngredientContract.PATH_CATEGORIES, CATEGORIES);
+        sUriMatcher.addURI(IngredientContract.CONTENT_AUTHORITY, IngredientContract.PATH_CATEGORIES + "/#", CATEGORY_ID);
+
     }
 
     /**
@@ -84,6 +93,16 @@ public class IngredientProvider extends ContentProvider {
                 cursor = database.query(IngredientEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
+            case CATEGORIES:
+                cursor = database.query(IngredientEntry.CATEGORIES_TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
+            case CATEGORY_ID:
+                selection = CATEGORY_ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                cursor = database.query(IngredientEntry.TABLE_NAME, projection, selection, selectionArgs,
+                        null, null, sortOrder);
+                break;
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
@@ -103,11 +122,12 @@ public class IngredientProvider extends ContentProvider {
 
         final int match = sUriMatcher.match(uri);
 
-        switch (match)
-        {
-            case INGREDIENTS:
-            {
+        switch (match) {
+            case INGREDIENTS: {
                 return insertIngredient(uri, contentValues);
+            }
+            case CATEGORIES:{
+                return insertCategory(uri, contentValues);
             }
             default:
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
@@ -142,6 +162,32 @@ public class IngredientProvider extends ContentProvider {
         getContext().getContentResolver().notifyChange(uri, null);
 
         return ContentUris.withAppendedId(IngredientEntry.CONTENT_URI, id);
+    }
+
+    private Uri insertCategory (Uri uri, ContentValues values)
+    {
+        String name = values.getAsString(IngredientEntry.COLUMN_CATEGORY_NAME);
+        if (name == null || TextUtils.isEmpty(name))
+        {
+            Log.e(LOG_TAG, "string name is null");
+
+            throw new IllegalArgumentException("Ingredient requires a name");
+        }
+
+
+        SQLiteDatabase database = mDbHelper.getReadableDatabase();
+
+        long id = database.insert(IngredientEntry.CATEGORIES_TABLE_NAME, null, values);
+
+        if (id == -1)
+        {
+            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            return null;
+        }
+
+        getContext().getContentResolver().notifyChange(uri, null);
+
+        return ContentUris.withAppendedId(IngredientEntry.CATEGORY_CONTENT_URI, id);
     }
 
 //    public static boolean isValidChecked(int checked)

@@ -18,12 +18,14 @@ public final class IngredientContract {
 
     public static final String PATH_INGREDIENTS = "ingredients";
 
+    public static final String PATH_CATEGORIES = "categories";
+
     public static abstract class IngredientEntry implements BaseColumns {
 
         //name of the table
         public static final String TABLE_NAME = "ingredients";
 
-        //names of clumns within ingredients table
+        //columns within ingredients table
         public static final String _ID = BaseColumns._ID;
         public static final String COLUMN_INGREDIENT_NAME = "name";
         public static final String COLUMN_INGREDIENT_AMOUNT = "amount";
@@ -33,18 +35,20 @@ public final class IngredientContract {
         public static final String COLUMN_INGREDIENT_PICKED_UP = "picked_up";
         public static final String COLUMN_INGREDIENT_POSITION = "position";
 
+        //name of category table
+        public static final String CATEGORIES_TABLE_NAME = "categories";
 
         //names of the categories
         //TODO: change how the categories are named
-        public static final int FRUIT_AND_VEG = 0;
-        public static final int MEAT_AND_PROT = 1;
-        public static final int BREAD_AND_GRAIN = 2;
-        public static final int DAIRY = 3;
-        public static final int FROZEN = 4;
-        public static final int CANNED = 5;
-        public static final int DRINKS = 6;
-        public static final int SNACKS = 7;
-        public static final int MISC = 8;
+        public static final int CATEGORY_0 = 0;
+        public static final int CATEGORY_1 = 1;
+        public static final int CATEGORY_2 = 2;
+        public static final int CATEGORY_3 = 3;
+        public static final int CATEGORY_4 = 4;
+        public static final int CATEGORY_5 = 5;
+        public static final int CATEGORY_6 = 6;
+        public static final int CATEGORY_7 = 7;
+        public static final int CATEGORY_8 = 8;
 
         public static final int PICKED_UP_NO = 0;
         public static final int PICKED_UP_YES = 1;
@@ -54,6 +58,15 @@ public final class IngredientContract {
 
         //URI
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_INGREDIENTS);
+
+        //columns within categories table
+        public static final String CATEGORY_ID = BaseColumns._ID;
+        public static final String COLUMN_CATEGORY_NAME = "name";
+
+        //category uri
+        public static final Uri CATEGORY_CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_CATEGORIES);
+
+
 
         public static final String CONTENT_LIST_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_INGREDIENTS;

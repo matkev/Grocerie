@@ -96,28 +96,28 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             setTitle(R.string.editor_activity_title_new_ingredient);
             mCurrentCategory = intent.getIntExtra("currentCategory", 0);
             switch (mCurrentCategory) {
-                case IngredientEntry.FRUIT_AND_VEG:
+                case IngredientEntry.CATEGORY_0:
                     mCategorySpinner.setSelection(0);
                     break;
-                case IngredientEntry.MEAT_AND_PROT:
+                case IngredientEntry.CATEGORY_1:
                     mCategorySpinner.setSelection(1);
                     break;
-                case IngredientEntry.BREAD_AND_GRAIN:
+                case IngredientEntry.CATEGORY_2:
                     mCategorySpinner.setSelection(2);
                     break;
-                case IngredientEntry.DAIRY:
+                case IngredientEntry.CATEGORY_3:
                     mCategorySpinner.setSelection(3);
                     break;
-                case IngredientEntry.FROZEN:
+                case IngredientEntry.CATEGORY_4:
                     mCategorySpinner.setSelection(4);
                     break;
-                case IngredientEntry.CANNED:
+                case IngredientEntry.CATEGORY_5:
                     mCategorySpinner.setSelection(5);
                     break;
-                case IngredientEntry.DRINKS:
+                case IngredientEntry.CATEGORY_6:
                     mCategorySpinner.setSelection(6);
                     break;
-                case IngredientEntry.SNACKS:
+                case IngredientEntry.CATEGORY_7:
                     mCategorySpinner.setSelection(7);
                     break;
                 default:
@@ -166,30 +166,30 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.fruit_and_veggie))) {
-                        mCategory = IngredientEntry.FRUIT_AND_VEG;
+                        mCategory = IngredientEntry.CATEGORY_0;
                     } else if (selection.equals(getString(R.string.meat_and_prot))) {
-                        mCategory = IngredientEntry.MEAT_AND_PROT;
+                        mCategory = IngredientEntry.CATEGORY_1;
                     } else if (selection.equals(getString(R.string.bread_and_grain))) {
-                        mCategory = IngredientEntry.BREAD_AND_GRAIN;
+                        mCategory = IngredientEntry.CATEGORY_2;
                     } else if (selection.equals(getString(R.string.dairy))) {
-                        mCategory = IngredientEntry.DAIRY;
+                        mCategory = IngredientEntry.CATEGORY_3;
                     } else if (selection.equals(getString(R.string.frozen))) {
-                        mCategory = IngredientEntry.FROZEN;
+                        mCategory = IngredientEntry.CATEGORY_4;
                     } else if (selection.equals(getString(R.string.canned))) {
-                        mCategory = IngredientEntry.CANNED;
+                        mCategory = IngredientEntry.CATEGORY_5;
                     } else if (selection.equals(getString(R.string.drinks))) {
-                        mCategory = IngredientEntry.DRINKS;
+                        mCategory = IngredientEntry.CATEGORY_6;
                     } else if (selection.equals(getString(R.string.snacks))) {
-                        mCategory = IngredientEntry.SNACKS;
+                        mCategory = IngredientEntry.CATEGORY_7;
                     } else {
-                        mCategory = IngredientEntry.MISC;
+                        mCategory = IngredientEntry.CATEGORY_8;
                     }
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                mCategory = IngredientEntry.MISC; // miscellaneous
+                mCategory = IngredientEntry.CATEGORY_8; // miscellaneous
 
             }
         });
@@ -389,28 +389,28 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             }
 
             switch (category) {
-                case IngredientEntry.FRUIT_AND_VEG:
+                case IngredientEntry.CATEGORY_0:
                     mCategorySpinner.setSelection(0);
                     break;
-                case IngredientEntry.MEAT_AND_PROT:
+                case IngredientEntry.CATEGORY_1:
                     mCategorySpinner.setSelection(1);
                     break;
-                case IngredientEntry.BREAD_AND_GRAIN:
+                case IngredientEntry.CATEGORY_2:
                     mCategorySpinner.setSelection(2);
                     break;
-                case IngredientEntry.DAIRY:
+                case IngredientEntry.CATEGORY_3:
                     mCategorySpinner.setSelection(3);
                     break;
-                case IngredientEntry.FROZEN:
+                case IngredientEntry.CATEGORY_4:
                     mCategorySpinner.setSelection(4);
                     break;
-                case IngredientEntry.CANNED:
+                case IngredientEntry.CATEGORY_5:
                     mCategorySpinner.setSelection(5);
                     break;
-                case IngredientEntry.DRINKS:
+                case IngredientEntry.CATEGORY_6:
                     mCategorySpinner.setSelection(6);
                     break;
-                case IngredientEntry.SNACKS:
+                case IngredientEntry.CATEGORY_7:
                     mCategorySpinner.setSelection(7);
                     break;
                 default:

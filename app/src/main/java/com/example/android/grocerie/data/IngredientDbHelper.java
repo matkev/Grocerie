@@ -36,6 +36,12 @@ public class IngredientDbHelper extends SQLiteOpenHelper {
                 + IngredientEntry.COLUMN_INGREDIENT_POSITION + " INTEGER NOT NULL DEFAULT 0);";
 
         db.execSQL(SQL_CREATE_INGREDIENTS_TABLE);
+
+        String SQL_CREATE_CATEGORIES_TABLE =  "CREATE TABLE " + IngredientEntry.CATEGORIES_TABLE_NAME + " ("
+                + IngredientEntry.CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + IngredientEntry.COLUMN_CATEGORY_NAME + " TEXT NOT NULL);";
+
+        db.execSQL(SQL_CREATE_CATEGORIES_TABLE);
     }
 
     @Override

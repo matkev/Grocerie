@@ -114,28 +114,28 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
         if (mType == SHOPPING_LIST_TYPE) // || mType == INGREDIENT_LIST_TYPE)
         {
             switch (category) {
-                case IngredientEntry.FRUIT_AND_VEG:
+                case IngredientEntry.CATEGORY_0:
                     holder.categoryTextView.setText(R.string.fruit_and_veggie);
                     break;
-                case IngredientEntry.MEAT_AND_PROT:
+                case IngredientEntry.CATEGORY_1:
                     holder.categoryTextView.setText(R.string.meat_and_prot);
                     break;
-                case IngredientEntry.BREAD_AND_GRAIN:
+                case IngredientEntry.CATEGORY_2:
                     holder.categoryTextView.setText(R.string.bread_and_grain);
                     break;
-                case IngredientEntry.DAIRY:
+                case IngredientEntry.CATEGORY_3:
                     holder.categoryTextView.setText(R.string.dairy);
                     break;
-                case IngredientEntry.FROZEN:
+                case IngredientEntry.CATEGORY_4:
                     holder.categoryTextView.setText(R.string.frozen);
                     break;
-                case IngredientEntry.CANNED:
+                case IngredientEntry.CATEGORY_5:
                     holder.categoryTextView.setText(R.string.canned);
                     break;
-                case IngredientEntry.DRINKS:
+                case IngredientEntry.CATEGORY_6:
                     holder.categoryTextView.setText(R.string.drinks);
                     break;
-                case IngredientEntry.SNACKS:
+                case IngredientEntry.CATEGORY_7:
                     holder.categoryTextView.setText(R.string.snacks);
                     break;
                 default:

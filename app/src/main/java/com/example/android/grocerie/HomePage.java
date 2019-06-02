@@ -4,6 +4,8 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.android.grocerie.MainActivitiesAndFragments.CategoryActivity;
 import com.example.android.grocerie.MainActivitiesAndFragments.MainIngredientListActivity;
 import com.example.android.grocerie.MainActivitiesAndFragments.MainShoppingListActivity;
 
@@ -25,6 +27,14 @@ public class HomePage extends AppCompatActivity {
     public void sendToFragmentsIngredientList (View view)
     {
         Intent intent = new Intent(this, MainIngredientListActivity.class);
+        startActivity(intent);
+    }
+
+    public void sendToCategoryList (View view)
+    {
+
+
+        Intent intent = new Intent(this, CategoryActivity.class);
         startActivity(intent);
     }
 }
