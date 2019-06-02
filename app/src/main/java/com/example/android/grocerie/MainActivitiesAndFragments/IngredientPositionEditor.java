@@ -1,9 +1,8 @@
-package com.example.android.grocerie.fragmentVersion;
+package com.example.android.grocerie.MainActivitiesAndFragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.NavUtils;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
-import com.example.android.grocerie.fragmentVersion.RecyclerListAdapter;
 import com.example.android.grocerie.EmptyRecyclerView;
 import com.example.android.grocerie.Ingredient;
 import com.example.android.grocerie.R;

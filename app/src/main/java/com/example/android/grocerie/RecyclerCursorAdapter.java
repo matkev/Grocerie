@@ -21,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.android.grocerie.data.IngredientContract;
 import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 import com.example.android.grocerie.dragAndDropHelper.ItemTouchHelperAdapter;
-import com.example.android.grocerie.fragmentVersion.IngredientPositionEditor;
+import com.example.android.grocerie.MainActivitiesAndFragments.IngredientPositionEditor;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SHOPPING_LIST_TYPE;
 
@@ -219,7 +219,7 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
 
     public void onItemMove(int fromPosition, int toPosition) {
     }
-    
+
     class IngredientViewHolder extends RecyclerView.ViewHolder{ // implements ItemTouchHelperViewHolder {
 
         TextView nameTextView;

@@ -21,16 +21,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".fragmentVersion.IngredientPositionEditor"
-            android:parentActivityName=".fragmentVersion.MainIngredientListActivity">
+            android:name=".MainActivitiesAndFragments.IngredientPositionEditor"
+            android:parentActivityName=".MainActivitiesAndFragments.MainIngredientListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".fragmentVersion.MainIngredientListActivity" />
+                android:value=".MainActivitiesAndFragments.MainIngredientListActivity" />
         </activity>
         <activity android:name=".deprecated.MainShoppingArrayListActivity" />
         <activity android:name=".deprecated.MainIngredientArrayListActivity" />
-        <activity android:name=".fragmentVersion.MainShoppingListActivity" />
-        <activity android:name=".fragmentVersion.MainIngredientListActivity" />
+        <activity android:name=".MainActivitiesAndFragments.MainShoppingListActivity" />
+        <activity android:name=".MainActivitiesAndFragments.MainIngredientListActivity" />
         <activity android:name=".deprecated.ShoppingListRecycler" />
         <activity
             android:name=".deprecated.IngredientsListRecycler"

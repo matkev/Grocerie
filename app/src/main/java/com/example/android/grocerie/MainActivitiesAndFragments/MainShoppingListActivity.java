@@ -1,4 +1,4 @@
-package com.example.android.grocerie.fragmentVersion;
+package com.example.android.grocerie.MainActivitiesAndFragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;

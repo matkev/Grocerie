@@ -1,4 +1,4 @@
-package com.example.android.grocerie.fragmentVersion;
+package com.example.android.grocerie.MainActivitiesAndFragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.android.grocerie.Ingredient;
 import com.example.android.grocerie.IngredientEditor;
 import com.example.android.grocerie.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -88,6 +87,7 @@ public class MainIngredientListActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         PagerAdapter pagerAdapter = new PagerAdapter(this, getSupportFragmentManager());
 
+        //TODO: change how the fragments are titled
         pagerAdapter.addFragment(IngredientFragment.newInstance(0), getString(R.string.fruit_and_veggie));
         pagerAdapter.addFragment(IngredientFragment.newInstance(1), getString(R.string.meat_and_prot));
         pagerAdapter.addFragment(IngredientFragment.newInstance(2), getString(R.string.bread_and_grain));

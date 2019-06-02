@@ -4,8 +4,8 @@ import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import com.example.android.grocerie.fragmentVersion.MainIngredientListActivity;
-import com.example.android.grocerie.fragmentVersion.MainShoppingListActivity;
+import com.example.android.grocerie.MainActivitiesAndFragments.MainIngredientListActivity;
+import com.example.android.grocerie.MainActivitiesAndFragments.MainShoppingListActivity;
 
 
 public class HomePage extends AppCompatActivity {

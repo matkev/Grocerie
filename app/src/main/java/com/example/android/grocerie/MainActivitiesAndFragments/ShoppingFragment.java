@@ -1,4 +1,4 @@
-package com.example.android.grocerie.fragmentVersion;
+package com.example.android.grocerie.MainActivitiesAndFragments;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -49,11 +49,11 @@ public class ShoppingFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public ShoppingFragment(int listType)
-    {
-        Log.e("myTag", "Called from constructor: this list type is : " + listType);
-        mListType = listType;
-    }
+//    public ShoppingFragment(int listType)
+//    {
+//        Log.e("myTag", "Called from constructor: this list type is : " + listType);
+//        mListType = listType;
+//    }
 
     private LoaderManager.LoaderCallbacks<Cursor> shoppingListLoader = new LoaderManager.LoaderCallbacks<Cursor>() {
         @NonNull

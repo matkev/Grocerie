@@ -1,6 +1,5 @@
-package com.example.android.grocerie.fragmentVersion;
+package com.example.android.grocerie.MainActivitiesAndFragments;
 
-import android.app.Activity;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,7 +7,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
-
 
 import android.view.LayoutInflater;
 import android.view.MotionEvent;

@@ -1,4 +1,4 @@
-package com.example.android.grocerie.fragmentVersion;
+package com.example.android.grocerie.MainActivitiesAndFragments;
 
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -46,6 +46,7 @@ public class IngredientFragment extends Fragment {
 
 
     //loader ids
+    //TODO: change how the loaders ids are initialised
     private static final int FRUIT_AND_VEGGIE_LOADER = FRUIT_AND_VEG;
     private static final int MEAT_AND_PROT_LOADER = MEAT_AND_PROT;
     private static final int BREAD_AND_GRAIN_LOADER = BREAD_AND_GRAIN;
