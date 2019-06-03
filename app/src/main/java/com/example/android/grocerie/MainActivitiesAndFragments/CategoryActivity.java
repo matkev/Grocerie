@@ -79,6 +79,35 @@ public class CategoryActivity extends AppCompatActivity implements LoaderManager
 //        values.put(IngredientEntry.COLUMN_CATEGORY_NAME, IngredientEntry.CATEGORY_8);
 //        getContentResolver().insert(IngredientEntry.CATEGORY_CONTENT_URI, values);
 
+        ContentValues values = new ContentValues();
+
+        values.put(IngredientEntry.COLUMN_CATEGORY_NAME, "fruit");
+        getContentResolver().insert(IngredientEntry.CATEGORY_CONTENT_URI, values);
+
+        values.put(IngredientEntry.COLUMN_CATEGORY_NAME, "meat");
+        getContentResolver().insert(IngredientEntry.CATEGORY_CONTENT_URI, values);
+
+        values.put(IngredientEntry.COLUMN_CATEGORY_NAME, "bread");
+        getContentResolver().insert(IngredientEntry.CATEGORY_CONTENT_URI, values);
+
+        values.put(IngredientEntry.COLUMN_CATEGORY_NAME, "dairy");
+        getContentResolver().insert(IngredientEntry.CATEGORY_CONTENT_URI, values);
+
+        values.put(IngredientEntry.COLUMN_CATEGORY_NAME, "frozen");
+        getContentResolver().insert(IngredientEntry.CATEGORY_CONTENT_URI, values);
+
+        values.put(IngredientEntry.COLUMN_CATEGORY_NAME, "canned");
+        getContentResolver().insert(IngredientEntry.CATEGORY_CONTENT_URI, values);
+
+        values.put(IngredientEntry.COLUMN_CATEGORY_NAME, "drinks");
+        getContentResolver().insert(IngredientEntry.CATEGORY_CONTENT_URI, values);
+
+        values.put(IngredientEntry.COLUMN_CATEGORY_NAME, "snacks");
+        getContentResolver().insert(IngredientEntry.CATEGORY_CONTENT_URI, values);
+
+        values.put(IngredientEntry.COLUMN_CATEGORY_NAME, "misc");
+        getContentResolver().insert(IngredientEntry.CATEGORY_CONTENT_URI, values);
+
         LoaderManager.getInstance(CategoryActivity.this).initLoader(CATEGORY_LOADER, null, CategoryActivity.this);
     }
 

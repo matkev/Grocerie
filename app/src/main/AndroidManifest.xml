@@ -11,7 +11,6 @@
         android:roundIcon="@mipmap/ic_launcher_toastface"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivitiesAndFragments.CategoryActivity"></activity>
         <activity
             android:name=".HomePage"
             android:exported="true">
@@ -22,9 +21,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivitiesAndFragments.IngredientPositionEditor" />
+        <activity
+            android:name=".IngredientEditor"
+            android:parentActivityName=".MainActivitiesAndFragments.MainIngredientListActivity"/>
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value=".MainActivitiesAndFragments.MainIngredientListActivity" />-->
+        <!--</activity>-->
         <activity android:name=".MainActivitiesAndFragments.MainShoppingListActivity" />
         <activity android:name=".MainActivitiesAndFragments.MainIngredientListActivity" />
-
+        <activity android:name=".MainActivitiesAndFragments.CategoryActivity"></activity>
         <provider
             android:name=".data.IngredientProvider"
             android:authorities="com.example.android.grocerie"
