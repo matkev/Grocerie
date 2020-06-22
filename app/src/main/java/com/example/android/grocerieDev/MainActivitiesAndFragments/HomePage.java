@@ -5,9 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.android.grocerieDev.MainActivitiesAndFragments.CategoryListActivity;
-import com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientListActivity;
-import com.example.android.grocerieDev.MainActivitiesAndFragments.ShoppingListActivity;
 import com.example.android.grocerieDev.R;
 
 

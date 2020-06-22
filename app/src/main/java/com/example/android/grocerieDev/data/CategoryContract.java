@@ -1,6 +1,5 @@
 package com.example.android.grocerieDev.data;
 
-import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -43,5 +42,7 @@ public final class CategoryContract {
 
         //category uri
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_CATEGORIES);
+
+        //does this need the
     }
 }

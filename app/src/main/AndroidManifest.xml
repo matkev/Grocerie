@@ -20,20 +20,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientPositionEditor" />
+        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientPositionEditor"/>
         <activity
             android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientEditor"
+            android:windowSoftInputMode="stateVisible"
             android:parentActivityName="com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientListActivity"/>
-            <!--<meta-data-->
-                <!--android:name="android.support.PARENT_ACTIVITY"-->
-                <!--android:value=".MainActivitiesAndFragments.MainIngredientListActivity" />-->
-        <!--</activity>-->
         <activity
             android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.CategoryEditor"
+            android:windowSoftInputMode="stateVisible"
             android:parentActivityName="com.example.android.grocerieDev.MainActivitiesAndFragments.CategoryListActivity"/>
-        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.ShoppingListActivity" />
-        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientListActivity" />
-        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.CategoryListActivity"></activity>
+        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.ShoppingListActivity"/>
+        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientListActivity"/>
+        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.CategoryListActivity"/>
         <provider
             android:name="com.example.android.grocerieDev.data.IngredientProvider"
             android:authorities="com.example.android.grocerieDev"
