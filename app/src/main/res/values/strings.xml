@@ -10,7 +10,11 @@
     <string name="action_add_dummy_data">Add dummy data</string>
     <string name="action_delete_all_entries">Delete All Ingredients</string>
     <string name="action_uncheck_all_entries">Uncheck All</string>
-    <string name="action_edit_list_order">Edit List Order</string>
+    <string name="action_edit_ingredient_order">Edit List Order</string>
+
+<!--TODO:use this as category edit order string-->
+    <string name="action_edit_category_order">Edit List Order</string>
+
 
     <!--editor menu-->
     <string name="action_save">Save</string>
@@ -40,6 +44,14 @@
     <string name="editor_delete_ingredient_failed">Error with deleting ingredient</string>
     <string name="editor_delete_ingredient_successful">Ingredient deleted</string>
 
+    <!--category editor action toast messages-->
+    <string name="editor_insert_category_failed">Error with inserting category</string>
+    <string name="editor_insert_category_succesful">Category saved</string>
+    <string name="editor_update_category_failed">Error with updating category</string>
+    <string name="editor_update_category_succesful">Category updated</string>
+    <string name="editor_delete_category_failed">Error with deleting category</string>
+    <string name="editor_delete_category_successful">Category deleted</string>
+
     <!--ingredient list action toast messages-->
     <string name="ingredient_list_delete_all_ingredient_failed">Error with deleting ingredients</string>
     <string name="ingredient_list_delete_all_ingredient_successful">Ingredients deleted</string>
@@ -57,13 +69,16 @@
     <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
     <string name="discard">Discard</string>
     <string name="keep_editing">Keep Editing</string>
-    <string name="delete_dialog_msg">Delete this ingredient?</string>
+    <string name="delete_ingredient_dialog_msg">Delete this ingredient?</string>
+    <string name="delete_category_dialog_msg">Delete this category?</string>
+
     <string name="delete_all_dialog_msg">Delete all ingredients?</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
 
     <!--activity and fragment titles-->
     <string name="ingredients_list_activity_title">My Ingredients List</string>
+    <string name="categories_list_activity_title">My Categories List</string>
     <string name="shopping_list_activity_title">My Grocerie List</string>
     <string name="shopping_list_picked_up">Picked up</string>
     <string name="shopping_list_my_list">My List</string>
@@ -82,6 +97,9 @@
 
     <string name="empty_position_editor_title_text">No ingredients in this category</string>
     <string name="empty_position_editor_subtitle_text">Add items in your ingredients list</string>
+
+    <string name="empty_categories_list_title_text">It\'s a bit lonely here...</string>
+    <string name="empty_categories_list_subtitle_text">Get started by adding a category</string>
 
     <!--categories-->
     <string name="fruit_and_veggie">Fruits and Veggies</string>

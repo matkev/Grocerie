@@ -21,7 +21,7 @@
 
     <item
         android:id="@+id/action_edit_mode"
-        android:title="@string/action_edit_list_order"
+        android:title="@string/action_edit_ingredient_order"
         app:showAsAction="never" />
 
 </menu>

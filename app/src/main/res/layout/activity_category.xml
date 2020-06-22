@@ -56,7 +56,7 @@
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
             android:paddingTop="16dp"
-            android:text="@string/empty_ingredient_list_title_text"
+            android:text="@string/empty_categories_list_title_text"
             android:textAppearance="?android:textAppearanceMedium" />
 
         <TextView
@@ -67,7 +67,7 @@
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
             android:paddingTop="8dp"
-            android:text="No categories"
+            android:text="@string/empty_categories_list_subtitle_text"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="#A2AAB0" />
     </RelativeLayout>

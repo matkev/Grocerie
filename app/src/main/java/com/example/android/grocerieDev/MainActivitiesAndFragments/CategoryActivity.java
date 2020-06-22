@@ -110,11 +110,9 @@ public class CategoryActivity extends AppCompatActivity {
         //bind view
         mainLayout = findViewById(R.id.main_layout_id);
         mRecyclerView = findViewById(R.id.ingredients_list_view_recycler);
-        //todo: change empty view category text string
         emptyView = findViewById(R.id.empty_view);
 
-        //todo:change category title string
-        setTitle(R.string.ingredients_list_activity_title);
+        setTitle(R.string.categories_list_activity_title);
         Toolbar toolbar = (Toolbar) findViewById(R.id.scrolling_toolbar);
         setSupportActionBar(toolbar);
 
@@ -186,30 +184,27 @@ public class CategoryActivity extends AppCompatActivity {
 
     private void insertFailResultHandler()
     {
-        //todo: change inset failed string
         showSnackbar(
                 mainLayout,
-                getString(R.string.editor_insert_ingredient_failed),
+                getString(R.string.editor_insert_category_failed),
                 Toast.LENGTH_SHORT);
     }
 
     private void insertSuccessResultHandler(Intent data)
     {
-        //todo: change insert success string
         Uri newUri = Uri.parse(data.getStringExtra("newUri"));
         insertUndoSnackbar(
                 mainLayout,
-                getString(R.string.editor_insert_ingredient_succesful),
+                getString(R.string.editor_insert_category_succesful),
                 Toast.LENGTH_SHORT,
                 newUri);
     }
 
     private void updateFailResultHandler()
     {
-        //todo: change update fail string
         showSnackbar(
                 mainLayout,
-                getString(R.string.editor_update_ingredient_failed),
+                getString(R.string.editor_update_category_failed),
                 Toast.LENGTH_SHORT);
     }
 
@@ -221,10 +216,9 @@ public class CategoryActivity extends AppCompatActivity {
         ContentValues oldValues = new ContentValues();
         oldValues.put(CategoryEntry.COLUMN_CATEGORY_NAME, oldValuesBundle.getString("name"));
 
-        //TODO: change update succesful string
         updateUndoSnackbar(
                 mainLayout,
-                getString(R.string.editor_update_ingredient_succesful),
+                getString(R.string.editor_update_category_succesful),
                 Toast.LENGTH_SHORT,
                 currentIngredientUri,
                 oldValues);
@@ -232,10 +226,9 @@ public class CategoryActivity extends AppCompatActivity {
 
     private void deleteFailResultHandler()
     {
-        //TODO: change delete failed string
         showSnackbar(
                 mainLayout,
-                getString(R.string.editor_delete_ingredient_failed),
+                getString(R.string.editor_delete_category_failed),
                 Toast.LENGTH_SHORT);
     }
 
@@ -248,10 +241,9 @@ public class CategoryActivity extends AppCompatActivity {
 
 //        oldValues.put(IngredientEntry.COLUMN_INGREDIENT_POSITION, oldValuesBundle.getInt("position"));
 
-        //todo: change delete success string
         deleteUndoSnackBar(
                 mainLayout,
-                getString(R.string.editor_delete_ingredient_successful),
+                getString(R.string.editor_delete_category_successful),
                 Toast.LENGTH_SHORT,
                 oldValues,
                 oldValuesBundle);
