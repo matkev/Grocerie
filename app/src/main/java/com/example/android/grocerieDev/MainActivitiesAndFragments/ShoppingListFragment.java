@@ -28,7 +28,7 @@ import static com.example.android.grocerieDev.data.IngredientContract.Ingredient
 import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.SHOPPING_LIST_TYPE;
 
 
-public class ShoppingFragment extends Fragment {
+public class ShoppingListFragment extends Fragment {
     private static final int TO_BUY_LOADER = 0;
     private static final int PICKED_UP_LOADER = 1;
 
@@ -45,7 +45,7 @@ public class ShoppingFragment extends Fragment {
 
     private int mListType;
 
-    public ShoppingFragment() {
+    public ShoppingListFragment() {
         // Required empty public constructor
     }
 
@@ -104,8 +104,8 @@ public class ShoppingFragment extends Fragment {
         }
     };
 
-    public static ShoppingFragment newInstance(int listType) {
-        ShoppingFragment fragment = new ShoppingFragment();
+    public static ShoppingListFragment newInstance(int listType) {
+        ShoppingListFragment fragment = new ShoppingListFragment();
 
         Bundle args = new Bundle();
         args.putInt(listTypeKey, listType);

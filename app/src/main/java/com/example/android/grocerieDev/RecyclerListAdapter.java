@@ -1,4 +1,4 @@
-package com.example.android.grocerieDev.MainActivitiesAndFragments;
+package com.example.android.grocerieDev;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -20,8 +20,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.android.grocerieDev.Ingredient;
-import com.example.android.grocerieDev.R;
 import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
 import com.example.android.grocerieDev.dragAndDropHelper.ItemTouchHelperAdapter;
 import com.example.android.grocerieDev.dragAndDropHelper.ItemTouchHelperViewHolder;

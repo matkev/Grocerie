@@ -28,7 +28,7 @@ import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainShoppingListActivity extends AppCompatActivity {
+public class ShoppingListActivity extends AppCompatActivity {
 
     static final int EDITOR_REQUEST = 1;  // The request code
 
@@ -66,8 +66,8 @@ public class MainShoppingListActivity extends AppCompatActivity {
         PagerAdapter pagerAdapter = new PagerAdapter(this, getSupportFragmentManager());
 
 
-        pagerAdapter.addFragment(ShoppingFragment.newInstance(0), getString(R.string.shopping_list_my_list));
-        pagerAdapter.addFragment(ShoppingFragment.newInstance(1), getString(R.string.shopping_list_picked_up));
+        pagerAdapter.addFragment(ShoppingListFragment.newInstance(0), getString(R.string.shopping_list_my_list));
+        pagerAdapter.addFragment(ShoppingListFragment.newInstance(1), getString(R.string.shopping_list_picked_up));
 
 
         viewPager.setAdapter(pagerAdapter);

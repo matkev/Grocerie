@@ -1,4 +1,4 @@
-package com.example.android.grocerieDev;
+package com.example.android.grocerieDev.MainActivitiesAndFragments;
 
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 
+import com.example.android.grocerieDev.R;
 import com.example.android.grocerieDev.data.CategoryContract.CategoryEntry;
 
 public class CategoryEditor extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {

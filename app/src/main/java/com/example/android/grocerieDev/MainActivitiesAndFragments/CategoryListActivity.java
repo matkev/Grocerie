@@ -23,14 +23,13 @@ import android.widget.Toast;
 
 
 import com.example.android.grocerieDev.CategoryCursorAdapter;
-import com.example.android.grocerieDev.CategoryEditor;
 import com.example.android.grocerieDev.EmptyRecyclerView;
 import com.example.android.grocerieDev.R;
 import com.example.android.grocerieDev.data.CategoryContract.CategoryEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-public class CategoryActivity extends AppCompatActivity {
+public class CategoryListActivity extends AppCompatActivity {
 
 
     // The editor request code
@@ -132,13 +131,13 @@ public class CategoryActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CategoryActivity.this, CategoryEditor.class);
+                Intent intent = new Intent(CategoryListActivity.this, CategoryEditor.class);
                 startActivityForResult(intent, EDITOR_REQUEST);
             }
         });
 
 
-        LoaderManager.getInstance(CategoryActivity.this).initLoader(CATEGORY_LOADER, null, categoryListLoader);
+        LoaderManager.getInstance(CategoryListActivity.this).initLoader(CATEGORY_LOADER, null, categoryListLoader);
     }
 
     //decides which snackbar to display depending on the result received from the editor

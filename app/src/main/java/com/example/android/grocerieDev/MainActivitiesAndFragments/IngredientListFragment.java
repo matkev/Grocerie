@@ -41,7 +41,7 @@ import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntr
 import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
 
 
-public class IngredientFragment extends Fragment {
+public class IngredientListFragment extends Fragment {
 
     private ItemTouchHelper mItemTouchHelper;
 
@@ -71,7 +71,7 @@ public class IngredientFragment extends Fragment {
     //stores which category the current fragment is showing
     private int mIngredientCategory;
 
-    public IngredientFragment() {
+    public IngredientListFragment() {
         // Required empty public constructor
     }
 
@@ -172,8 +172,8 @@ public class IngredientFragment extends Fragment {
 
     //factory method with bundled arguments instead of a constructor with arguments
     //default constructor is called when fragment is drestroyed by default
-    public static IngredientFragment newInstance(int ingredientCategory) {
-        IngredientFragment fragment = new IngredientFragment();
+    public static IngredientListFragment newInstance(int ingredientCategory) {
+        IngredientListFragment fragment = new IngredientListFragment();
         Log.e("myTag", "Called from newInstance: this ingredient category is : " + ingredientCategory);
 
         Bundle args = new Bundle();

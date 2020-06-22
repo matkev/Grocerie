@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientEditor;
 import com.example.android.grocerieDev.data.IngredientContract;
 import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
 import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry;

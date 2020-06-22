@@ -22,7 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.android.grocerieDev.IngredientEditor;
 import com.example.android.grocerieDev.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -33,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainIngredientListActivity extends AppCompatActivity {
+public class IngredientListActivity extends AppCompatActivity {
 
     // The editor request code
     static final int EDITOR_REQUEST = 1;
@@ -70,7 +69,7 @@ public class MainIngredientListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainIngredientListActivity.this, IngredientEditor.class);
+                Intent intent = new Intent(IngredientListActivity.this, IngredientEditor.class);
                 intent.putExtra("currentCategory", viewPager.getCurrentItem());
                 startActivityForResult(intent, EDITOR_REQUEST);
             }
@@ -88,15 +87,15 @@ public class MainIngredientListActivity extends AppCompatActivity {
         PagerAdapter pagerAdapter = new PagerAdapter(this, getSupportFragmentManager());
 
         //TODO: change how the fragments are titled
-        pagerAdapter.addFragment(IngredientFragment.newInstance(0), getString(R.string.fruit_and_veggie));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(1), getString(R.string.meat_and_prot));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(2), getString(R.string.bread_and_grain));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(3), getString(R.string.dairy));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(4), getString(R.string.frozen));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(5), getString(R.string.canned));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(6), getString(R.string.drinks));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(7), getString(R.string.snacks));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(8), getString(R.string.misc));
+        pagerAdapter.addFragment(IngredientListFragment.newInstance(0), getString(R.string.fruit_and_veggie));
+        pagerAdapter.addFragment(IngredientListFragment.newInstance(1), getString(R.string.meat_and_prot));
+        pagerAdapter.addFragment(IngredientListFragment.newInstance(2), getString(R.string.bread_and_grain));
+        pagerAdapter.addFragment(IngredientListFragment.newInstance(3), getString(R.string.dairy));
+        pagerAdapter.addFragment(IngredientListFragment.newInstance(4), getString(R.string.frozen));
+        pagerAdapter.addFragment(IngredientListFragment.newInstance(5), getString(R.string.canned));
+        pagerAdapter.addFragment(IngredientListFragment.newInstance(6), getString(R.string.drinks));
+        pagerAdapter.addFragment(IngredientListFragment.newInstance(7), getString(R.string.snacks));
+        pagerAdapter.addFragment(IngredientListFragment.newInstance(8), getString(R.string.misc));
 
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = findViewById(R.id.tabLayout);
@@ -242,7 +241,7 @@ public class MainIngredientListActivity extends AppCompatActivity {
 
     private void startEditMode()
     {
-        Intent intent = new Intent(MainIngredientListActivity.this, IngredientPositionEditor.class);
+        Intent intent = new Intent(IngredientListActivity.this, IngredientPositionEditor.class);
         intent.putExtra("currentCategory", viewPager.getCurrentItem());
         startActivity(intent);
     }

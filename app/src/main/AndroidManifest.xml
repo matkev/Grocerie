@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.android.grocerieDev.HomePage"
+            android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.HomePage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,18 +22,18 @@
         </activity>
         <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientPositionEditor" />
         <activity
-            android:name="com.example.android.grocerieDev.IngredientEditor"
-            android:parentActivityName="com.example.android.grocerieDev.MainActivitiesAndFragments.MainIngredientListActivity"/>
+            android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientEditor"
+            android:parentActivityName="com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientListActivity"/>
             <!--<meta-data-->
                 <!--android:name="android.support.PARENT_ACTIVITY"-->
                 <!--android:value=".MainActivitiesAndFragments.MainIngredientListActivity" />-->
         <!--</activity>-->
         <activity
-            android:name="com.example.android.grocerieDev.CategoryEditor"
-            android:parentActivityName="com.example.android.grocerieDev.MainActivitiesAndFragments.CategoryActivity"/>
-        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.MainShoppingListActivity" />
-        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.MainIngredientListActivity" />
-        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.CategoryActivity"></activity>
+            android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.CategoryEditor"
+            android:parentActivityName="com.example.android.grocerieDev.MainActivitiesAndFragments.CategoryListActivity"/>
+        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.ShoppingListActivity" />
+        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientListActivity" />
+        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.CategoryListActivity"></activity>
         <provider
             android:name="com.example.android.grocerieDev.data.IngredientProvider"
             android:authorities="com.example.android.grocerieDev"

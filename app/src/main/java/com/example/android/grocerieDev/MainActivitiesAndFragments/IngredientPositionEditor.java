@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.example.android.grocerieDev.EmptyRecyclerView;
 import com.example.android.grocerieDev.Ingredient;
 import com.example.android.grocerieDev.R;
+import com.example.android.grocerieDev.RecyclerListAdapter;
 import com.example.android.grocerieDev.dragAndDropHelper.OnStartDragListener;
 import com.example.android.grocerieDev.dragAndDropHelper.SimpleItemTouchHelperCallback;
 
