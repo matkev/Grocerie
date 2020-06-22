@@ -1,0 +1,8 @@
+To develop in DEV mode >> refactor java package to "grocerieDev"
+change application ID to grocerieDev
+change app label in manifest
+maybe rebuild or invalidate/restart
+
+do the same steps but with "grocerie" to make changes to daily-use app
+
+ingredient provider now uses buildConfig.APPLICATION_ID as its authority

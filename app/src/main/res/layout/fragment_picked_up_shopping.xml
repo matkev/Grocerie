@@ -10,9 +10,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.grocerie.IngredientEditor">
+    tools:context="com.example.android.grocerieDev.IngredientEditor">
 
-    <com.example.android.grocerie.EmptyRecyclerView
+    <com.example.android.grocerieDev.EmptyRecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

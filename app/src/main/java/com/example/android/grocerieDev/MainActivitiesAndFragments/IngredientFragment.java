@@ -1,4 +1,4 @@
-package com.example.android.grocerie.MainActivitiesAndFragments;
+package com.example.android.grocerieDev.MainActivitiesAndFragments;
 
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -22,23 +22,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.example.android.grocerie.R;
-import com.example.android.grocerie.dragAndDropHelper.SimpleItemTouchHelperCallback;
-import com.example.android.grocerie.EmptyRecyclerView;
-import com.example.android.grocerie.RecyclerCursorAdapter;
-import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
+import com.example.android.grocerieDev.R;
+import com.example.android.grocerieDev.dragAndDropHelper.SimpleItemTouchHelperCallback;
+import com.example.android.grocerieDev.EmptyRecyclerView;
+import com.example.android.grocerieDev.RecyclerCursorAdapter;
+import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
 
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CATEGORY_0;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CATEGORY_1;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CATEGORY_2;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CATEGORY_3;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CATEGORY_4;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CATEGORY_5;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CATEGORY_6;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CATEGORY_7;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CATEGORY_8;
+import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_0;
+import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_1;
+import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_2;
+import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_3;
+import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_4;
+import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_5;
+import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_6;
+import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_7;
+import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_8;
 
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
+import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
 
 
 public class IngredientFragment extends Fragment {

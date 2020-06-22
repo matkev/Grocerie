@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.android.grocerie">
+    package="com.example.android.grocerieDev">
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_toastface"
-        android:label="@string/app_name"
+        android:label="GrocerieDev"
         android:roundIcon="@mipmap/ic_launcher_toastface"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".HomePage"
+            android:name="com.example.android.grocerieDev.HomePage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,21 +20,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivitiesAndFragments.IngredientPositionEditor" />
+        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientPositionEditor" />
         <activity
-            android:name=".IngredientEditor"
-            android:parentActivityName=".MainActivitiesAndFragments.MainIngredientListActivity"/>
+            android:name="com.example.android.grocerieDev.IngredientEditor"
+            android:parentActivityName="com.example.android.grocerieDev.MainActivitiesAndFragments.MainIngredientListActivity"/>
             <!--<meta-data-->
                 <!--android:name="android.support.PARENT_ACTIVITY"-->
                 <!--android:value=".MainActivitiesAndFragments.MainIngredientListActivity" />-->
         <!--</activity>-->
-        <activity android:name=".MainActivitiesAndFragments.MainShoppingListActivity" />
-        <activity android:name=".MainActivitiesAndFragments.MainIngredientListActivity" />
-        <activity android:name=".MainActivitiesAndFragments.CategoryActivity"></activity>
+        <activity
+            android:name="com.example.android.grocerieDev.CategoryEditor"
+            android:parentActivityName="com.example.android.grocerieDev.MainActivitiesAndFragments.CategoryActivity"/>
+        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.MainShoppingListActivity" />
+        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.MainIngredientListActivity" />
+        <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.CategoryActivity"></activity>
         <provider
-            android:name=".data.IngredientProvider"
-            android:authorities="com.example.android.grocerie"
-            android:exported="false" />
+            android:name="com.example.android.grocerieDev.data.IngredientProvider"
+            android:authorities="com.example.android.grocerieDev"
+            android:exported="true" />
     </application>
 
 </manifest>

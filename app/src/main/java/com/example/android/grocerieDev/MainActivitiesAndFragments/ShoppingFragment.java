@@ -1,4 +1,4 @@
-package com.example.android.grocerie.MainActivitiesAndFragments;
+package com.example.android.grocerieDev.MainActivitiesAndFragments;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -18,14 +18,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
-import com.example.android.grocerie.R;
-import com.example.android.grocerie.EmptyRecyclerView;
-import com.example.android.grocerie.RecyclerCursorAdapter;
+import com.example.android.grocerieDev.R;
+import com.example.android.grocerieDev.EmptyRecyclerView;
+import com.example.android.grocerieDev.RecyclerCursorAdapter;
 
-import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
+import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
 
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_CATEGORY;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SHOPPING_LIST_TYPE;
+import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_CATEGORY;
+import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.SHOPPING_LIST_TYPE;
 
 
 public class ShoppingFragment extends Fragment {

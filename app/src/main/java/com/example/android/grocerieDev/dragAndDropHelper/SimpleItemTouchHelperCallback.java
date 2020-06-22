@@ -1,16 +1,10 @@
-package com.example.android.grocerie.dragAndDropHelper;
+package com.example.android.grocerieDev.dragAndDropHelper;
 
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
 import android.util.Log;
 
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
 
 
 /**

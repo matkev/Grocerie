@@ -1,4 +1,4 @@
-package com.example.android.grocerie.MainActivitiesAndFragments;
+package com.example.android.grocerieDev.MainActivitiesAndFragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,21 +14,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 
-import com.example.android.grocerie.EmptyRecyclerView;
-import com.example.android.grocerie.Ingredient;
-import com.example.android.grocerie.R;
-import com.example.android.grocerie.dragAndDropHelper.OnStartDragListener;
-import com.example.android.grocerie.dragAndDropHelper.SimpleItemTouchHelperCallback;
+import com.example.android.grocerieDev.EmptyRecyclerView;
+import com.example.android.grocerieDev.Ingredient;
+import com.example.android.grocerieDev.R;
+import com.example.android.grocerieDev.dragAndDropHelper.OnStartDragListener;
+import com.example.android.grocerieDev.dragAndDropHelper.SimpleItemTouchHelperCallback;
 
 
 import java.util.ArrayList;
 import java.util.List;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry;
+import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
 
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_CATEGORY;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry._ID;
+import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_CATEGORY;
+import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
+import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
+import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry._ID;
 
 public class IngredientPositionEditor extends AppCompatActivity implements OnStartDragListener {
 

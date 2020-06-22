@@ -1,8 +1,10 @@
-package com.example.android.grocerie.data;
+package com.example.android.grocerieDev.data;
 
 import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
+
+import com.example.android.grocerieDev.BuildConfig;
 
 /**
  * Created by matth on 4/21/2019.
@@ -12,13 +14,11 @@ public final class IngredientContract {
 
     private IngredientContract(){}
 
-    public static final String CONTENT_AUTHORITY = "com.example.android.grocerie";
+    public static final String CONTENT_AUTHORITY = BuildConfig.APPLICATION_ID ;
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_INGREDIENTS = "ingredients";
-
-    public static final String PATH_CATEGORIES = "categories";
 
     public static abstract class IngredientEntry implements BaseColumns {
 
@@ -35,21 +35,7 @@ public final class IngredientContract {
         public static final String COLUMN_INGREDIENT_PICKED_UP = "picked_up";
         public static final String COLUMN_INGREDIENT_POSITION = "position";
 
-        //name of category table
-        public static final String CATEGORIES_TABLE_NAME = "categories";
-
-        //names of the categories
-        //TODO: change how the categories are named
-        public static final int CATEGORY_0 = 0;
-        public static final int CATEGORY_1 = 1;
-        public static final int CATEGORY_2 = 2;
-        public static final int CATEGORY_3 = 3;
-        public static final int CATEGORY_4 = 4;
-        public static final int CATEGORY_5 = 5;
-        public static final int CATEGORY_6 = 6;
-        public static final int CATEGORY_7 = 7;
-        public static final int CATEGORY_8 = 8;
-
+        //TODO: why are these never used?
         public static final int PICKED_UP_NO = 0;
         public static final int PICKED_UP_YES = 1;
 
@@ -59,18 +45,11 @@ public final class IngredientContract {
         //URI
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_INGREDIENTS);
 
-        //columns within categories table
-        public static final String CATEGORY_ID = BaseColumns._ID;
-        public static final String COLUMN_CATEGORY_NAME = "name";
-
-        //category uri
-        public static final Uri CATEGORY_CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_CATEGORIES);
-
-
-
+        //This is the Android platform's base MIME type for a content: URI containing a Cursor of zero or more items.
         public static final String CONTENT_LIST_TYPE =
                 ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_INGREDIENTS;
 
+        //This is the Android platform's base MIME type for a content: URI containing a Cursor of a single item.
         public static final String CONTENT_ITEM_TYPE =
                 ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_INGREDIENTS;
 

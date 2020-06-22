@@ -1,4 +1,4 @@
-package com.example.android.grocerie;
+package com.example.android.grocerieDev;
 
 import android.app.Activity;
 import android.content.ContentUris;
@@ -18,12 +18,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.android.grocerie.data.IngredientContract;
-import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
-import com.example.android.grocerie.dragAndDropHelper.ItemTouchHelperAdapter;
-import com.example.android.grocerie.MainActivitiesAndFragments.IngredientPositionEditor;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SHOPPING_LIST_TYPE;
+import com.example.android.grocerieDev.data.IngredientContract;
+import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
+import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry;
+import com.example.android.grocerieDev.dragAndDropHelper.ItemTouchHelperAdapter;
+import com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientPositionEditor;
+import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
+import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.SHOPPING_LIST_TYPE;
+
 
 
 public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapter.IngredientViewHolder>
@@ -114,28 +116,28 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
         if (mType == SHOPPING_LIST_TYPE) // || mType == INGREDIENT_LIST_TYPE)
         {
             switch (category) {
-                case IngredientEntry.CATEGORY_0:
+                case CategoryEntry.CATEGORY_0:
                     holder.categoryTextView.setText(R.string.fruit_and_veggie);
                     break;
-                case IngredientEntry.CATEGORY_1:
+                case CategoryEntry.CATEGORY_1:
                     holder.categoryTextView.setText(R.string.meat_and_prot);
                     break;
-                case IngredientEntry.CATEGORY_2:
+                case CategoryEntry.CATEGORY_2:
                     holder.categoryTextView.setText(R.string.bread_and_grain);
                     break;
-                case IngredientEntry.CATEGORY_3:
+                case CategoryEntry.CATEGORY_3:
                     holder.categoryTextView.setText(R.string.dairy);
                     break;
-                case IngredientEntry.CATEGORY_4:
+                case CategoryEntry.CATEGORY_4:
                     holder.categoryTextView.setText(R.string.frozen);
                     break;
-                case IngredientEntry.CATEGORY_5:
+                case CategoryEntry.CATEGORY_5:
                     holder.categoryTextView.setText(R.string.canned);
                     break;
-                case IngredientEntry.CATEGORY_6:
+                case CategoryEntry.CATEGORY_6:
                     holder.categoryTextView.setText(R.string.drinks);
                     break;
-                case IngredientEntry.CATEGORY_7:
+                case CategoryEntry.CATEGORY_7:
                     holder.categoryTextView.setText(R.string.snacks);
                     break;
                 default:

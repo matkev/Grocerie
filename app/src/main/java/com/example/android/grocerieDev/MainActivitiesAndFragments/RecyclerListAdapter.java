@@ -1,4 +1,4 @@
-package com.example.android.grocerie.MainActivitiesAndFragments;
+package com.example.android.grocerieDev.MainActivitiesAndFragments;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -20,17 +20,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.android.grocerie.Ingredient;
-import com.example.android.grocerie.R;
-import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
-import com.example.android.grocerie.dragAndDropHelper.ItemTouchHelperAdapter;
-import com.example.android.grocerie.dragAndDropHelper.ItemTouchHelperViewHolder;
-import com.example.android.grocerie.dragAndDropHelper.OnStartDragListener;
+import com.example.android.grocerieDev.Ingredient;
+import com.example.android.grocerieDev.R;
+import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
+import com.example.android.grocerieDev.dragAndDropHelper.ItemTouchHelperAdapter;
+import com.example.android.grocerieDev.dragAndDropHelper.ItemTouchHelperViewHolder;
+import com.example.android.grocerieDev.dragAndDropHelper.OnStartDragListener;
 
 import java.util.Collections;
 import java.util.List;
 
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
+import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
 
 
 public class RecyclerListAdapter extends RecyclerView.Adapter<RecyclerListAdapter.IngredientViewHolder>

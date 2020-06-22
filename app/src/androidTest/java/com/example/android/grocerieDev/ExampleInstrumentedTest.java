@@ -1,4 +1,4 @@
-package com.example.android.grocerie;
+package com.example.android.grocerieDev;
 
 import android.content.Context;
 import androidx.test.InstrumentationRegistry;

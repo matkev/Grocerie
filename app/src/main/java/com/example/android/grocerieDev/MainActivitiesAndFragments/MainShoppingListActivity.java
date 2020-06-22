@@ -1,4 +1,4 @@
-package com.example.android.grocerie.MainActivitiesAndFragments;
+package com.example.android.grocerieDev.MainActivitiesAndFragments;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -20,10 +20,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.android.grocerie.R;
+import com.example.android.grocerieDev.R;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
-import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
+import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
 
 import java.util.ArrayList;
 import java.util.List;

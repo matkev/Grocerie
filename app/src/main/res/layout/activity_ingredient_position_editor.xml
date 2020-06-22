@@ -25,7 +25,7 @@ android:layout_height="match_parent">
         app:titleTextColor="#FFFFFF" />
 </com.google.android.material.appbar.AppBarLayout>
 
-<com.example.android.grocerie.EmptyRecyclerView
+<com.example.android.grocerieDev.EmptyRecyclerView
     android:id="@+id/recyclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

@@ -1,29 +1,16 @@
-package com.example.android.grocerie;
+package com.example.android.grocerieDev;
 
-import android.app.Activity;
-import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.android.grocerie.data.IngredientContract;
-import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
-import com.example.android.grocerie.dragAndDropHelper.ItemTouchHelperAdapter;
-import com.example.android.grocerie.MainActivitiesAndFragments.IngredientPositionEditor;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SHOPPING_LIST_TYPE;
+
+import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
+import com.example.android.grocerieDev.dragAndDropHelper.ItemTouchHelperAdapter;
 
 
 public class CategoryCursorAdapter extends BaseCursorAdapter<CategoryCursorAdapter.IngredientViewHolder>

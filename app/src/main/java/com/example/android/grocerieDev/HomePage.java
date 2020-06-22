@@ -1,13 +1,13 @@
-package com.example.android.grocerie;
+package com.example.android.grocerieDev;
 
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.android.grocerie.MainActivitiesAndFragments.CategoryActivity;
-import com.example.android.grocerie.MainActivitiesAndFragments.MainIngredientListActivity;
-import com.example.android.grocerie.MainActivitiesAndFragments.MainShoppingListActivity;
+import com.example.android.grocerieDev.MainActivitiesAndFragments.CategoryActivity;
+import com.example.android.grocerieDev.MainActivitiesAndFragments.MainIngredientListActivity;
+import com.example.android.grocerieDev.MainActivitiesAndFragments.MainShoppingListActivity;
 
 
 public class HomePage extends AppCompatActivity {
@@ -32,8 +32,6 @@ public class HomePage extends AppCompatActivity {
 
     public void sendToCategoryList (View view)
     {
-
-
         Intent intent = new Intent(this, CategoryActivity.class);
         startActivity(intent);
     }

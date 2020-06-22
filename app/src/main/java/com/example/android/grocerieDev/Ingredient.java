@@ -1,4 +1,4 @@
-package com.example.android.grocerie;
+package com.example.android.grocerieDev;
 import java.io.Serializable;
 
 public class Ingredient implements Serializable {

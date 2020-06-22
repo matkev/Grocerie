@@ -1,6 +1,5 @@
-package com.example.android.grocerie;
+package com.example.android.grocerieDev;
 
-import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
@@ -8,12 +7,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -23,14 +20,15 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.NavUtils;
 
-import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
+import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
+import com.example.android.grocerieDev.data.CategoryContract.CategoryEntry;
+
 
 public class IngredientEditor extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -96,28 +94,28 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             setTitle(R.string.editor_activity_title_new_ingredient);
             mCurrentCategory = intent.getIntExtra("currentCategory", 0);
             switch (mCurrentCategory) {
-                case IngredientEntry.CATEGORY_0:
+                case CategoryEntry.CATEGORY_0:
                     mCategorySpinner.setSelection(0);
                     break;
-                case IngredientEntry.CATEGORY_1:
+                case CategoryEntry.CATEGORY_1:
                     mCategorySpinner.setSelection(1);
                     break;
-                case IngredientEntry.CATEGORY_2:
+                case CategoryEntry.CATEGORY_2:
                     mCategorySpinner.setSelection(2);
                     break;
-                case IngredientEntry.CATEGORY_3:
+                case CategoryEntry.CATEGORY_3:
                     mCategorySpinner.setSelection(3);
                     break;
-                case IngredientEntry.CATEGORY_4:
+                case CategoryEntry.CATEGORY_4:
                     mCategorySpinner.setSelection(4);
                     break;
-                case IngredientEntry.CATEGORY_5:
+                case CategoryEntry.CATEGORY_5:
                     mCategorySpinner.setSelection(5);
                     break;
-                case IngredientEntry.CATEGORY_6:
+                case CategoryEntry.CATEGORY_6:
                     mCategorySpinner.setSelection(6);
                     break;
-                case IngredientEntry.CATEGORY_7:
+                case CategoryEntry.CATEGORY_7:
                     mCategorySpinner.setSelection(7);
                     break;
                 default:
@@ -166,30 +164,30 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals(getString(R.string.fruit_and_veggie))) {
-                        mCategory = IngredientEntry.CATEGORY_0;
+                        mCategory = CategoryEntry.CATEGORY_0;
                     } else if (selection.equals(getString(R.string.meat_and_prot))) {
-                        mCategory = IngredientEntry.CATEGORY_1;
+                        mCategory = CategoryEntry.CATEGORY_1;
                     } else if (selection.equals(getString(R.string.bread_and_grain))) {
-                        mCategory = IngredientEntry.CATEGORY_2;
+                        mCategory = CategoryEntry.CATEGORY_2;
                     } else if (selection.equals(getString(R.string.dairy))) {
-                        mCategory = IngredientEntry.CATEGORY_3;
+                        mCategory = CategoryEntry.CATEGORY_3;
                     } else if (selection.equals(getString(R.string.frozen))) {
-                        mCategory = IngredientEntry.CATEGORY_4;
+                        mCategory = CategoryEntry.CATEGORY_4;
                     } else if (selection.equals(getString(R.string.canned))) {
-                        mCategory = IngredientEntry.CATEGORY_5;
+                        mCategory = CategoryEntry.CATEGORY_5;
                     } else if (selection.equals(getString(R.string.drinks))) {
-                        mCategory = IngredientEntry.CATEGORY_6;
+                        mCategory = CategoryEntry.CATEGORY_6;
                     } else if (selection.equals(getString(R.string.snacks))) {
-                        mCategory = IngredientEntry.CATEGORY_7;
+                        mCategory = CategoryEntry.CATEGORY_7;
                     } else {
-                        mCategory = IngredientEntry.CATEGORY_8;
+                        mCategory = CategoryEntry.CATEGORY_8;
                     }
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                mCategory = IngredientEntry.CATEGORY_8; // miscellaneous
+                mCategory = CategoryEntry.CATEGORY_8; // miscellaneous
 
             }
         });
@@ -389,28 +387,28 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             }
 
             switch (category) {
-                case IngredientEntry.CATEGORY_0:
+                case CategoryEntry.CATEGORY_0:
                     mCategorySpinner.setSelection(0);
                     break;
-                case IngredientEntry.CATEGORY_1:
+                case CategoryEntry.CATEGORY_1:
                     mCategorySpinner.setSelection(1);
                     break;
-                case IngredientEntry.CATEGORY_2:
+                case CategoryEntry.CATEGORY_2:
                     mCategorySpinner.setSelection(2);
                     break;
-                case IngredientEntry.CATEGORY_3:
+                case CategoryEntry.CATEGORY_3:
                     mCategorySpinner.setSelection(3);
                     break;
-                case IngredientEntry.CATEGORY_4:
+                case CategoryEntry.CATEGORY_4:
                     mCategorySpinner.setSelection(4);
                     break;
-                case IngredientEntry.CATEGORY_5:
+                case CategoryEntry.CATEGORY_5:
                     mCategorySpinner.setSelection(5);
                     break;
-                case IngredientEntry.CATEGORY_6:
+                case CategoryEntry.CATEGORY_6:
                     mCategorySpinner.setSelection(6);
                     break;
-                case IngredientEntry.CATEGORY_7:
+                case CategoryEntry.CATEGORY_7:
                     mCategorySpinner.setSelection(7);
                     break;
                 default:

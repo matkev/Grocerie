@@ -1,10 +1,11 @@
-package com.example.android.grocerie.data;
+package com.example.android.grocerieDev.data;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
+import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
+import com.example.android.grocerieDev.data.CategoryContract.CategoryEntry;
 
 
 /**
@@ -25,6 +26,7 @@ public class IngredientDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+        //create table statements
         String SQL_CREATE_INGREDIENTS_TABLE =  "CREATE TABLE " + IngredientEntry.TABLE_NAME + " ("
                 + IngredientEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + IngredientEntry.COLUMN_INGREDIENT_NAME + " TEXT NOT NULL, "
@@ -37,9 +39,9 @@ public class IngredientDbHelper extends SQLiteOpenHelper {
 
         db.execSQL(SQL_CREATE_INGREDIENTS_TABLE);
 
-        String SQL_CREATE_CATEGORIES_TABLE =  "CREATE TABLE " + IngredientEntry.CATEGORIES_TABLE_NAME + " ("
-                + IngredientEntry.CATEGORY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + IngredientEntry.COLUMN_CATEGORY_NAME + " TEXT NOT NULL);";
+        String SQL_CREATE_CATEGORIES_TABLE =  "CREATE TABLE " + CategoryEntry.TABLE_NAME + " ("
+                + CategoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + CategoryEntry.COLUMN_CATEGORY_NAME + " TEXT NOT NULL);";
 
         db.execSQL(SQL_CREATE_CATEGORIES_TABLE);
     }

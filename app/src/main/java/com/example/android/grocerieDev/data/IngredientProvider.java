@@ -1,4 +1,4 @@
-package com.example.android.grocerie.data;
+package com.example.android.grocerieDev.data;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -10,12 +10,13 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.android.grocerie.data.IngredientContract.IngredientEntry;
+import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
+import com.example.android.grocerieDev.data.CategoryContract.CategoryEntry;
 
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_CATEGORY;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry._ID;
-import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CATEGORY_ID;
+
+import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_CATEGORY;
+import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
+import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry._ID;
 
 
 /**
@@ -55,8 +56,8 @@ public class IngredientProvider extends ContentProvider {
 
         sUriMatcher.addURI(IngredientContract.CONTENT_AUTHORITY, IngredientContract.PATH_INGREDIENTS, INGREDIENTS);
         sUriMatcher.addURI(IngredientContract.CONTENT_AUTHORITY, IngredientContract.PATH_INGREDIENTS + "/#", INGREDIENT_ID);
-        sUriMatcher.addURI(IngredientContract.CONTENT_AUTHORITY, IngredientContract.PATH_CATEGORIES, CATEGORIES);
-        sUriMatcher.addURI(IngredientContract.CONTENT_AUTHORITY, IngredientContract.PATH_CATEGORIES + "/#", CATEGORY_ID);
+        sUriMatcher.addURI(IngredientContract.CONTENT_AUTHORITY, CategoryContract.PATH_CATEGORIES, CATEGORIES);
+        sUriMatcher.addURI(IngredientContract.CONTENT_AUTHORITY, CategoryContract.PATH_CATEGORIES + "/#", CATEGORY_ID);
 
     }
 
@@ -94,13 +95,13 @@ public class IngredientProvider extends ContentProvider {
                         null, null, sortOrder);
                 break;
             case CATEGORIES:
-                cursor = database.query(IngredientEntry.CATEGORIES_TABLE_NAME, projection, selection, selectionArgs,
+                cursor = database.query(CategoryEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
             case CATEGORY_ID:
                 selection = CATEGORY_ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-                cursor = database.query(IngredientEntry.TABLE_NAME, projection, selection, selectionArgs,
+                cursor = database.query(CategoryEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
             default:
@@ -166,7 +167,7 @@ public class IngredientProvider extends ContentProvider {
 
     private Uri insertCategory (Uri uri, ContentValues values)
     {
-        String name = values.getAsString(IngredientEntry.COLUMN_CATEGORY_NAME);
+        String name = values.getAsString(CategoryEntry.COLUMN_CATEGORY_NAME);
         if (name == null || TextUtils.isEmpty(name))
         {
             Log.e(LOG_TAG, "string name is null");
@@ -177,7 +178,7 @@ public class IngredientProvider extends ContentProvider {
 
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
 
-        long id = database.insert(IngredientEntry.CATEGORIES_TABLE_NAME, null, values);
+        long id = database.insert(CategoryEntry.TABLE_NAME, null, values);
 
         if (id == -1)
         {
@@ -187,7 +188,7 @@ public class IngredientProvider extends ContentProvider {
 
         getContext().getContentResolver().notifyChange(uri, null);
 
-        return ContentUris.withAppendedId(IngredientEntry.CATEGORY_CONTENT_URI, id);
+        return ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, id);
     }
 
 //    public static boolean isValidChecked(int checked)

@@ -1,4 +1,4 @@
-package com.example.android.grocerie.dragAndDropHelper;
+package com.example.android.grocerieDev.dragAndDropHelper;
 
 /**
  * Interface to notify a {RecyclerView.Adapter} of moving and dismissal event from a {
