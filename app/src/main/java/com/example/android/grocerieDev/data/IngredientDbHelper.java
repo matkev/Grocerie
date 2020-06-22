@@ -27,6 +27,12 @@ public class IngredientDbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         //create table statements
+        String SQL_CREATE_CATEGORIES_TABLE =  "CREATE TABLE " + CategoryEntry.TABLE_NAME + " ("
+                + CategoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + CategoryEntry.COLUMN_CATEGORY_NAME + " TEXT NOT NULL);";
+
+        db.execSQL(SQL_CREATE_CATEGORIES_TABLE);
+
         String SQL_CREATE_INGREDIENTS_TABLE =  "CREATE TABLE " + IngredientEntry.TABLE_NAME + " ("
                 + IngredientEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + IngredientEntry.COLUMN_INGREDIENT_NAME + " TEXT NOT NULL, "
@@ -35,15 +41,11 @@ public class IngredientDbHelper extends SQLiteOpenHelper {
                 + IngredientEntry.COLUMN_INGREDIENT_CHECKED + " INTEGER NOT NULL DEFAULT 0, "
                 + IngredientEntry.COLUMN_INGREDIENT_CATEGORY + " INTEGER NOT NULL, "
                 + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + " INTEGER NOT NULL DEFAULT 0, "
-                + IngredientEntry.COLUMN_INGREDIENT_POSITION + " INTEGER NOT NULL DEFAULT 0);";
+                + IngredientEntry.COLUMN_INGREDIENT_POSITION + " INTEGER NOT NULL DEFAULT 0, "
+                + " FOREIGN KEY ("+IngredientEntry.COLUMN_INGREDIENT_CATEGORY+") REFERENCES "
+                    + CategoryEntry.TABLE_NAME+"("+CategoryEntry._ID +"));";
 
         db.execSQL(SQL_CREATE_INGREDIENTS_TABLE);
-
-        String SQL_CREATE_CATEGORIES_TABLE =  "CREATE TABLE " + CategoryEntry.TABLE_NAME + " ("
-                + CategoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + CategoryEntry.COLUMN_CATEGORY_NAME + " TEXT NOT NULL);";
-
-        db.execSQL(SQL_CREATE_CATEGORIES_TABLE);
     }
 
     @Override

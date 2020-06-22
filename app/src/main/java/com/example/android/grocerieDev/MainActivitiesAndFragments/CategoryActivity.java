@@ -25,7 +25,6 @@ import android.widget.Toast;
 import com.example.android.grocerieDev.CategoryCursorAdapter;
 import com.example.android.grocerieDev.CategoryEditor;
 import com.example.android.grocerieDev.EmptyRecyclerView;
-import com.example.android.grocerieDev.IngredientEditor;
 import com.example.android.grocerieDev.R;
 import com.example.android.grocerieDev.data.CategoryContract.CategoryEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -63,7 +62,7 @@ public class CategoryActivity extends AppCompatActivity {
         @Override
         public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
             String[] projection = {
-                    CategoryEntry.CATEGORY_ID,
+                    CategoryEntry._ID,
                     CategoryEntry.COLUMN_CATEGORY_NAME};
 
             ContentObserver observer = new ContentObserver(new Handler()) {

@@ -38,7 +38,7 @@ public final class CategoryContract {
         public static final int CATEGORY_8 = 8;
 
         //columns within categories table
-        public static final String CATEGORY_ID = BaseColumns._ID;
+        public static final String _ID = BaseColumns._ID;
         public static final String COLUMN_CATEGORY_NAME = "name";
 
         //category uri
