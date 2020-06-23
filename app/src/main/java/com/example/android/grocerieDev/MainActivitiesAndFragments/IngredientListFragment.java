@@ -28,35 +28,12 @@ import com.example.android.grocerieDev.EmptyRecyclerView;
 import com.example.android.grocerieDev.RecyclerCursorAdapter;
 import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
 
-import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_0;
-import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_1;
-import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_2;
-import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_3;
-import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_4;
-import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_5;
-import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_6;
-import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_7;
-import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry.CATEGORY_8;
-
 import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
 
 
 public class IngredientListFragment extends Fragment {
 
     private ItemTouchHelper mItemTouchHelper;
-
-
-    //loader ids
-    //TODO: change how the loaders ids are initialised
-    private static final int CATEGORY_0_LOADER = CATEGORY_0;
-    private static final int CATEGORY_1_LOADER = CATEGORY_1;
-    private static final int CATEGORY_2_LOADER = CATEGORY_2;
-    private static final int CATEGORY_3_LOADER = CATEGORY_3;
-    private static final int CATEGORY_4_LOADER = CATEGORY_4;
-    private static final int CATEGORY_5_LOADER = CATEGORY_5;
-    private static final int CATEGORY_6_LOADER = CATEGORY_6;
-    private static final int CATEGORY_7_LOADER = CATEGORY_7;
-    private static final int CATEGORY_8_LOADER = CATEGORY_8;
 
     //views
     EmptyRecyclerView mRecyclerView;
@@ -93,45 +70,8 @@ public class IngredientListFragment extends Fragment {
             String selection = IngredientEntry.COLUMN_INGREDIENT_CATEGORY + "=?";
 
             String[] selectionArgs;
-            switch (id) {
-                case CATEGORY_0_LOADER:
-                    Log.e("myTag", "The selection args is : " + CATEGORY_0);
-                    selectionArgs = new String[]{Integer.toString(CATEGORY_0)};
-                    break;
-                case CATEGORY_1_LOADER:
-                    Log.e("myTag", "The selection args is : " + CATEGORY_1);
-                    selectionArgs = new String[]{Integer.toString(CATEGORY_1)};
-                    break;
-                case CATEGORY_2_LOADER:
-                    Log.e("myTag", "The selection args is : " + CATEGORY_2);
-                    selectionArgs = new String[]{Integer.toString(CATEGORY_2)};
-                    break;
-                case CATEGORY_3_LOADER:
-                    Log.e("myTag", "The selection args is : " + CATEGORY_3);
-                    selectionArgs = new String[]{Integer.toString(CATEGORY_3)};
-                    break;
-                case CATEGORY_4_LOADER:
-                    Log.e("myTag", "The selection args is : " + CATEGORY_4);
-                    selectionArgs = new String[]{Integer.toString(CATEGORY_4)};
-                    break;
-                case CATEGORY_5_LOADER:
-                    Log.e("myTag", "The selection args is : " + CATEGORY_5);
-                    selectionArgs = new String[]{Integer.toString(CATEGORY_5)};
-                    break;
-                case CATEGORY_6_LOADER:
-                    Log.e("myTag", "The selection args is : " + CATEGORY_6);
-                    selectionArgs = new String[]{Integer.toString(CATEGORY_6)};
-                    break;
-                case CATEGORY_7_LOADER:
-                    Log.e("myTag", "The selection args is : " + CATEGORY_7);
-                    selectionArgs = new String[]{Integer.toString(CATEGORY_7)};
-                    break;
-                default:
-                    Log.e("myTag", "The selection args is : " + CATEGORY_8);
-                    selectionArgs = new String[]{Integer.toString(CATEGORY_8)};
-                    break;
-            }
-
+            Log.e("cats", "The selection args is : " + id);
+            selectionArgs = new String[]{Integer.toString(id)};
 
             ContentObserver observer = new ContentObserver(new Handler()) {
                 @Override
@@ -149,6 +89,7 @@ public class IngredientListFragment extends Fragment {
                     super.onChange(selfChange, uri);
                 }
             };
+
             getActivity().getContentResolver().registerContentObserver(IngredientEntry.CONTENT_URI, false, observer);
 
             return new CursorLoader(getActivity(),
@@ -218,45 +159,9 @@ public class IngredientListFragment extends Fragment {
         Log.e("myTag", "Called from onCreateView: this ingredient category is : " + mIngredientCategory);
 
         //starting loader based on the category
-        //TODO find different way to initiliase loaders
-        switch (mIngredientCategory) {
-            case CATEGORY_0:
-                Log.e("myTag", "The loader id is : " + CATEGORY_0);
-                LoaderManager.getInstance(getActivity()).initLoader(CATEGORY_0_LOADER, null, ingredientListLoader);
-                break;
-            case CATEGORY_1:
-                Log.e("myTag", "The loader id is : " + CATEGORY_1);
-                LoaderManager.getInstance(getActivity()).initLoader(CATEGORY_1_LOADER, null, ingredientListLoader);
-                break;
-            case CATEGORY_2:
-                Log.e("myTag", "The loader id is : " + CATEGORY_2);
-                LoaderManager.getInstance(getActivity()).initLoader(CATEGORY_2_LOADER, null, ingredientListLoader);
-                break;
-            case CATEGORY_3:
-                Log.e("myTag", "The loader id is : " + CATEGORY_3);
-                LoaderManager.getInstance(getActivity()).initLoader(CATEGORY_3_LOADER, null, ingredientListLoader);
-                break;
-            case CATEGORY_4:
-                Log.e("myTag", "The loader id is : " + CATEGORY_4);
-                LoaderManager.getInstance(getActivity()).initLoader(CATEGORY_4_LOADER, null, ingredientListLoader);
-                break;
-            case CATEGORY_5:
-                Log.e("myTag", "The loader id is : " + CATEGORY_5);
-                LoaderManager.getInstance(getActivity()).initLoader(CATEGORY_5_LOADER, null, ingredientListLoader);
-                break;
-            case CATEGORY_6:
-                Log.e("myTag", "The loader id is : " + CATEGORY_6);
-                LoaderManager.getInstance(getActivity()).initLoader(CATEGORY_6_LOADER, null, ingredientListLoader);
-                break;
-            case CATEGORY_7:
-                Log.e("myTag", "The loader id is : " + CATEGORY_7);
-                LoaderManager.getInstance(getActivity()).initLoader(CATEGORY_7_LOADER, null, ingredientListLoader);
-                break;
-            default:
-                Log.e("myTag", "The loader id is : " + CATEGORY_8);
-                LoaderManager.getInstance(getActivity()).initLoader(CATEGORY_8_LOADER, null, ingredientListLoader);
-                break;
-        }
+        Log.e("myTag", "The loader id is : " + mIngredientCategory);
+        LoaderManager.getInstance(getActivity()).initLoader(mIngredientCategory, null, ingredientListLoader);
+
         return mRootView;
     }
 }
