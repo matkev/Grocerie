@@ -94,35 +94,38 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         if (mCurrentIngredientUri == null) {
             setTitle(R.string.editor_activity_title_new_ingredient);
             mCurrentCategory = intent.getIntExtra("currentCategory", 0);
-            switch (mCurrentCategory) {
-                case CategoryEntry.CATEGORY_0:
-                    mCategorySpinner.setSelection(0);
-                    break;
-                case CategoryEntry.CATEGORY_1:
-                    mCategorySpinner.setSelection(1);
-                    break;
-                case CategoryEntry.CATEGORY_2:
-                    mCategorySpinner.setSelection(2);
-                    break;
-                case CategoryEntry.CATEGORY_3:
-                    mCategorySpinner.setSelection(3);
-                    break;
-                case CategoryEntry.CATEGORY_4:
-                    mCategorySpinner.setSelection(4);
-                    break;
-                case CategoryEntry.CATEGORY_5:
-                    mCategorySpinner.setSelection(5);
-                    break;
-                case CategoryEntry.CATEGORY_6:
-                    mCategorySpinner.setSelection(6);
-                    break;
-                case CategoryEntry.CATEGORY_7:
-                    mCategorySpinner.setSelection(7);
-                    break;
-                default:
-                    mCategorySpinner.setSelection(8);
-                    break;
-            }
+
+            mCategorySpinner.setSelection(mCurrentCategory);
+
+//            switch (mCurrentCategory) {
+//                case CategoryEntry.CATEGORY_0:
+//                    mCategorySpinner.setSelection(0);
+//                    break;
+//                case CategoryEntry.CATEGORY_1:
+//                    mCategorySpinner.setSelection(1);
+//                    break;
+//                case CategoryEntry.CATEGORY_2:
+//                    mCategorySpinner.setSelection(2);
+//                    break;
+//                case CategoryEntry.CATEGORY_3:
+//                    mCategorySpinner.setSelection(3);
+//                    break;
+//                case CategoryEntry.CATEGORY_4:
+//                    mCategorySpinner.setSelection(4);
+//                    break;
+//                case CategoryEntry.CATEGORY_5:
+//                    mCategorySpinner.setSelection(5);
+//                    break;
+//                case CategoryEntry.CATEGORY_6:
+//                    mCategorySpinner.setSelection(6);
+//                    break;
+//                case CategoryEntry.CATEGORY_7:
+//                    mCategorySpinner.setSelection(7);
+//                    break;
+//                default:
+//                    mCategorySpinner.setSelection(8);
+//                    break;
+//            }
             invalidateOptionsMenu();
         }
         //otherwise, the editor is updating an existing ingredient
@@ -149,6 +152,7 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
     private void setupSpinner() {
         // Create adapter for spinner. The list options are from the String array it will use
         // the spinner will use the default layout
+        //todo: use cursoradapter for spinner setup, order by position, query categories
         ArrayAdapter categorySpinnerAdapter = ArrayAdapter.createFromResource(this,
                 R.array.array_category_options, android.R.layout.simple_spinner_item);
 
@@ -188,6 +192,7 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+                //todo: this will never happen because of selection in onCreate
                 mCategory = CategoryEntry.CATEGORY_8; // miscellaneous
 
             }
