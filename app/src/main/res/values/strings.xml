@@ -83,8 +83,9 @@
     <string name="shopping_list_picked_up">Picked up</string>
     <string name="shopping_list_my_list">My List</string>
     <string name="editor_activity_title_new_ingredient">Add ingredient</string>
+    <string name="editor_activity_title_new_category">Add category</string>
     <string name="editor_activity_title_edit_ingredient">Edit ingredient</string>
-
+    <string name="editor_activity_title_edit_category">Edit category</string>
     <!--empty view texts-->
     <string name="empty_ingredient_list_title_text">It\'s a bit lonely here...</string>
     <string name="empty_ingredient_list_subtitle_text">Get started by adding an ingredient</string>
