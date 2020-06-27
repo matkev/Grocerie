@@ -99,10 +99,13 @@ public class IngredientProvider extends ContentProvider {
                         null, null, sortOrder);
                 break;
             case CATEGORY_ID:
+                Log.e("cats", "IngredientProvider CATEGORY_ID query method called");
                 selection = CATEGORY_ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 cursor = database.query(CategoryEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
+                Log.e("cats", "cursor.getCount(): " + cursor.getCount());
+
                 break;
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
@@ -215,7 +218,6 @@ public class IngredientProvider extends ContentProvider {
                 selection = _ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
-
                 if (contentValues.containsKey(COLUMN_INGREDIENT_CATEGORY))
                 {
                     int oldCategory = getCategory(uri);
@@ -231,13 +233,16 @@ public class IngredientProvider extends ContentProvider {
                         int maxPosition = getMaxPositionInCategory(newCategory);
                         contentValues.put(COLUMN_INGREDIENT_POSITION, maxPosition + 1);
                         Log.e("reorder", "updating " + uri.toString() + " to position: " + (maxPosition + 1));
-
-
-//                    updateCategoryPositions(oldCategory);
                     }
                 }
-
                 return updateIngredient(uri, contentValues, selection, selectionArgs);
+            case CATEGORIES:
+                return updateCategory(uri, contentValues, selection, selectionArgs);
+            case CATEGORY_ID:
+                selection = _ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                return updateCategory(uri, contentValues, selection, selectionArgs);
+
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
         }
@@ -256,7 +261,6 @@ public class IngredientProvider extends ContentProvider {
             }
         }
 
-
         if (values.size() == 0)
         {
             return 0;
@@ -265,6 +269,35 @@ public class IngredientProvider extends ContentProvider {
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
 
         int rowsUpdated = database.update(IngredientEntry.TABLE_NAME, values, selection, selectionArgs);
+
+        if (rowsUpdated != 0)
+        {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return rowsUpdated;
+    }
+
+    private int updateCategory(Uri uri, ContentValues values, String selection, String[] selectionArgs)
+    {
+        if (values.containsKey(CategoryEntry.COLUMN_CATEGORY_NAME))
+        {
+            String name = values.getAsString(CategoryEntry.COLUMN_CATEGORY_NAME);
+            if (name == null || TextUtils.isEmpty(name))
+            {
+                Log.e(LOG_TAG, "string name is null");
+
+                throw new IllegalArgumentException("Ingredient requires a name");
+            }
+        }
+
+        if (values.size() == 0)
+        {
+            return 0;
+        }
+
+        SQLiteDatabase database = mDbHelper.getReadableDatabase();
+
+        int rowsUpdated = database.update(CategoryEntry.TABLE_NAME, values, selection, selectionArgs);
 
         if (rowsUpdated != 0)
         {
@@ -294,6 +327,16 @@ public class IngredientProvider extends ContentProvider {
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = database.delete(IngredientEntry.TABLE_NAME, selection, selectionArgs);
                 break;
+            case CATEGORIES:
+                // Delete all rows that match the selection and selection args
+                rowsDeleted = database.delete(CategoryEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case CATEGORY_ID:
+                // Delete a single row given by the ID in the URI
+                selection = _ID + "=?";
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                rowsDeleted = database.delete(CategoryEntry.TABLE_NAME, selection, selectionArgs);
+                break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
@@ -317,6 +360,10 @@ public class IngredientProvider extends ContentProvider {
                 return IngredientEntry.CONTENT_LIST_TYPE;
             case INGREDIENT_ID:
                 return IngredientEntry.CONTENT_ITEM_TYPE;
+            case CATEGORIES:
+                return CategoryEntry.CONTENT_LIST_TYPE;
+            case CATEGORY_ID:
+                return CategoryEntry.CONTENT_ITEM_TYPE;
             default:
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }

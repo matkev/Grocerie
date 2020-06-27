@@ -1,5 +1,6 @@
 package com.example.android.grocerieDev.data;
 
+import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -43,6 +44,12 @@ public final class CategoryContract {
         //category uri
         public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_CATEGORIES);
 
-        //does this need the
+        //This is the Android platform's base MIME type for a content: URI containing a Cursor of zero or more items.
+        public static final String CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CATEGORIES;
+
+        //This is the Android platform's base MIME type for a content: URI containing a Cursor of a single item.
+        public static final String CONTENT_ITEM_TYPE =
+                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_CATEGORIES;
     }
 }
