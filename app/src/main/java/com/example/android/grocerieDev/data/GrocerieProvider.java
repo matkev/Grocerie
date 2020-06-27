@@ -24,12 +24,12 @@ import static com.example.android.grocerieDev.data.IngredientContract.Ingredient
  */
 
 
-public class IngredientProvider extends ContentProvider {
+public class GrocerieProvider extends ContentProvider {
 
     /** Tag for the log messages */
-    public static final String LOG_TAG = IngredientProvider.class.getSimpleName();
+    public static final String LOG_TAG = GrocerieProvider.class.getSimpleName();
 
-    IngredientDbHelper mDbHelper;
+    GrocerieDbHelper mDbHelper;
 
     /** URI matcher code for the content URI for the ingredients table */
     private static final int INGREDIENTS = 100;
@@ -66,7 +66,7 @@ public class IngredientProvider extends ContentProvider {
      */
     @Override
     public boolean onCreate() {
-        mDbHelper = new IngredientDbHelper(getContext());
+        mDbHelper = new GrocerieDbHelper(getContext());
 
         return true;
     }

@@ -33,7 +33,7 @@
         <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientListActivity"/>
         <activity android:name="com.example.android.grocerieDev.MainActivitiesAndFragments.CategoryListActivity"/>
         <provider
-            android:name="com.example.android.grocerieDev.data.IngredientProvider"
+            android:name="com.example.android.grocerieDev.data.GrocerieProvider"
             android:authorities="com.example.android.grocerieDev"
             android:exported="true" />
     </application>

@@ -12,13 +12,13 @@ import com.example.android.grocerieDev.data.CategoryContract.CategoryEntry;
  * Created by matth on 9/13/2018.
  */
 
-public class IngredientDbHelper extends SQLiteOpenHelper {
+public class GrocerieDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "ingredient_list.db";
 
     private static final int DATABASE_VERSION = 1;
 
-    public IngredientDbHelper(Context context)
+    public GrocerieDbHelper(Context context)
     {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
