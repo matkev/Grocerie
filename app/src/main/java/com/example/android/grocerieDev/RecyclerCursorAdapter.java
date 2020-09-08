@@ -22,12 +22,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientEditor;
 import com.example.android.grocerieDev.data.IngredientContract;
 import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
-import static com.example.android.grocerieDev.data.CategoryContract.CategoryEntry;
 import com.example.android.grocerieDev.dragAndDropHelper.ItemTouchHelperAdapter;
 import com.example.android.grocerieDev.MainActivitiesAndFragments.IngredientPositionEditor;
 import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.INGREDIENT_LIST_TYPE;
 import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.SHOPPING_LIST_TYPE;
-
 
 
 public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapter.IngredientViewHolder>
@@ -41,23 +39,21 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
     public RecyclerCursorAdapter(int type) {
         super(null);
         mType = type;
+        Log.e("cats", "RecyclerCursorAdapter constructor called");
     }
 
     @Override
     public IngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         this.mContext = parent.getContext();
+        Log.e("cats", "RecyclerCursorAdapter.onCreateViewHolder called");
 
-        View formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_ingredient_item, parent, false);
-        IngredientViewHolder viewHolder = new IngredientViewHolder(formNameView);
-
-        return viewHolder;
+        View ingredientItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_ingredient_item, parent, false);
+        return new IngredientViewHolder(ingredientItemView);
     }
 
     @Override
     public void onBindViewHolder(IngredientViewHolder holder, Cursor cursor) {
-
-//        Log.e("reorder", "viewHolder position is " + holder.getAdapterPosition());
-        Log.e("reorder", "we are in the cursor adapter");
+        Log.e("cats", "RecyclerCursorAdapter.onBindViewHolder called");
 
         holder.CheckBox.setOnCheckedChangeListener(null);
 
@@ -76,21 +72,20 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
             checkboxIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP);
         }
 
-        int positionIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_POSITION);
-
-
-        int idValue = cursor.getInt(idIndex);
+        int ingredientId = cursor.getInt(idIndex);
         String ingredientName = cursor.getString(nameColumnIndex);
         String ingredientAmount = cursor.getString(amountColumnIndex);
         String ingredientUnit = cursor.getString(unitColumnIndex);
         int ingredientChecked = cursor.getInt(checkboxIndex);
-        int category = cursor.getInt(categoryindex);
+        int ingredientCategory = cursor.getInt(categoryindex);
+
+//        int positionIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_POSITION);
 //        int position = cursor.getInt(positionIndex);
 
 
 //        if (mType == INGREDIENT_LIST_TYPE)
 //        {
-//            Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, idValue);
+//            Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, ingredientId);
 //
 //            Log.e("reorder", "the current ingredient is " + currentIngredientUri);
 //            int databasePosition = getPosition(currentIngredientUri);
@@ -115,37 +110,13 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
             holder.CheckBox.setChecked(false);
         }
 
+        //todo: once categories tables linked with ingredients, use category uris to fill in category textview
         if (mType == SHOPPING_LIST_TYPE) // || mType == INGREDIENT_LIST_TYPE)
         {
-            switch (category) {
-                case CategoryEntry.CATEGORY_0:
-                    holder.categoryTextView.setText(R.string.fruit_and_veggie);
-                    break;
-                case CategoryEntry.CATEGORY_1:
-                    holder.categoryTextView.setText(R.string.meat_and_prot);
-                    break;
-                case CategoryEntry.CATEGORY_2:
-                    holder.categoryTextView.setText(R.string.bread_and_grain);
-                    break;
-                case CategoryEntry.CATEGORY_3:
-                    holder.categoryTextView.setText(R.string.dairy);
-                    break;
-                case CategoryEntry.CATEGORY_4:
-                    holder.categoryTextView.setText(R.string.frozen);
-                    break;
-                case CategoryEntry.CATEGORY_5:
-                    holder.categoryTextView.setText(R.string.canned);
-                    break;
-                case CategoryEntry.CATEGORY_6:
-                    holder.categoryTextView.setText(R.string.drinks);
-                    break;
-                case CategoryEntry.CATEGORY_7:
-                    holder.categoryTextView.setText(R.string.snacks);
-                    break;
-                default:
-                    holder.categoryTextView.setText(R.string.misc);
-                    break;
-            }
+//            Uri currentCategoryUri = ContentUris.withAppendedId(CategoryEntry.CONTENT_URI, ingredientCategory);
+//
+//            Cursor categoryCursor = mContext.getContentResolver().query(currentCategoryUri, null, null, null, null);
+//            holder.categoryTextView.setText(categoryCursor.getString(nameColumnIndex));
         }
 
         holder.nameTextView.setText(ingredientName);
@@ -154,9 +125,9 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
         holder.CheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                Log.e("myTag", "The id of the current row is " + idValue);
+                Log.e("myTag", "The id of the current row is " + ingredientId);
 
-                Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, idValue);
+                Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, ingredientId);
 
                 Log.e("myTag", "The uri of the current row is " + currentIngredientUri);
 
@@ -189,16 +160,14 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
         holder.ingredientSummary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("myTag", "The id of the current row is " + idValue);
-
+                Log.e("myTag", "The id of the current row is " + ingredientId);
                 Intent intent = new Intent(mContext, IngredientEditor.class);
 
-                Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, idValue);
+                Uri currentIngredientUri = ContentUris.withAppendedId(IngredientContract.IngredientEntry.CONTENT_URI, ingredientId);
 
                 Log.e("myTag", "The uri of the current row is " + currentIngredientUri);
 
                 intent.setData(currentIngredientUri);
-
                 ((Activity)mContext).startActivityForResult(intent, EDITOR_REQUEST);
             }
         });
@@ -208,7 +177,7 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
             @Override
             public boolean onLongClick(View view) {
                 Intent intent = new Intent(mContext, IngredientPositionEditor.class);
-                intent.putExtra("currentCategory", category);
+                intent.putExtra("currentCategory", ingredientCategory);
                 mContext.startActivity(intent);
                 return true;
             }

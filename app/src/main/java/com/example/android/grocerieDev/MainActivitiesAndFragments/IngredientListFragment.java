@@ -57,6 +57,9 @@ public class IngredientListFragment extends Fragment {
         @Override
         public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
 
+            Log.e("cats", "IngListFrag.onCreateLoader called");
+
+
             String [] projection = {
                     IngredientEntry._ID,
                     IngredientEntry.COLUMN_INGREDIENT_NAME,
@@ -102,11 +105,13 @@ public class IngredientListFragment extends Fragment {
 
         @Override
         public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+            Log.e("cats", "IngListFrag.onLoadFinished called");
             mCursorAdapter.swapCursor(data);
         }
 
         @Override
         public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+            Log.e("cats", "IngListFrag.onLoadReset called");
             mCursorAdapter.swapCursor(null);
         }
     };
@@ -125,8 +130,8 @@ public class IngredientListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        Log.e("reorder", "we are in the normal ingredient fragment");
+        Log.e("cats", "IngListFrag.onCreateView called");
+        Log.e("cats", "IngListFrag getActivity: " + getActivity());
 
         Bundle bundle = getArguments();
         mIngredientCategory = bundle.getInt(ingredientCategoryKey);

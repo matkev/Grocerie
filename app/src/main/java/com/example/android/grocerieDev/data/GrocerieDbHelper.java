@@ -3,6 +3,7 @@ package com.example.android.grocerieDev.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
 import com.example.android.grocerieDev.data.CategoryContract.CategoryEntry;
@@ -32,6 +33,7 @@ public class GrocerieDbHelper extends SQLiteOpenHelper {
                 + CategoryEntry.COLUMN_CATEGORY_NAME + " TEXT NOT NULL);";
 
         db.execSQL(SQL_CREATE_CATEGORIES_TABLE);
+        Log.e("cats", SQL_CREATE_CATEGORIES_TABLE);
 
         String SQL_CREATE_INGREDIENTS_TABLE =  "CREATE TABLE " + IngredientEntry.TABLE_NAME + " ("
                 + IngredientEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -41,11 +43,12 @@ public class GrocerieDbHelper extends SQLiteOpenHelper {
                 + IngredientEntry.COLUMN_INGREDIENT_CHECKED + " INTEGER NOT NULL DEFAULT 0, "
                 + IngredientEntry.COLUMN_INGREDIENT_CATEGORY + " INTEGER NOT NULL, "
                 + IngredientEntry.COLUMN_INGREDIENT_PICKED_UP + " INTEGER NOT NULL DEFAULT 0, "
-                + IngredientEntry.COLUMN_INGREDIENT_POSITION + " INTEGER NOT NULL DEFAULT 0, "
-                + " FOREIGN KEY ("+IngredientEntry.COLUMN_INGREDIENT_CATEGORY+") REFERENCES "
-                    + CategoryEntry.TABLE_NAME+"("+CategoryEntry._ID +"));";
+                + IngredientEntry.COLUMN_INGREDIENT_POSITION + " INTEGER NOT NULL DEFAULT 0);";//, "
+               // + " FOREIGN KEY ("+IngredientEntry.COLUMN_INGREDIENT_CATEGORY+") REFERENCES "
+                 //   + CategoryEntry.TABLE_NAME+"("+CategoryEntry._ID +"));";
 
         db.execSQL(SQL_CREATE_INGREDIENTS_TABLE);
+        Log.e("cats", SQL_CREATE_INGREDIENTS_TABLE);
     }
 
     @Override

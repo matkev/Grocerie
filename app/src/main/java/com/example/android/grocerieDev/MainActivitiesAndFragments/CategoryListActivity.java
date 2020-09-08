@@ -1,6 +1,7 @@
 package com.example.android.grocerieDev.MainActivitiesAndFragments;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
@@ -25,12 +26,14 @@ import android.widget.Toast;
 import com.example.android.grocerieDev.CategoryCursorAdapter;
 import com.example.android.grocerieDev.EmptyRecyclerView;
 import com.example.android.grocerieDev.R;
+import com.example.android.grocerieDev.RecyclerCursorAdapter;
 import com.example.android.grocerieDev.data.CategoryContract.CategoryEntry;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-public class CategoryListActivity extends AppCompatActivity {
+import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
 
+public class CategoryListActivity extends AppCompatActivity {
 
     // The editor request code
     static final int EDITOR_REQUEST = 1;
@@ -44,25 +47,32 @@ public class CategoryListActivity extends AppCompatActivity {
     public static final int DELETE_SUCCESS = 5;
     public static final int NO_CHANGE = 6;
 
-    //needed to display snackbars
-    View mainLayout;
-
     //views
+    View mainLayout;
     EmptyRecyclerView mRecyclerView;
     RelativeLayout emptyView;
 
-    private static final int CATEGORY_LOADER = 0;
+    Context mContext;
+
+    //recyclerview adapter
     private CategoryCursorAdapter mCursorAdapter;
 
+    private static final int CATEGORY_LOADER = 0;
 
     private LoaderManager.LoaderCallbacks<Cursor> categoryListLoader = new LoaderManager.LoaderCallbacks<Cursor>() {
 
         @NonNull
         @Override
         public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+
+            Log.e("cats", "CatList.onCreateLoader called");
+
             String[] projection = {
                     CategoryEntry._ID,
                     CategoryEntry.COLUMN_CATEGORY_NAME};
+
+//            for (int j = 0; j < projection.length; j++)
+//                Log.e("cats", "CatList.onCreateLoader: projection " + j + ": "+ projection[j]);
 
             ContentObserver observer = new ContentObserver(new Handler()) {
                 @Override
@@ -80,51 +90,63 @@ public class CategoryListActivity extends AppCompatActivity {
                     super.onChange(selfChange, uri);
                 }
             };
-            getApplicationContext().getContentResolver().registerContentObserver(CategoryEntry.CONTENT_URI, false, observer);
+            mContext.getContentResolver().registerContentObserver(CategoryEntry.CONTENT_URI, false, observer);
 
-            return new CursorLoader(getApplicationContext(),
+            Log.e("cats", "CatList.onCreateLoader: category CONTENT_URI : " + CategoryEntry.CONTENT_URI);
+
+            return new CursorLoader(CategoryListActivity.this,
                     CategoryEntry.CONTENT_URI,
                     projection,
                     null,
                     null,
                     null);
-
         }
 
         @Override
         public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+            Log.e("cats", "CatList.onLoadFinished called");
+//
+//            // Bail early if the cursor is null or there is less than 1 row in the cursor
+//            if (data == null || data.getCount() < 1) {
+//                if (data == null) {
+//                    Log.e("cats", "CatList.onLoadFinished cursor is null");
+//                }
+//                else if (data.getCount() < 1)
+//                {
+//                    Log.e("cats", "CatList.onLoadFinished cursor.getCount(): " + data.getCount());
+//                }
+//                return;
+//            }
+//
+//            if (data.moveToFirst()) {
+//                do {
+//                    int nameColumnIndex = data.getColumnIndex(CategoryEntry.COLUMN_CATEGORY_NAME);
+//                    String name = data.getString(nameColumnIndex);
+//
+//                    Log.e("cats", "CatListActivity.onLoadFinished name value = " + name);
+//                } while (data.moveToNext());
+//            }
             mCursorAdapter.swapCursor(data);
         }
 
         @Override
         public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+            Log.e("cats", "CatList.onLoadReset called");
             mCursorAdapter.swapCursor(null);
         }
     };
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
+        Log.e("cats", "CatListActivity.onCreate called");
+        Log.e("cats", "CatListActivity.onCreate context: " + this);
+        Log.e("cats", "CatListActivity.onCreate application context: " + getApplicationContext());
+
+
         setContentView(R.layout.activity_category);
 
-        //bind view
-        mainLayout = findViewById(R.id.main_layout_id);
-        mRecyclerView = findViewById(R.id.ingredients_list_view_recycler);
-        emptyView = findViewById(R.id.empty_view);
-
-        setTitle(R.string.categories_list_activity_title);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.scrolling_toolbar);
-        setSupportActionBar(toolbar);
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        mCursorAdapter = new CategoryCursorAdapter();
-        mRecyclerView.setAdapter(mCursorAdapter);
-
-        mRecyclerView.setEmptyView(emptyView);
-
-
-
-//        //set default animator
-//        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        initToolbar();
 
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -136,8 +158,42 @@ public class CategoryListActivity extends AppCompatActivity {
             }
         });
 
+        //binding views
+        mainLayout = findViewById(R.id.main_layout_id);
+        mRecyclerView = (EmptyRecyclerView) findViewById(R.id.categories_list_view_recycler);
+        emptyView = findViewById(R.id.empty_view);
 
-        LoaderManager.getInstance(CategoryListActivity.this).initLoader(CATEGORY_LOADER, null, categoryListLoader);
+        //setting empty view
+        mRecyclerView.setEmptyView(emptyView);
+
+        //setting up recycler view
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mCursorAdapter = new CategoryCursorAdapter();
+        mRecyclerView.setAdapter(mCursorAdapter);
+
+        mCursorAdapter.notifyDataSetChanged();
+
+        //starting loader
+        LoaderManager.getInstance(this).initLoader(CATEGORY_LOADER, null, categoryListLoader);
+
+    }
+//
+//    public void onStart(){
+//        super.onStart();
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        mCursorAdapter = new CategoryCursorAdapter();
+//        mRecyclerView.setAdapter(mCursorAdapter);
+//
+//
+//
+//        //starting loader
+//        LoaderManager.getInstance(CategoryListActivity.this).initLoader(CATEGORY_LOADER, null, categoryListLoader);
+//    }
+
+    private void initToolbar() {
+        Toolbar mToolbar = findViewById(R.id.scrolling_toolbar);
+        setSupportActionBar(mToolbar);
+        setTitle(getString(R.string.categories_list_activity_title));
     }
 
     //decides which snackbar to display depending on the result received from the editor
@@ -209,7 +265,7 @@ public class CategoryListActivity extends AppCompatActivity {
 
     private void updateSuccessResultHandler(Intent data)
     {
-        Uri currentIngredientUri = Uri.parse(data.getStringExtra("currentIngredientUri"));
+        Uri currentCategoryUri = Uri.parse(data.getStringExtra("currentCategoryUri"));
         Bundle oldValuesBundle = data.getBundleExtra("oldValues");
 
         ContentValues oldValues = new ContentValues();
@@ -219,7 +275,7 @@ public class CategoryListActivity extends AppCompatActivity {
                 mainLayout,
                 getString(R.string.editor_update_category_succesful),
                 Toast.LENGTH_SHORT,
-                currentIngredientUri,
+                currentCategoryUri,
                 oldValues);
     }
 

@@ -16,7 +16,8 @@ import com.example.android.grocerieDev.data.CategoryContract.CategoryEntry;
 
 import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_CATEGORY;
 import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry.COLUMN_INGREDIENT_POSITION;
-import static com.example.android.grocerieDev.data.IngredientContract.IngredientEntry._ID;
+
+
 
 
 /**
@@ -77,6 +78,8 @@ public class GrocerieProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
+        Log.e("cats", "GrocerieProvider query method");
+
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
 
         Cursor cursor;
@@ -85,26 +88,34 @@ public class GrocerieProvider extends ContentProvider {
         switch (match)
         {
             case INGREDIENTS:
-                cursor = database.query(IngredientContract.IngredientEntry.TABLE_NAME, projection, selection, selectionArgs,
+                Log.e("cats", "GP.query.INGREDIENTS");
+                cursor = database.query(IngredientEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
             case INGREDIENT_ID:
-                selection = _ID + "=?";
+                Log.e("cats", "GP.query.INGREDIENT_ID");
+                selection = IngredientEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 cursor = database.query(IngredientEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
             case CATEGORIES:
+                Log.e("cats", "GP.query.CATEGORIES");
                 cursor = database.query(CategoryEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
+                Log.e("cats", "GP.query.CATEGORIES: cursor.getCount(): " + cursor.getCount());
                 break;
             case CATEGORY_ID:
-                Log.e("cats", "IngredientProvider CATEGORY_ID query method called");
-                selection = CATEGORY_ID + "=?";
+                Log.e("cats", "GP.query.CATEGORY_ID");
+                selection = CategoryEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+
+                for (int i = 0; i < selectionArgs.length; i++)
+                    Log.e("cats", "GP.query.CATEGORY_ID: selectionArgs " + i + ": "+ selectionArgs[i]);
+
                 cursor = database.query(CategoryEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
-                Log.e("cats", "cursor.getCount(): " + cursor.getCount());
+                Log.e("cats", "GP.query.CATEGORY_ID: cursor.getCount(): " + cursor.getCount());
 
                 break;
             default:
@@ -175,7 +186,7 @@ public class GrocerieProvider extends ContentProvider {
         {
             Log.e(LOG_TAG, "string name is null");
 
-            throw new IllegalArgumentException("Ingredient requires a name");
+            throw new IllegalArgumentException("Category requires a name");
         }
 
 
@@ -215,7 +226,7 @@ public class GrocerieProvider extends ContentProvider {
             case INGREDIENTS:
                 return updateIngredient(uri, contentValues, selection, selectionArgs);
             case INGREDIENT_ID:
-                selection = _ID + "=?";
+                selection = IngredientEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
                 if (contentValues.containsKey(COLUMN_INGREDIENT_CATEGORY))
@@ -239,7 +250,7 @@ public class GrocerieProvider extends ContentProvider {
             case CATEGORIES:
                 return updateCategory(uri, contentValues, selection, selectionArgs);
             case CATEGORY_ID:
-                selection = _ID + "=?";
+                selection = CategoryEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateCategory(uri, contentValues, selection, selectionArgs);
 
@@ -286,7 +297,7 @@ public class GrocerieProvider extends ContentProvider {
             {
                 Log.e(LOG_TAG, "string name is null");
 
-                throw new IllegalArgumentException("Ingredient requires a name");
+                throw new IllegalArgumentException("Category requires a name");
             }
         }
 
@@ -323,7 +334,7 @@ public class GrocerieProvider extends ContentProvider {
                 break;
             case INGREDIENT_ID:
                 // Delete a single row given by the ID in the URI
-                selection = _ID + "=?";
+                selection = IngredientEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = database.delete(IngredientEntry.TABLE_NAME, selection, selectionArgs);
                 break;
@@ -333,7 +344,7 @@ public class GrocerieProvider extends ContentProvider {
                 break;
             case CATEGORY_ID:
                 // Delete a single row given by the ID in the URI
-                selection = _ID + "=?";
+                selection = CategoryEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = database.delete(CategoryEntry.TABLE_NAME, selection, selectionArgs);
                 break;
@@ -444,13 +455,6 @@ public class GrocerieProvider extends ContentProvider {
 
             } while (cursor.moveToNext());
         }
-
         Log.e("reorder", "max position is " + maxPosition);
     }
-
-
-
-
-
-
 }

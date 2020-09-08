@@ -26,9 +26,8 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <com.example.android.grocerieDev.EmptyRecyclerView
-        android:id="@+id/ingredients_list_view_recycler"
+        android:id="@+id/categories_list_view_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
@@ -40,7 +39,7 @@
         android:layout_centerInParent="true">
 
         <ImageView
-            android:id="@+id/empty_ingredients_image"
+            android:id="@+id/empty_categories_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -52,7 +51,7 @@
             android:id="@+id/empty_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/empty_ingredients_image"
+            android:layout_below="@+id/empty_categories_image"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
             android:paddingTop="16dp"

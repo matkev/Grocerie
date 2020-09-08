@@ -30,7 +30,6 @@ import com.example.android.grocerieDev.R;
 import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
 import com.example.android.grocerieDev.data.CategoryContract.CategoryEntry;
 
-
 public class IngredientEditor extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     //possible results to set
@@ -41,9 +40,6 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
     public static final int DELETE_FAIL = 4;
     public static final int DELETE_SUCCESS = 5;
     public static final int NO_CHANGE = 6;
-
-    //what category fragment was open when the editor was opened
-    private int mCurrentCategory;
 
     //has the current ingredient in the editor (blank or pre-existing) been changed
     private boolean mIngredientHasChanged = false;
@@ -64,6 +60,7 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
     //value of the category to be set
     private int mCategory = 0;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +69,6 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         //getting the current ingredient uri from the intent data
         Intent intent = getIntent();
@@ -93,39 +89,10 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         //sets the spinner to the current category
         if (mCurrentIngredientUri == null) {
             setTitle(R.string.editor_activity_title_new_ingredient);
-            mCurrentCategory = intent.getIntExtra("currentCategory", 0);
-
+            //what category fragment was open when the editor was opened
+            int mCurrentCategory = intent.getIntExtra("currentCategory", 0);
             mCategorySpinner.setSelection(mCurrentCategory);
 
-//            switch (mCurrentCategory) {
-//                case CategoryEntry.CATEGORY_0:
-//                    mCategorySpinner.setSelection(0);
-//                    break;
-//                case CategoryEntry.CATEGORY_1:
-//                    mCategorySpinner.setSelection(1);
-//                    break;
-//                case CategoryEntry.CATEGORY_2:
-//                    mCategorySpinner.setSelection(2);
-//                    break;
-//                case CategoryEntry.CATEGORY_3:
-//                    mCategorySpinner.setSelection(3);
-//                    break;
-//                case CategoryEntry.CATEGORY_4:
-//                    mCategorySpinner.setSelection(4);
-//                    break;
-//                case CategoryEntry.CATEGORY_5:
-//                    mCategorySpinner.setSelection(5);
-//                    break;
-//                case CategoryEntry.CATEGORY_6:
-//                    mCategorySpinner.setSelection(6);
-//                    break;
-//                case CategoryEntry.CATEGORY_7:
-//                    mCategorySpinner.setSelection(7);
-//                    break;
-//                default:
-//                    mCategorySpinner.setSelection(8);
-//                    break;
-//            }
             invalidateOptionsMenu();
         }
         //otherwise, the editor is updating an existing ingredient
@@ -136,8 +103,6 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
             getLoaderManager().initLoader(CURRENT_INGREDIENT_LOADER, null, this);
 
         }
-
-
         //to check if any of the views are changed
         mNameEditText.setOnTouchListener(mTouchListener);
         mAmountEditText.setOnTouchListener(mTouchListener);
@@ -202,13 +167,6 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
 
     private void saveIngredient() {
 
-//        String[] projection = {
-//                IngredientEntry.COLUMN_INGREDIENT_POSITION};
-//
-//        Cursor positionCursor = getContentResolver().query(mCurrentIngredientUri, projection, null, null, null);
-//
-//        int currentPosition = positionCursor.getInt(positionCursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_POSITION));
-
         String nameString = mNameEditText.getText().toString().trim();
         String amountString = mAmountEditText.getText().toString().trim();
         String unitString = mUnitEditText.getText().toString().trim();
@@ -237,7 +195,6 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, unitString);
         values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checked);
         values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, mCategory);
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_POSITION, currentPosition);
 
         if (mCurrentIngredientUri == null)
         {
@@ -291,15 +248,15 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
                 //save pet to the database
                 saveIngredient();
                 finish();
-
                 return true;
+
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
                 showDeleteConfirmationDialog();
                 return true;
+
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
-
                 Log.e("intent", "up button pressed");
                 // If the pet hasn't changed, continue with navigating up to parent activity
                 // which is the {@link CatalogActivity}.
@@ -321,10 +278,8 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
                                 NavUtils.navigateUpFromSameTask(IngredientEditor.this);
                             }
                         };
-
                 // Show a dialog that notifies the user they have unsaved changes
                 showUnsavedChangesDialog(discardButtonClickListener);
-
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -341,6 +296,7 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
                 IngredientEntry.COLUMN_INGREDIENT_CHECKED,
                 IngredientEntry.COLUMN_INGREDIENT_CATEGORY};
 
+        Log.e("cats", "mCurrentIngredientUri: " + mCurrentIngredientUri);
 
         return new CursorLoader(this,
                 mCurrentIngredientUri,
@@ -472,7 +428,6 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
     public void onBackPressed() {
         // If the pet hasn't changed, continue with handling back button press
         if (!mIngredientHasChanged) {
-
             Intent returnIntent = new Intent();
             setResult(NO_CHANGE, returnIntent);
             super.onBackPressed();
@@ -514,7 +469,7 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Delete" button, so delete the pet.
-                deletePet();
+                deleteIngredient();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -532,10 +487,8 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         alertDialog.show();
     }
 
-    /**
-     * Perform the deletion of the pet in the database.
-     */
-    private void deletePet() {
+    //Perform the deletion of the ingredient in the database.
+    private void deleteIngredient() {
 
         Bundle oldValues = getBundleFromUri(mCurrentIngredientUri);
         if (mCurrentIngredientUri != null) {
@@ -593,38 +546,4 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         }
         return bundle;
     }
-
-//    private ContentValues getValuesFromUri(Uri uri)
-//    {
-//        Cursor cursor = getContentResolver().query(mCurrentIngredientUri, null, null, null, null);
-//
-//        ContentValues values = new ContentValues();
-//
-//        if (cursor.moveToFirst()) {
-//            int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
-//            int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
-//            int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
-//            int checkedColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CHECKED);
-//            int pickedUpColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP);
-//            int categoryColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
-//
-//            // Extract out the value from the Cursor for the given column index
-//            String name = cursor.getString(nameColumnIndex);
-//            int amount = cursor.getInt(amountColumnIndex);
-//            String unit = cursor.getString(unitColumnIndex);
-//            int checked = cursor.getInt(checkedColumnIndex);
-//            int category = cursor.getInt(categoryColumnIndex);
-//            int pickedUp = cursor.getInt(pickedUpColumnIndex);
-//
-//            values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, name);
-//            values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, amount);
-//            values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, unit);
-//            values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checked);
-//            values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, category);
-//            values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, pickedUp);
-//
-//
-//        }
-//        return values;
-//    }
 }

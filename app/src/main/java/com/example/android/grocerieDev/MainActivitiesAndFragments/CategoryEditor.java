@@ -36,14 +36,13 @@ public class CategoryEditor extends AppCompatActivity implements LoaderManager.L
     public static final int DELETE_SUCCESS = 5;
     public static final int NO_CHANGE = 6;
 
-
-    //has the current ingredient in the editor (blank or pre-existing) been changed
+    //has the current category in the editor (blank or pre-existing) been changed
     private boolean mCategoryHasChanged = false;
 
-    //ID of the loader for the current ingredient
-    private static final int CURRENT_INGREDIENT_LOADER = 0;
+    //ID of the loader for the current category
+    private static final int CURRENT_CATEGORY_LOADER = 0;
 
-    //uri of the current ingredient
+    //uri of the current category
     private Uri mCurrentCategoryUri;
 
     //views within the editor
@@ -58,47 +57,31 @@ public class CategoryEditor extends AppCompatActivity implements LoaderManager.L
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        //getting the current ingredient uri from the intent data
+        //getting the current category uri from the intent data
         Intent intent = getIntent();
         mCurrentCategoryUri = intent.getData();
 
-        Log.e("myTag", "The uri of the current row is " + mCurrentCategoryUri);
+        Log.e("cats", "CatEditor.onCreate: the uri of the current row is " + mCurrentCategoryUri);
 
         // Find all relevant views that we will need to read user input from
         mNameEditText = (EditText) findViewById(R.id.edit_category_name);
 
-
-
-        //if the uri is null, editor is adding a new ingredient
-        //sets the spinner to the current category
+        //if the uri is null, editor is adding a new category
         if (mCurrentCategoryUri == null) {
-            setTitle(R.string.editor_activity_title_new_ingredient);
-
+            setTitle(R.string.editor_activity_title_new_category);
             invalidateOptionsMenu();
         }
-        //otherwise, the editor is updating an existing ingredient
-        else
-        {
-            setTitle(R.string.editor_activity_title_edit_ingredient);
-            //loads the current ingredient's values into the editor
-            getLoaderManager().initLoader(CURRENT_INGREDIENT_LOADER, null, this);
-
+        //otherwise, the editor is updating an existing category
+        else {
+            setTitle(R.string.editor_activity_title_edit_category);
+            //loads the current category's values into the editor
+            getLoaderManager().initLoader(CURRENT_CATEGORY_LOADER, null, this);
         }
-
-
         //to check if any of the views are changed
         mNameEditText.setOnTouchListener(mTouchListener);
     }
 
-        private void saveCategory() {
-
-//        String[] projection = {
-//                IngredientEntry.COLUMN_INGREDIENT_POSITION};
-//
-//        Cursor positionCursor = getContentResolver().query(mCurrentCategoryUri, projection, null, null, null);
-//
-//        int currentPosition = positionCursor.getInt(positionCursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_POSITION));
+    private void saveCategory() {
 
         String nameString = mNameEditText.getText().toString().trim();
 
@@ -107,39 +90,26 @@ public class CategoryEditor extends AppCompatActivity implements LoaderManager.L
         }
 
         ContentValues values = new ContentValues();
-
-
-
         values.put(CategoryEntry.COLUMN_CATEGORY_NAME, nameString);
-//        values.put(IngredientEntry.COLUMN_INGREDIENT_POSITION, currentPosition);
 
-        if (mCurrentCategoryUri == null)
-        {
+        if (mCurrentCategoryUri == null) {
             Uri newUri = getContentResolver().insert(CategoryEntry.CONTENT_URI, values);
-            if (newUri == null)
-            {
+            if (newUri == null) {
                 Intent returnIntent = new Intent();
                 setResult(INSERT_FAIL, returnIntent);
-            }
-            else
-            {
+            } else {
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("newUri", newUri.toString());
                 setResult(INSERT_SUCCESS, returnIntent);
             }
-        }
-        else
-        {
+        } else {
             Bundle oldValues = getBundleFromUri(mCurrentCategoryUri);
             int rowsAffected = getContentResolver().update(mCurrentCategoryUri, values, null, null);
 
-            if (rowsAffected == 0)
-            {
+            if (rowsAffected == 0) {
                 Intent returnIntent = new Intent();
                 setResult(UPDATE_FAIL, returnIntent);
-            }
-            else
-            {
+            } else {
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("currentCategoryUri", mCurrentCategoryUri.toString());
                 returnIntent.putExtra("oldValues", oldValues);
@@ -152,6 +122,7 @@ public class CategoryEditor extends AppCompatActivity implements LoaderManager.L
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_editor.xml file.
         // This adds menu items to the app bar.
+        //todo: setup menu_category_editor
         getMenuInflater().inflate(R.menu.menu_ingredient_editor, menu);
         return true;
     }
@@ -165,15 +136,15 @@ public class CategoryEditor extends AppCompatActivity implements LoaderManager.L
                 //save pet to the database
                 saveCategory();
                 finish();
-
                 return true;
+
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
                 showDeleteConfirmationDialog();
                 return true;
+
             // Respond to a click on the "Up" arrow button in the app bar
             case android.R.id.home:
-
                 Log.e("intent", "up button pressed");
                 // If the pet hasn't changed, continue with navigating up to parent activity
                 // which is the {@link CatalogActivity}.
@@ -195,10 +166,8 @@ public class CategoryEditor extends AppCompatActivity implements LoaderManager.L
                                 NavUtils.navigateUpFromSameTask(CategoryEditor.this);
                             }
                         };
-
                 // Show a dialog that notifies the user they have unsaved changes
                 showUnsavedChangesDialog(discardButtonClickListener);
-
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -207,11 +176,18 @@ public class CategoryEditor extends AppCompatActivity implements LoaderManager.L
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
+        Log.e("cats", "CatEditor.onCreateLoader called");
+        Log.e("cats", "CatEditor.onCreateLoader mCurrentCategoryUri: " + mCurrentCategoryUri);
+
+        //todo: fix editor not displaying category name
         String[] projection = {
                 CategoryEntry._ID,
                 CategoryEntry.COLUMN_CATEGORY_NAME};
 
+        for (int j = 0; j < projection.length; j++)
+            Log.e("cats", "CatEditor.onCreateLoader: projection " + j + ": " + projection[j]);
 
+        Uri sampleIngreUri = Uri.parse("content://com.example.android.grocerieDev/ingredients/1");
 
         return new CursorLoader(this,
                 mCurrentCategoryUri,
@@ -219,37 +195,44 @@ public class CategoryEditor extends AppCompatActivity implements LoaderManager.L
                 null,
                 null,
                 null);
-
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 
+        Log.e("cats", "CatEditor.onLoadFinished called");
+
         // Bail early if the cursor is null or there is less than 1 row in the cursor
         if (cursor == null || cursor.getCount() < 1) {
+            if (cursor == null) {
+                Log.e("cats", "CatEditor.onLoadFinished cursor is null");
+            } else if (cursor.getCount() < 1) {
+                Log.e("cats", "CatEditor.onLoadFinished cursor.getCount(): " + cursor.getCount());
+            }
             return;
         }
 
         if (cursor.moveToFirst()) {
             int nameColumnIndex = cursor.getColumnIndex(CategoryEntry.COLUMN_CATEGORY_NAME);
 
-            Log.e("myTag", "name column = " + nameColumnIndex);
+            Log.e("cats", "CatEditor.onLoadFinished name column = " + nameColumnIndex);
 
             // Extract out the value from the Cursor for the given column index
             String name = cursor.getString(nameColumnIndex);
 
+            Log.e("cats", "CatEditor.onLoadFinished name value = " + name);
+
+
             // Update the views on the screen with the values from the database
             mNameEditText.setText(name);
-
-
         }
 
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
         // If the loader is invalidated, clear out all the data from the input fields.
+        Log.e("cats", "CatEditor.onLoaderReset called");
         mNameEditText.setText("");
     }
 
@@ -288,7 +271,6 @@ public class CategoryEditor extends AppCompatActivity implements LoaderManager.L
     public void onBackPressed() {
         // If the pet hasn't changed, continue with handling back button press
         if (!mCategoryHasChanged) {
-
             Intent returnIntent = new Intent();
             setResult(NO_CHANGE, returnIntent);
             super.onBackPressed();
@@ -326,8 +308,7 @@ public class CategoryEditor extends AppCompatActivity implements LoaderManager.L
         // Create an AlertDialog.Builder and set the message, and click listeners
         // for the postivie and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Delete category?");
-        //TODO: change ingredient and category dialog delete strings
+        builder.setMessage(R.string.delete_category_dialog_msg);
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Delete" button, so delete the pet.
@@ -349,9 +330,7 @@ public class CategoryEditor extends AppCompatActivity implements LoaderManager.L
         alertDialog.show();
     }
 
-    /**
-     * Perform the deletion of the pet in the database.
-     */
+    //Perform the deletion of the category in the database.
     private void deleteCategory() {
 
         Bundle oldValues = getBundleFromUri(mCurrentCategoryUri);
@@ -361,13 +340,10 @@ public class CategoryEditor extends AppCompatActivity implements LoaderManager.L
             // content URI already identifies the pet that we want.
             int rowsDeleted = getContentResolver().delete(mCurrentCategoryUri, null, null);
 
-            if (rowsDeleted == 0)
-            {
+            if (rowsDeleted == 0) {
                 Intent returnIntent = new Intent();
                 setResult(DELETE_FAIL, returnIntent);
-            }
-            else
-            {
+            } else {
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("oldValues", oldValues);
                 setResult(DELETE_SUCCESS, returnIntent);
@@ -376,8 +352,7 @@ public class CategoryEditor extends AppCompatActivity implements LoaderManager.L
         finish();
     }
 
-    private Bundle getBundleFromUri(Uri uri)
-    {
+    private Bundle getBundleFromUri(Uri uri) {
         Cursor cursor = getContentResolver().query(mCurrentCategoryUri, null, null, null, null);
 
         Bundle bundle = new Bundle();
@@ -395,38 +370,4 @@ public class CategoryEditor extends AppCompatActivity implements LoaderManager.L
         }
         return bundle;
     }
-
-//    private ContentValues getValuesFromUri(Uri uri)
-//    {
-//        Cursor cursor = getContentResolver().query(mCurrentCategoryUri, null, null, null, null);
-//
-//        ContentValues values = new ContentValues();
-//
-//        if (cursor.moveToFirst()) {
-//            int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
-//            int amountColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_AMOUNT);
-//            int unitColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_UNIT);
-//            int checkedColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CHECKED);
-//            int pickedUpColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP);
-//            int categoryColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_CATEGORY);
-//
-//            // Extract out the value from the Cursor for the given column index
-//            String name = cursor.getString(nameColumnIndex);
-//            int amount = cursor.getInt(amountColumnIndex);
-//            String unit = cursor.getString(unitColumnIndex);
-//            int checked = cursor.getInt(checkedColumnIndex);
-//            int category = cursor.getInt(categoryColumnIndex);
-//            int pickedUp = cursor.getInt(pickedUpColumnIndex);
-//
-//            values.put(IngredientEntry.COLUMN_INGREDIENT_NAME, name);
-//            values.put(IngredientEntry.COLUMN_INGREDIENT_AMOUNT, amount);
-//            values.put(IngredientEntry.COLUMN_INGREDIENT_UNIT, unit);
-//            values.put(IngredientEntry.COLUMN_INGREDIENT_CHECKED, checked);
-//            values.put(IngredientEntry.COLUMN_INGREDIENT_CATEGORY, category);
-//            values.put(IngredientEntry.COLUMN_INGREDIENT_PICKED_UP, pickedUp);
-//
-//
-//        }
-//        return values;
-//    }
 }

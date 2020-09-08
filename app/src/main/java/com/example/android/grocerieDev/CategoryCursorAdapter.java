@@ -1,19 +1,26 @@
 package com.example.android.grocerieDev;
 
+import android.app.Activity;
+import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.android.grocerieDev.data.IngredientContract.IngredientEntry;
+import com.example.android.grocerieDev.MainActivitiesAndFragments.CategoryEditor;
+import com.example.android.grocerieDev.data.CategoryContract;
+import com.example.android.grocerieDev.data.CategoryContract.CategoryEntry;
 import com.example.android.grocerieDev.dragAndDropHelper.ItemTouchHelperAdapter;
 
 
-public class CategoryCursorAdapter extends BaseCursorAdapter<CategoryCursorAdapter.IngredientViewHolder>
+public class CategoryCursorAdapter extends BaseCursorAdapter<CategoryCursorAdapter.CategoryViewHolder>
         implements ItemTouchHelperAdapter
 {
     static final int EDITOR_REQUEST = 1;  // The request code
@@ -22,33 +29,29 @@ public class CategoryCursorAdapter extends BaseCursorAdapter<CategoryCursorAdapt
 
     public CategoryCursorAdapter() {
         super(null);
+        Log.e("cats", "CategoryCursorAdapter constructor called");
     }
 
     @Override
-    public IngredientViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         this.mContext = parent.getContext();
+        Log.e("cats", "CategoryCursorAdapter.onCreateViewHolder called");
 
-        View formNameView = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_ingredient_item, parent, false);
-        IngredientViewHolder viewHolder = new IngredientViewHolder(formNameView);
-
-        return viewHolder;
+        View categoryItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_ingredient_item, parent, false);
+        return new CategoryViewHolder(categoryItemView);
     }
 
     @Override
-    public void onBindViewHolder(IngredientViewHolder holder, Cursor cursor) {
+    public void onBindViewHolder(CategoryViewHolder holder, Cursor cursor) {
+        Log.e("cats", "CategoryCursorAdapter.onBindViewHolder called");
 
-//        Log.e("reorder", "viewHolder position is " + holder.getAdapterPosition());
-        Log.e("reorder", "we are in the cursor adapter");
+        int idIndex = cursor.getColumnIndex(CategoryEntry._ID);
+        int nameColumnIndex = cursor.getColumnIndex(CategoryEntry.COLUMN_CATEGORY_NAME);
 
-        int idIndex = cursor.getColumnIndex(IngredientEntry._ID);
-        int nameColumnIndex = cursor.getColumnIndex(IngredientEntry.COLUMN_INGREDIENT_NAME);
+        int categoryId = cursor.getInt(idIndex);
+        String categoryName = cursor.getString(nameColumnIndex);
 
-        int idValue = cursor.getInt(idIndex);
-        String ingredientName = cursor.getString(nameColumnIndex);
-
-
-
-        holder.nameTextView.setText(ingredientName);
+        holder.nameTextView.setText(categoryName);
 
 //        holder.ingredientSummary.setOnLongClickListener(new View.OnLongClickListener() {
 //            @Override
@@ -59,19 +62,35 @@ public class CategoryCursorAdapter extends BaseCursorAdapter<CategoryCursorAdapt
 //                return true;
 //            }
 //        });
+
+        holder.categorySummary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, CategoryEditor.class);
+                Uri currentCategoryUri = ContentUris.withAppendedId(CategoryContract.CategoryEntry.CONTENT_URI, categoryId);
+
+                Log.e("cats", "CatCursorLoader.onClick: uri of current category is " + currentCategoryUri);
+
+                intent.setData(currentCategoryUri);
+                ((Activity)mContext).startActivityForResult(intent, EDITOR_REQUEST);
+            }
+        });
     }
+
 
     public void onItemMove(int fromPosition, int toPosition) {
     }
 
-    class IngredientViewHolder extends RecyclerView.ViewHolder{ // implements ItemTouchHelperViewHolder {
+    class CategoryViewHolder extends RecyclerView.ViewHolder{ // implements ItemTouchHelperViewHolder {
 
         TextView nameTextView;
+        LinearLayout categorySummary;
 
-        IngredientViewHolder(View itemView) {
+        CategoryViewHolder(View itemView) {
             super(itemView);
 
             nameTextView = itemView.findViewById(R.id.textViewName);
+            categorySummary = itemView.findViewById(R.id.ingredient_summary);
         }
 
 //        public void onItemSelected() {
