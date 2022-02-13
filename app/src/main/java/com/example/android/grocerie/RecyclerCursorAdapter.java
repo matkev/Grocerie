@@ -138,6 +138,15 @@ public class RecyclerCursorAdapter extends BaseCursorAdapter<RecyclerCursorAdapt
                 case IngredientEntry.SNACKS:
                     holder.categoryTextView.setText(R.string.snacks);
                     break;
+                case IngredientEntry.SPICES:
+                    holder.categoryTextView.setText(R.string.spices);
+                    break;
+                case IngredientEntry.CONDIMENTS:
+                    holder.categoryTextView.setText(R.string.condiments);
+                    break;
+                case IngredientEntry.NON_FOOD:
+                    holder.categoryTextView.setText(R.string.non_food);
+                    break;
                 default:
                     holder.categoryTextView.setText(R.string.misc);
                     break;

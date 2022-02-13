@@ -44,7 +44,10 @@ public final class IngredientContract {
         public static final int CANNED = 5;
         public static final int DRINKS = 6;
         public static final int SNACKS = 7;
-        public static final int MISC = 8;
+        public static final int SPICES = 8;
+        public static final int CONDIMENTS= 9;
+        public static final int MISC = 10;
+        public static final int NON_FOOD = 11;
 
         public static final int PICKED_UP_NO = 0;
         public static final int PICKED_UP_YES = 1;

@@ -96,7 +96,10 @@ public class MainIngredientListActivity extends AppCompatActivity {
         pagerAdapter.addFragment(IngredientFragment.newInstance(5), getString(R.string.canned));
         pagerAdapter.addFragment(IngredientFragment.newInstance(6), getString(R.string.drinks));
         pagerAdapter.addFragment(IngredientFragment.newInstance(7), getString(R.string.snacks));
-        pagerAdapter.addFragment(IngredientFragment.newInstance(8), getString(R.string.misc));
+        pagerAdapter.addFragment(IngredientFragment.newInstance(8), getString(R.string.spices));
+        pagerAdapter.addFragment(IngredientFragment.newInstance(9), getString(R.string.condiments));
+        pagerAdapter.addFragment(IngredientFragment.newInstance(10), getString(R.string.misc));
+        pagerAdapter.addFragment(IngredientFragment.newInstance(11), getString(R.string.non_food));
 
         viewPager.setAdapter(pagerAdapter);
         TabLayout tabLayout = findViewById(R.id.tabLayout);

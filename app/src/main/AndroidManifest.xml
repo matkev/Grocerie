@@ -23,6 +23,10 @@
         <activity android:name=".MainActivitiesAndFragments.IngredientPositionEditor" />
         <activity android:name=".MainActivitiesAndFragments.MainShoppingListActivity" />
         <activity android:name=".MainActivitiesAndFragments.MainIngredientListActivity" />
+        <activity
+            android:name=".IngredientEditor"
+            android:windowSoftInputMode="stateAlwaysVisible"
+            android:parentActivityName=".MainActivitiesAndFragments.MainIngredientListActivity"/>
 
         <provider
             android:name=".data.IngredientProvider"

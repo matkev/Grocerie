@@ -12,6 +12,9 @@
         <item>@string/canned</item>
         <item>@string/drinks</item>
         <item>@string/snacks</item>
+        <item>@string/spices</item>
+        <item>@string/condiments</item>
         <item>@string/misc</item>
+        <item>@string/non_food</item>
     </string-array>
 </resources>

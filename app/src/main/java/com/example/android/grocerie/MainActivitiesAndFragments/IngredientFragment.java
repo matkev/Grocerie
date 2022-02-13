@@ -38,6 +38,9 @@ import static com.example.android.grocerie.data.IngredientContract.IngredientEnt
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.MEAT_AND_PROT;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.MISC;
 import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SNACKS;
+import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.SPICES;
+import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.NON_FOOD;
+import static com.example.android.grocerie.data.IngredientContract.IngredientEntry.CONDIMENTS;
 
 
 public class IngredientFragment extends Fragment {
@@ -56,6 +59,9 @@ public class IngredientFragment extends Fragment {
     private static final int DRINKS_LOADER = DRINKS;
     private static final int SNACKS_LOADER = SNACKS;
     private static final int MISC_LOADER = MISC;
+    private static final int SPICES_LOADER = SPICES;
+    private static final int NON_FOOD_LOADER = NON_FOOD;
+    private static final int CONDIMENTS_LOADER = CONDIMENTS;
 
     //views
     EmptyRecyclerView mRecyclerView;
@@ -124,6 +130,18 @@ public class IngredientFragment extends Fragment {
                 case SNACKS_LOADER:
                     Log.e("myTag", "The selection args is : " + SNACKS);
                     selectionArgs = new String[]{Integer.toString(SNACKS)};
+                    break;
+                case SPICES_LOADER:
+                    Log.e("myTag", "The selection args is : " + SPICES);
+                    selectionArgs = new String[]{Integer.toString(SPICES)};
+                    break;
+                case CONDIMENTS_LOADER:
+                    Log.e("myTag", "The selection args is : " + CONDIMENTS);
+                    selectionArgs = new String[]{Integer.toString(CONDIMENTS)};
+                    break;
+                case NON_FOOD_LOADER:
+                    Log.e("myTag", "The selection args is : " + NON_FOOD);
+                    selectionArgs = new String[]{Integer.toString(NON_FOOD)};
                     break;
                 default:
                     Log.e("myTag", "The selection args is : " + MISC);
@@ -250,6 +268,18 @@ public class IngredientFragment extends Fragment {
             case IngredientEntry.SNACKS:
                 Log.e("myTag", "The loader id is : " + SNACKS);
                 LoaderManager.getInstance(getActivity()).initLoader(SNACKS_LOADER, null, ingredientListLoader);
+                break;
+            case IngredientEntry.SPICES:
+                Log.e("myTag", "The loader id is : " + SPICES);
+                LoaderManager.getInstance(getActivity()).initLoader(SPICES_LOADER, null, ingredientListLoader);
+                break;
+            case IngredientEntry.CONDIMENTS:
+                Log.e("myTag", "The loader id is : " + CONDIMENTS);
+                LoaderManager.getInstance(getActivity()).initLoader(CONDIMENTS_LOADER, null, ingredientListLoader);
+                break;
+            case IngredientEntry.NON_FOOD:
+                Log.e("myTag", "The loader id is : " + NON_FOOD);
+                LoaderManager.getInstance(getActivity()).initLoader(NON_FOOD_LOADER, null, ingredientListLoader);
                 break;
             default:
                 Log.e("myTag", "The loader id is : " + MISC);

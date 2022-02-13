@@ -94,6 +94,7 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
         //sets the spinner to the current category
         if (mCurrentIngredientUri == null) {
             setTitle(R.string.editor_activity_title_new_ingredient);
+            mNameEditText.requestFocus();
             mCurrentCategory = intent.getIntExtra("currentCategory", 0);
             switch (mCurrentCategory) {
                 case IngredientEntry.FRUIT_AND_VEG:
@@ -120,8 +121,17 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
                 case IngredientEntry.SNACKS:
                     mCategorySpinner.setSelection(7);
                     break;
-                default:
+                case IngredientEntry.SPICES:
                     mCategorySpinner.setSelection(8);
+                    break;
+                case IngredientEntry.CONDIMENTS:
+                    mCategorySpinner.setSelection(9);
+                    break;
+                case IngredientEntry.NON_FOOD:
+                    mCategorySpinner.setSelection(11);
+                    break;
+                default:
+                    mCategorySpinner.setSelection(10);
                     break;
             }
             invalidateOptionsMenu();
@@ -181,6 +191,12 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
                         mCategory = IngredientEntry.DRINKS;
                     } else if (selection.equals(getString(R.string.snacks))) {
                         mCategory = IngredientEntry.SNACKS;
+                    } else if (selection.equals(getString(R.string.spices))) {
+                        mCategory = IngredientEntry.SPICES;
+                    } else if (selection.equals(getString(R.string.condiments))) {
+                        mCategory = IngredientEntry.CONDIMENTS;
+                    } else if (selection.equals(getString(R.string.non_food))) {
+                        mCategory = IngredientEntry.NON_FOOD;
                     } else {
                         mCategory = IngredientEntry.MISC;
                     }
@@ -413,8 +429,16 @@ public class IngredientEditor extends AppCompatActivity implements LoaderManager
                 case IngredientEntry.SNACKS:
                     mCategorySpinner.setSelection(7);
                     break;
-                default:
+                case IngredientEntry.SPICES:
                     mCategorySpinner.setSelection(8);
+                case IngredientEntry.CONDIMENTS:
+                    mCategorySpinner.setSelection(9);
+                    break;
+                case IngredientEntry.NON_FOOD:
+                    mCategorySpinner.setSelection(11);
+                    break;
+                default:
+                    mCategorySpinner.setSelection(10);
                     break;
             }
         }

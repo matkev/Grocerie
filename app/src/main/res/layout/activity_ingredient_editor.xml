@@ -61,7 +61,7 @@
             android:layout_marginEnd="8dp"
             android:ems="10"
             android:hint="@string/hint_ingredient_name"
-            android:inputType="textPersonName"
+            android:inputType="textCapWords"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.338"
             app:layout_constraintStart_toEndOf="@+id/textView2"
